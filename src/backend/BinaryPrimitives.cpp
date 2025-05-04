@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <math.h>
+#include <iostream>
 
 void einsum_ir::backend::BinaryPrimitives::init( int64_t i_size_cb_min,
                                                  int64_t i_size_cb_max,
@@ -24,18 +25,29 @@ void einsum_ir::backend::BinaryPrimitives::init( int64_t i_size_cb_min,
 
 einsum_ir::err_t einsum_ir::backend::BinaryPrimitives::init( data_t    i_data_type,
                                                              backend_t i_backend_type ) {
+
+   //Daniel : check beginn
+  std::cerr << "[BP::init] i_data_type = " << static_cast<int>(i_data_type) << ", backend = " << static_cast<int>(i_backend_type) << std::endl;
+  //daniel : checke end
+
   if( i_backend_type == backend_t::TPP ) {
     if( i_data_type == data_t::FP32 ) {
-      init(  4,  16,
-            32, 128,
-            12,  64,
-            32, 512 );
+      init(  4,  16,   // daniel: cb min, cb max 
+            32, 128,   // daniel: mb min, mb max 
+            12,  64,   // daniel: nb min, nb max
+            32, 512 ); // daniel: kb min, kb max
     }
     else if( i_data_type == data_t::FP64 ){
       init(  2,   8,
             16,  64,
              6,  32,
             16, 256 );
+    }
+    else if( i_data_type == data_t::BF16 ) {
+      init(  4,  16,   // daniel: cb min, cb max 
+            32, 128,   // daniel: mb min, mb max 
+            12,  64,   // daniel: nb min, nb max
+            32, 512 ); 
     }
     else {
       return err_t::INVALID_DTYPE;
@@ -55,6 +67,12 @@ einsum_ir::err_t einsum_ir::backend::BinaryPrimitives::init( data_t    i_data_ty
             16, 256,
             16, 256 );
     }
+    else if( i_data_type == data_t::BF16 ) {//daniel:
+      init(  4,  16,
+        32, 512,
+        32, 512,
+        32, 512 );
+    }
     else {
       return err_t::INVALID_DTYPE;
     }
@@ -72,6 +90,12 @@ einsum_ir::err_t einsum_ir::backend::BinaryPrimitives::init( data_t    i_data_ty
             16, 256,
             16, 256,
             16, 256 );
+    }
+    else if( i_data_type == data_t::BF16 ) { //daniel:
+      init(  8,  32,
+            64, 1024,
+            64, 1024,
+            64, 1024 );
     }
     else {
       return err_t::INVALID_DTYPE;
@@ -177,6 +201,9 @@ einsum_ir::err_t einsum_ir::backend::BinaryPrimitives::blocking_left_kb_x_mb_cb_
                                 &l_dim_types_left,
                                 &l_dim_types_right,
                                 &l_dim_types_out );
+
+//Vector l_dim_types_left hat 3 Einträge:003 |Vector l_dim_types_right hat 4 Einträge:0320Vector l_dim_types_out hat 3 Einträge:002
+//C = 0, // left, right, out M = 1, // left, out N = 2, // right, out K = 3, // left, right I = 4, // left J = 5, // right
 
   int64_t l_di_left  = i_num_dims_left  - 1;
   int64_t l_di_right = i_num_dims_right - 1;
@@ -760,7 +787,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryPrimitives::blocking( primblo_t      
   if( i_strides_right == nullptr ) {
     int64_t l_stride = 1;
 
-    for( int64_t l_di = i_num_dims_right - 1; l_di >= 0; l_di-- ) {
+    for( int64_t l_di = i_num_dims_right - 1; l_di >= 0; l_di-- ) { // daniel: [0] =64, [1] =1, [2] =16, [3] =8
       int64_t l_id_right = i_dim_ids_right[l_di];
       l_strides_right[l_id_right] = l_stride;
       l_stride *= i_dim_sizes->at( l_id_right );

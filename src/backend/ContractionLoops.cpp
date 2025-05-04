@@ -128,7 +128,7 @@ einsum_ir::err_t einsum_ir::backend::ContractionLoops::compile() {
       break;
     }
   }
-
+  //Todo daniel. hier gucken ob für bfloat auch genug 
   // scale with size of data types
   for( int64_t l_lo = 0; l_lo < m_num_loops; l_lo++ ) {
     m_loop_strides_left[l_lo]    *= m_num_bytes_scalar_left;
@@ -267,7 +267,7 @@ void einsum_ir::backend::ContractionLoops::contract_iter( int64_t         i_id_t
     if( m_id_loop_packing_right == i_id_loop ){
       l_ptr_right = m_packing->kernel_pack_right( l_ptr_right );
     }
-
+//daniel: main programm?
     if( i_id_loop + 1 < m_num_loops ) {
       contract_iter( i_id_task,
                      i_id_loop+1,

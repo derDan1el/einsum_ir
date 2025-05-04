@@ -188,7 +188,7 @@ void einsum_ir::frontend::EinsumExpressionAscii::parse_tensors( std::string     
   o_tensors.clear();
 
   std::string l_expr = i_expr_string;
-
+  //daniel: "[a,b,c],[a,c,d,b]->[a,b,d]" zu "a,b,c],[a,c,d,b]->[a,b,d"
   l_expr.erase( 0, 1 );
   l_expr.erase( l_expr.size() - 1, 1 );
 
@@ -209,7 +209,7 @@ void einsum_ir::frontend::EinsumExpressionAscii::parse_tensors( std::string     
   split_string( l_tensors_tmp[0],
                 std::string("],["),
                 o_tensors );
-  o_tensors.push_back( l_tensors_tmp[1] );
+  o_tensors.push_back( l_tensors_tmp[1] ); //daniel: o_tensor aus "[a,b,c],[a,c,d,b]->[a,b,d]" wird [0] = "a,b,c" und [1] = "a,c,d,b" [2] = "a,b,d"
 }
 
 void einsum_ir::frontend::EinsumExpressionAscii::parse_dim_sizes( std::string            const & i_dim_sizes_string,
@@ -304,7 +304,10 @@ void einsum_ir::frontend::EinsumExpressionAscii::parse_dim_ids( std::string     
 
 void einsum_ir::frontend::EinsumExpressionAscii::parse_dtype( std::string const & i_dtype_string,
                                                               data_t            & o_dtype ) {
-    if( i_dtype_string == "FP32" ) {
+    if( i_dtype_string == "BF16" ) {
+      o_dtype = einsum_ir::BF16;
+    }
+    else if( i_dtype_string == "FP32" ) {
       o_dtype = einsum_ir::FP32;
     }
     else if( i_dtype_string == "FP64" ) {
@@ -323,7 +326,10 @@ void einsum_ir::frontend::EinsumExpressionAscii::parse_dtype( std::string const 
 
 void einsum_ir::frontend::EinsumExpressionAscii::parse_ctype( std::string const & i_ctype_string,
                                                               complex_t         & o_ctype ) {
-    if( i_ctype_string == "FP32" ) {
+    if( i_ctype_string == "BF16" ) {
+      o_ctype = einsum_ir::REAL_ONLY;
+    }
+    else if( i_ctype_string == "FP32" ) {
       o_ctype = einsum_ir::REAL_ONLY;
     }
     else if( i_ctype_string == "FP64" ) {
@@ -345,19 +351,19 @@ void einsum_ir::frontend::EinsumExpressionAscii::parse_loop_order( std::string  
                                                                    std::vector< int64_t >                 & o_loop_order ){
 
   o_loop_order.clear();
-
+  //daniel :l_loops = "a,b,c,d"
   std::string l_loops = i_loop_string;
 
   l_loops.erase( std::remove( l_loops.begin(),
                               l_loops.end(),
                               ' '),
                  l_loops.end());
-
+  //daniel :l_loop_dims_tmp: [0] ="a", [1] ="b", [2] ="c", [3] ="d"
   std::vector< std::string > l_loop_dims_tmp;
   split_string( l_loops,
                 std::string(","),
                 l_loop_dims_tmp );
-  
+  //daniel :o_loop_order: [0] =0,[1] =1,[2] =2,[3] =3, 
   o_loop_order.reserve( l_loop_dims_tmp.size() );
   for( std::size_t l_di = 0; l_di < l_loop_dims_tmp.size(); l_di++ ) {
     o_loop_order.push_back( i_map_dim_name_to_id.at( l_loop_dims_tmp[l_di] ) );

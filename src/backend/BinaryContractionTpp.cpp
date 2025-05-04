@@ -3,9 +3,14 @@
 #include "ContractionPackingTpp.h"
 
 #include <algorithm>
+#include <iostream> //das und iostream entfernen
+#include <iomanip> 
 
 libxsmm_datatype einsum_ir::backend::BinaryContractionTpp::dtype_to_libxsmm( data_t i_dtype ) {
-  if( i_dtype == FP32 ) {
+  if( i_dtype == BF16 ) { //daniel : 
+    return libxsmm_datatype::LIBXSMM_DATATYPE_BF16;
+  }
+  else if( i_dtype == FP32 ) {
     return libxsmm_datatype::LIBXSMM_DATATYPE_F32;
   }
   else if( i_dtype == FP64 ) {
@@ -22,7 +27,7 @@ einsum_ir::backend::BinaryContractionTpp::~BinaryContractionTpp() {
 }
 
 einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile() {
-  BinaryContraction::compile_base();
+  BinaryContraction::compile_base(); //daniel: kompilier wird nichts ,man findet dim typen heraus und setzt member variablen
   err_t l_err = err_t::UNDEFINED_ERROR;
 
   // determine blocking type
@@ -54,6 +59,82 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile() {
                                &l_dim_ids_mb,
                                &l_dim_ids_nb,
                                &l_dim_ids_kb );
+  
+
+  //daniel: start
+
+  std::cout << std::left
+          << std::setw(25) << "Parameter"
+          << std::setw(15) << "Wert" << std::endl;
+std::cout << std::string(40, '-') << std::endl;
+
+// primblo
+std::cout << std::setw(25) << "i_primitive_blocking"
+          << static_cast<int>(primblo_t::LEFT_KB_X_MB_CB_RIGHT_NB_X_KB_CB_OUT_NB_X_MB_CB)
+          << std::endl;
+
+// Dimensionen
+std::cout << std::setw(25) << "m_num_dims_left"  << m_num_dims_left  << std::endl;
+std::cout << std::setw(25) << "m_num_dims_right" << m_num_dims_right << std::endl;
+std::cout << std::setw(25) << "m_num_dims_out"   << m_num_dims_out   << std::endl;
+
+// i_dim_ids_left_active
+for(int64_t i = 0; i < m_num_dims_left; ++i) {
+    std::cout << std::setw(25) << (i == 0 ? "l_dim_ids_left_active" : "") 
+              << l_dim_ids_left_active[i] << std::endl;
+}
+// l_dim_ids_right_active
+for(int64_t i = 0; i < m_num_dims_right; ++i) {
+    std::cout << std::setw(25) << (i == 0 ? "l_dim_ids_right_active" : "") 
+              << l_dim_ids_right_active[i] << std::endl;
+}
+// m_dim_ids_out
+for(int64_t i = 0; i < m_num_dims_out; ++i) {
+    std::cout << std::setw(25) << (i == 0 ? "m_dim_ids_out" : "") 
+              << m_dim_ids_out[i] << std::endl;
+}
+
+// i_dim_sizes (Map)
+std::cout << std::setw(25) << "m_dim_sizes_inner";
+if (m_dim_sizes_inner) {
+    bool first = true;
+    for (auto &kv : *m_dim_sizes_inner) {
+        if (!first) std::cout << ";";
+        std::cout << "[" << kv.first << "->" << kv.second << "]";
+        first = false;
+    }
+}
+else {
+    std::cout << "nullptr";
+}
+std::cout << std::endl;
+
+// i_strides_left/right/out = nullptr
+std::cout << std::setw(25) << "i_strides_left"  << "nullptr" << std::endl;
+std::cout << std::setw(25) << "i_strides_right" << "nullptr" << std::endl;
+std::cout << std::setw(25) << "i_strides_out"   << "nullptr" << std::endl;
+
+// Output-Vektoren
+auto _printVec = [&](const char* name, const std::vector<int64_t>* v) {
+    std::cout << std::setw(25) << name;
+    if (v) {
+        for (size_t i = 0; i < v->size(); ++i) {
+            if (i) std::cout << ",";
+            std::cout << (*v)[i];
+        }
+    } else {
+        std::cout << "nullptr";
+    }
+    std::cout << std::endl;
+};
+
+_printVec("l_dim_ids_cb", &l_dim_ids_cb);
+_printVec("l_dim_ids_mb", &l_dim_ids_mb);
+_printVec("l_dim_ids_nb", &l_dim_ids_nb);
+_printVec("l_dim_ids_kb", &l_dim_ids_kb);
+
+std::cout << std::string(40, '-') << std::endl << std::endl;
+  //daniel :end
   if( l_err != err_t::SUCCESS ) {
     return l_err;
   }
@@ -110,6 +191,26 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile() {
   }
   else{
     std::vector< int64_t > l_dim_ids_kernel;
+    std::cout<<"------------------------"<<std::endl;
+    std::cout<<"l_dim_ids_cb "<< l_dim_ids_cb.size()<<std::endl;
+    for(size_t l_x = 0; l_x < l_dim_ids_cb.size(); l_x++){
+      std::cout<<l_dim_ids_cb[l_x]<<" "<<std::endl;
+    }
+    std::cout<<"------------------------"<<std::endl;
+    std::cout<<"l_dim_ids_mb "<< l_dim_ids_mb.size()<<std::endl;
+    for(size_t l_x = 0; l_x < l_dim_ids_mb.size(); l_x++){
+      std::cout<<l_dim_ids_mb[l_x]<<" "<<std::endl;
+    }
+    std::cout<<"------------------------"<<std::endl;
+    std::cout<<"l_dim_ids_nb "<< l_dim_ids_nb.size()<<std::endl;
+    for(size_t l_x = 0; l_x < l_dim_ids_nb.size(); l_x++){
+      std::cout<<l_dim_ids_nb[l_x]<<" "<<std::endl;
+    }
+    std::cout<<"------------------------"<<std::endl;
+    std::cout<<"l_dim_ids_kb "<< l_dim_ids_kb.size()<<std::endl;
+    for(size_t l_x = 0; l_x < l_dim_ids_kb.size(); l_x++){
+      std::cout<<l_dim_ids_kb[l_x]<<" "<<std::endl;
+    }
     l_dim_ids_kernel.reserve( l_dim_ids_cb.size() + l_dim_ids_mb.size() + l_dim_ids_nb.size() + l_dim_ids_kb.size() );
     l_dim_ids_kernel.insert( l_dim_ids_kernel.end(), l_dim_ids_cb.begin(), l_dim_ids_cb.end() );
     l_dim_ids_kernel.insert( l_dim_ids_kernel.end(), l_dim_ids_nb.begin(), l_dim_ids_nb.end() );
@@ -186,9 +287,9 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile() {
   libxsmm_blasint l_m = 1;
   libxsmm_blasint l_n = 1;
   libxsmm_blasint l_k = 1;
-  libxsmm_blasint l_r = 1;
+  libxsmm_blasint l_r = 1; //tiefe daniel
 
-  libxsmm_blasint l_lda = 1;
+  libxsmm_blasint l_lda = 1; //daniel: lda = leading dimension für tensor a (left tensor)
   libxsmm_blasint l_ldb = 1;
   libxsmm_blasint l_ldc = 1;
 
@@ -211,7 +312,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile() {
 
   // set leading dimensions
   l_lda = l_dim_ids_kb.size() > 0 ? l_strides_left.at(  l_dim_ids_kb.back() ) : l_m*l_r;
-  l_ldb = l_dim_ids_nb.size() > 0 ? l_strides_right.at( l_dim_ids_nb.back() ) : l_k*l_r;
+  l_ldb = l_dim_ids_nb.size() > 0 ? l_strides_right.at( l_dim_ids_nb.back() ) : l_k*l_r; //daniel : nur ldb wird = 8 die anderen sind 1 : vermutung weil tensor b 4 dimensionen hat braucht man noch eine leading dim?
   l_ldc = l_dim_ids_nb.size() > 0 ? l_strides_out.at(   l_dim_ids_nb.back() ) : l_m*l_r;
 
   // first-touch and last-touch shape
@@ -261,19 +362,19 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile() {
     l_flag_out_aux_binary = LIBXSMM_MELTW_FLAG_BINARY_BCAST_SCALAR_IN_1;
   }
 
-  libxsmm_meltw_unary_shape l_shape_single_touch_aux_unary = libxsmm_create_meltw_unary_shape( l_m*l_r,
-                                                                                               l_n,
-                                                                                               l_ld_out_aux,
-                                                                                               l_ldc,
-                                                                                               l_xmm_dtype_out,
-                                                                                               l_xmm_dtype_out,
-                                                                                               l_xmm_dtype_out );
+  libxsmm_meltw_unary_shape l_shape_single_touch_aux_unary = libxsmm_create_meltw_unary_shape( l_m*l_r, // rows (M·R)
+                                                                                               l_n,// cols (N)
+                                                                                               l_ld_out_aux,  // leading dimension input/output A
+                                                                                               l_ldc,  // leading dimension output C
+                                                                                               l_xmm_dtype_out, // input data type
+                                                                                               l_xmm_dtype_out,// output data type
+                                                                                               l_xmm_dtype_out );// compute data type
 
-  libxsmm_meltw_binary_shape l_shape_single_touch_aux_binary = libxsmm_create_meltw_binary_shape( l_m*l_r,
-                                                                                                  l_n,
-                                                                                                  l_ldc,
-                                                                                                  l_ld_out_aux,
-                                                                                                  l_ldc,
+  libxsmm_meltw_binary_shape l_shape_single_touch_aux_binary = libxsmm_create_meltw_binary_shape( l_m*l_r,// rows (M·R)
+                                                                                                  l_n,// cols (N)
+                                                                                                  l_ldc, // leading dimension C
+                                                                                                  l_ld_out_aux, 
+                                                                                                  l_ldc, // leading dimension  C 
                                                                                                   l_xmm_dtype_out,
                                                                                                   l_xmm_dtype_out,
                                                                                                   l_xmm_dtype_out,
@@ -281,7 +382,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile() {
 
   // first touch kernel
   if( m_ktype_first_touch == ZERO ) {
-    m_xmm_kernel_first_touch_unary = libxsmm_dispatch_meltw_unary( LIBXSMM_MELTW_TYPE_UNARY_XOR,
+    m_xmm_kernel_first_touch_unary = libxsmm_dispatch_meltw_unary( LIBXSMM_MELTW_TYPE_UNARY_XOR, // XOred wird jedes element mit sich selbst -> matrix wird genullt
                                                                    l_shape_single_touch,
                                                                    LIBXSMM_MELTW_FLAG_UNARY_NONE );
   }
@@ -330,7 +431,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile() {
 
   // create main kernel
   libxsmm_gemm_shape l_shape_brgemm;
-  libxsmm_bitfield l_flags_brgemm = LIBXSMM_GEMM_FLAGS('N', 'N');
+  libxsmm_bitfield l_flags_brgemm = LIBXSMM_GEMM_FLAGS('N', 'N'); //daniel: 'N' = no transpose
   libxsmm_bitfield l_prefetch_flags_brgemm = 0;
 
   l_shape_brgemm = libxsmm_create_gemm_shape( l_m,
@@ -363,6 +464,22 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile() {
                                                          l_prefetch_flags_brgemm,
                                                          l_r );
   }
+
+
+    // daniel start ─────────────────────────────────────────────────────────
+    std::cout << "[DEBUG] Main GEMM ptr: " 
+    << (void*)m_xmm_kernel_main.gemm << std::endl;
+    std::cout << "[DEBUG] GEMM shape: m=" << l_shape_brgemm.m
+    << " n=" << l_shape_brgemm.n
+    << " k=" << l_shape_brgemm.k
+    << " lda="<< l_shape_brgemm.lda
+    << " ldb="<< l_shape_brgemm.ldb
+    << " ldc="<< l_shape_brgemm.ldc
+    << std::endl;
+    std::cout << "[DEBUG] dim_types_out: ";
+    for (auto t : m_dim_types_out) std::cout << int(t) << " ";
+    std::cout << std::endl;
+    // daniel ende debug check ────────────────────────────────────────
 
   // check for existing kernels
   if( m_xmm_kernel_first_touch_unary == nullptr ) {

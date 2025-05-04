@@ -1,20 +1,10 @@
-# Build-Artefakte
-build/
 
-# Lokale Bibliotheken, die du nicht mit-pushen willst
+build/
 libxsmm/
 openblas/
 OpenBLAS-0.3.26/
-
-# SCons-Interna
 .sconsign.dblite
 .sconf_temp/
-
-# Konfig-Logs
 config.log
-
-# Editor/IDE
 .vscode/
-
-# Tarballs
 v*.tar.gz
