@@ -69,9 +69,9 @@ einsum_ir::err_t einsum_ir::backend::BinaryPrimitives::init( data_t    i_data_ty
     }
     else if( i_data_type == data_t::BF16 ) {//daniel:
       init(  4,  16,
-        32, 512,
-        32, 512,
-        32, 512 );
+            32, 512,
+            32, 512,
+            32, 512 );
     }
     else {
       return err_t::INVALID_DTYPE;

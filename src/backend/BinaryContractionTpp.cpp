@@ -7,7 +7,7 @@
 #include <iomanip> 
 
 libxsmm_datatype einsum_ir::backend::BinaryContractionTpp::dtype_to_libxsmm( data_t i_dtype ) {
-  if( i_dtype == BF16 ) { //daniel : 
+  if     ( i_dtype == BF16 ) { //daniel : 
     return libxsmm_datatype::LIBXSMM_DATATYPE_BF16;
   }
   else if( i_dtype == FP32 ) {
