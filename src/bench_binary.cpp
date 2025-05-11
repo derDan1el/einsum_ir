@@ -24,7 +24,7 @@ void bench_binary( std::map< int64_t, int64_t > & i_dim_sizes_map,
   std::chrono::steady_clock::time_point l_tp0, l_tp1;
   std::chrono::duration< double > l_dur;
   int64_t l_n_flops = 0;
-  int64_t l_repetitions = 1;
+  int64_t l_repetitions = 100;
   int64_t l_repetitions_warm_up = 1;
   std::vector< int64_t > l_dim_ids_permute_left;
   std::vector< int64_t > l_dim_ids_permute_right;
@@ -65,52 +65,60 @@ void bench_binary( std::map< int64_t, int64_t > & i_dim_sizes_map,
   dtype beschreibt den Datentyp des Tensors. welcher 
   erstellt wird.
   */ //rand
+
   at::Tensor l_ten_left  = at::rand( at::IntArrayRef( l_sizes_left.data(),  l_sizes_left.size()  ) ,i_dtype_at); //daniel: zufällige Werte [0,1]
-  at::Tensor l_ten_right = at::ones( at::IntArrayRef( l_sizes_right.data(), l_sizes_right.size() ) ,i_dtype_at); // daniel: alle werte 1
-  at::Tensor l_ten_out   = at::rand( at::IntArrayRef( l_sizes_out.data(),   l_sizes_out.size()   ) ,i_dtype_at);
+  at::Tensor l_ten_right = at::rand( at::IntArrayRef( l_sizes_right.data(), l_sizes_right.size() ) ,i_dtype_at); 
+  at::Tensor l_ten_out   = at::rand( at::IntArrayRef( l_sizes_out.data(),   l_sizes_out.size()   ) ,i_dtype_at); 
   std::cout << "at::einsum:" << std::endl;
 
 
   //daniel:  ---------------------------------------
-    
-      // 1) Ganze Tensoren als FP32 ausdrucken
-   // Hilfslambda zum Ausdrucken jedes BF16-Werts ohne zusätzliche Rundung
-  auto print_bf16_tensor = [&](const at::Tensor& T, const std::string& name) {
-    // Rohpointer auf die BFloat16-Objekte
-    auto* bf16_ptr = T.data_ptr<c10::BFloat16>();
-    // reinterpret_cast auf uint16_t*, um direkt die Bits zu lesen
-    auto* bits_ptr = reinterpret_cast<const uint16_t*>(bf16_ptr);
-  
-    int64_t rows = T.size(0);
-    int64_t cols = T.size(1);
-  
-    // 1) Bitmuster als Hex
-    std::cout << name << " Bitmuster (hex):\n";
-    for (int64_t i = 0, N = T.numel(); i < N; ++i) {
-      uint16_t bits = bits_ptr[i];
-      std::cout << "0x"
-                << std::hex << std::setw(4) << std::setfill('0')
-                << bits;
-      if ((i+1) % cols == 0) std::cout << "\n";
-      else                   std::cout << " ";
-    }
-    std::cout << std::dec << std::setfill(' ') << "\n";
-  
-    // 2) Exakte Dezimal-Darstellung (ohne weitere Rundung beim Drucken)
-    std::cout << name << " Dezimal (max_digits10):\n";
-    std::cout << std::fixed
-              << std::setprecision(std::numeric_limits<float>::max_digits10);
-    for (int64_t i = 0, N = T.numel(); i < N; ++i) {
-      // der cast macht genau die IEEE-BF16->FP32-Konversion
-      float v = static_cast<float>(bf16_ptr[i]);
-      std::cout << v;
-      if ((i+1) % cols == 0) std::cout << "\n";
-      else                   std::cout << " ";
-    }
-    std::cout << std::endl;
-  };
-  
-  // Ausgabe der Tensoren
+  //herausfinden ob es column oder row major ist: ergebnis (2,1) dh row major
+//
+//  auto t = at::rand({2,2}, at::kBFloat16);
+//  std::cout << "Strides: (" << t.stride(0) << ", " << t.stride(1) << ")\n";
+//
+//
+  //daniel:  ---------------------------------------
+   
+     // 1) Ganze Tensoren als FP32 ausdrucken
+     // Hilfslambda zum Ausdrucken jedes BF16-Werts ohne zusätzliche Rundung
+ auto print_bf16_tensor = [&](const at::Tensor& T, const std::string& name) {
+ // Rohpointer auf die BFloat16-Objekte
+ auto* bf16_ptr = T.data_ptr<c10::BFloat16>();
+ // reinterpret_cast auf uint16_t*, um direkt die Bits zu lesen
+ auto* bits_ptr = reinterpret_cast<const uint16_t*>(bf16_ptr);
+
+ int64_t rows = T.size(0);
+ int64_t cols = T.size(1);
+
+ // 1) Bitmuster als Hex
+ std::cout << name << " Bitmuster (hex):\n";
+ for (int64_t i = 0, N = T.numel(); i < N; ++i) {
+   uint16_t bits = bits_ptr[i];
+   std::cout << "0x"
+             << std::hex << std::setw(4) << std::setfill('0')
+             << bits;
+   if ((i+1) % cols == 0) std::cout << "\n";
+   else                   std::cout << " ";
+ }
+ std::cout << std::dec << std::setfill(' ') << "\n";
+ 
+   // 2) Exakte Dezimal-Darstellung (ohne weitere Rundung beim Drucken)
+  std::cout << name << " Dezimal (max_digits10):\n";
+  std::cout << std::fixed
+            << std::setprecision(std::numeric_limits<float>::max_digits10);
+  for (int64_t i = 0, N = T.numel(); i < N; ++i) {
+    // der cast macht genau die IEEE-BF16->FP32-Konversion
+    float v = static_cast<float>(bf16_ptr[i]);
+    std::cout << v;
+    if ((i+1) % cols == 0) std::cout << "\n";
+    else                   std::cout << " ";
+  }
+  std::cout << std::endl;
+ };
+ 
+  ////Ausgabe der Tensoren
   print_bf16_tensor(l_ten_left,  "l_ten_left");
   print_bf16_tensor(l_ten_right, "l_ten_right");
   print_bf16_tensor(l_ten_out,   "l_ten_out");
@@ -134,10 +142,10 @@ void bench_binary( std::map< int64_t, int64_t > & i_dim_sizes_map,
                   .to(at::kFloat)
                   .contiguous()
                   .view(-1);
-  std::cout << "=== Torch BF16->FP32 sample values ===" << std::endl;
-  for(int i = 0; i < 25 && i < out_ref_fp32.size(0); ++i) {
-  std::cout << "  [" << i << "] = " << out_ref_fp32[i].item<float>() << std::endl;
-  }
+  //std::cout << "=== Torch BF16->FP32 sample values ===" << std::endl;
+  //for(int i = 0; i < 25 && i < out_ref_fp32.size(0); ++i) {
+  //std::cout << "  [" << i << "] = " << out_ref_fp32[i].item<float>() << std::endl;
+  //}
   std::cout << std::endl;
   //daniel :ende
 

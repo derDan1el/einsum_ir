@@ -44,10 +44,10 @@ einsum_ir::err_t einsum_ir::backend::BinaryPrimitives::init( data_t    i_data_ty
             16, 256 );
     }
     else if( i_data_type == data_t::BF16 ) {
-      init(  4,  16,   // daniel: cb min, cb max 
-            32, 128,   // daniel: mb min, mb max 
-            12,  64,   // daniel: nb min, nb max
-            32, 512 ); 
+      init(  8,  32,   // daniel: cb min, cb max 
+            64, 256,   // daniel: mb min, mb max 
+            24,  128,   // daniel: nb min, nb max
+            64, 1024 ); // daniel: kb min, kb max
     }
     else {
       return err_t::INVALID_DTYPE;
