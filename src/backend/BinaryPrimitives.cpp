@@ -43,11 +43,11 @@ einsum_ir::err_t einsum_ir::backend::BinaryPrimitives::init( data_t    i_data_ty
              6,  32,
             16, 256 );
     }
-    else if( i_data_type == data_t::BF16 ) {
-      init(  8,  32,   // daniel: cb min, cb max 
-            64, 256,   // daniel: mb min, mb max 
-            24,  128,   // daniel: nb min, nb max
-            64, 1024 ); // daniel: kb min, kb max
+    else if( i_data_type == data_t::BF16 ) {//daniel: TODO: hier kommt man nie rein, weil der comp type übergeben wird und das ist bei BF16: FP32
+      init(  4,  16,   // daniel: cb min, cb max 
+            32, 128,   // daniel: mb min, mb max 
+            12,  64,   // daniel: nb min, nb max
+            32, 512 ); // daniel: kb min, kb max
     }
     else {
       return err_t::INVALID_DTYPE;
@@ -67,7 +67,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryPrimitives::init( data_t    i_data_ty
             16, 256,
             16, 256 );
     }
-    else if( i_data_type == data_t::BF16 ) {//daniel:
+    else if( i_data_type == data_t::BF16 ) {
       init(  4,  16,
             32, 512,
             32, 512,
@@ -91,7 +91,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryPrimitives::init( data_t    i_data_ty
             16, 256,
             16, 256 );
     }
-    else if( i_data_type == data_t::BF16 ) { //daniel:
+    else if( i_data_type == data_t::BF16 ) { //daniel: hier kommt man nie rein,weil der comp type übergeben wird um fp32 ist
       init(  8,  32,
             64, 1024,
             64, 1024,
@@ -307,7 +307,8 @@ einsum_ir::err_t einsum_ir::backend::BinaryPrimitives::blocking_left_kb_x_mb_cb_
 
   // seek the first K dimension that matches the potential K dimension in left tensor
   while( l_di_left >= 0 ) {
-    int64_t l_dim_size = i_dim_sizes->at( i_dim_ids_left[ l_di_left ] );
+    int64_t l_idss = i_dim_ids_left[ l_di_left ];
+    int64_t l_dim_size = i_dim_sizes->at( l_idss );
 
     if( l_dim_types_left[l_di_left] == einsum_ir::dim_t::K &&
         i_dim_ids_left[  l_di_left] == l_potential_K ) {
@@ -399,7 +400,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryPrimitives::blocking_left_kb_x_mb_cb_
 
   // reset stride for right and output tensors
   if( l_di_right >= 0 ) {
-    l_stride_cont_right = i_strides_right->at( i_dim_ids_right[ l_di_right ] );
+    l_stride_cont_right = i_strides_right->at( i_dim_ids_right[ l_di_right ] ); // daniel : 4 weil um auf nächstes n zu kommen 4 k werte gesprungne werdne müssen
   }
   if( l_di_out >= 0 ) {
     l_stride_cont_out = i_strides_out->at( i_dim_ids_out[ l_di_out ] );
@@ -450,6 +451,19 @@ einsum_ir::err_t einsum_ir::backend::BinaryPrimitives::blocking_left_kb_x_mb_cb_
   std::reverse( o_dim_ids_mb->begin(), o_dim_ids_mb->end() );
   std::reverse( o_dim_ids_nb->begin(), o_dim_ids_nb->end() );
   std::reverse( o_dim_ids_kb->begin(), o_dim_ids_kb->end() );
+
+  for( long unsigned int l_id = 0; l_id < o_dim_ids_cb->size(); l_id++ ) {
+    std::cout << "o_dim_ids_cb[" << l_id << "] = " << o_dim_ids_cb->at( l_id ) << std::endl;
+  }
+  for( long unsigned int l_id = 0; l_id < o_dim_ids_mb->size(); l_id++ ) {
+    std::cout << "o_dim_ids_mb[" << l_id << "] = " << o_dim_ids_mb->at( l_id ) << std::endl;
+  }
+  for( long unsigned int l_id = 0; l_id < o_dim_ids_nb->size(); l_id++ ) {
+    std::cout << "o_dim_ids_nb[" << l_id << "] = " << o_dim_ids_nb->at( l_id ) << std::endl;
+  }
+  for( long unsigned int l_id = 0; l_id < o_dim_ids_kb->size(); l_id++ ) {
+    std::cout << "o_dim_ids_kb[" << l_id << "] = " << o_dim_ids_kb->at( l_id ) << std::endl;
+  }
 
   return err_t::SUCCESS;
 }
@@ -773,10 +787,10 @@ einsum_ir::err_t einsum_ir::backend::BinaryPrimitives::blocking( primblo_t      
   std::map< int64_t, int64_t > l_strides_right;
   std::map< int64_t, int64_t > l_strides_out;
 
+
   // assume contiguous storage and determine strides if not provided
   if( i_strides_left == nullptr ) {
     int64_t l_stride = 1;
-
     for( int64_t l_di = i_num_dims_left - 1; l_di >= 0; l_di-- ) {
       int64_t l_id_left = i_dim_ids_left[l_di];
       l_strides_left[l_id_left] = l_stride;
@@ -802,14 +816,14 @@ einsum_ir::err_t einsum_ir::backend::BinaryPrimitives::blocking( primblo_t      
       l_strides_out[l_id_out] = l_stride;
       l_stride *= i_dim_sizes->at( l_id_out );
     }
-  }
+  }//daniel :: out : [4] = 2 dh die dimension mit der id 4 hat einen stride von 2
 
   std::map< int64_t, int64_t > const * l_strides_ptr_left  = (i_strides_left  != nullptr) ? i_strides_left  : &l_strides_left;
   std::map< int64_t, int64_t > const * l_strides_ptr_right = (i_strides_right != nullptr) ? i_strides_right : &l_strides_right;
   std::map< int64_t, int64_t > const * l_strides_ptr_out   = (i_strides_out   != nullptr) ? i_strides_out   : &l_strides_out;
 
   // derive blocking
-  if( i_primitive_blocking == primblo_t::LEFT_KB_X_MB_CB_RIGHT_NB_X_KB_CB_OUT_NB_X_MB_CB ) {
+  if( i_primitive_blocking == primblo_t::LEFT_KB_X_MB_CB_RIGHT_NB_X_KB_CB_OUT_NB_X_MB_CB ) { // daniel : setzt blocking größen o_dim_ids_mb[0] = 3 ,o_dim_ids_nb[0] = 4,o_dim_ids_kb[0] = 2
     l_err = blocking_left_kb_x_mb_cb_right_nb_x_kb_cb_out_nb_x_mb_cb( m_size_mb_min,
                                                                       m_size_mb_max,
                                                                       m_size_nb_min,

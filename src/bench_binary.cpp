@@ -24,7 +24,7 @@ void bench_binary( std::map< int64_t, int64_t > & i_dim_sizes_map,
   std::chrono::steady_clock::time_point l_tp0, l_tp1;
   std::chrono::duration< double > l_dur;
   int64_t l_n_flops = 0;
-  int64_t l_repetitions = 100;
+  int64_t l_repetitions = 10000000000;
   int64_t l_repetitions_warm_up = 1;
   std::vector< int64_t > l_dim_ids_permute_left;
   std::vector< int64_t > l_dim_ids_permute_right;
@@ -72,6 +72,7 @@ void bench_binary( std::map< int64_t, int64_t > & i_dim_sizes_map,
   std::cout << "at::einsum:" << std::endl;
 
 
+
   //daniel:  ---------------------------------------
   //herausfinden ob es column oder row major ist: ergebnis (2,1) dh row major
 //
@@ -83,45 +84,45 @@ void bench_binary( std::map< int64_t, int64_t > & i_dim_sizes_map,
    
      // 1) Ganze Tensoren als FP32 ausdrucken
      // Hilfslambda zum Ausdrucken jedes BF16-Werts ohne zusätzliche Rundung
- auto print_bf16_tensor = [&](const at::Tensor& T, const std::string& name) {
- // Rohpointer auf die BFloat16-Objekte
- auto* bf16_ptr = T.data_ptr<c10::BFloat16>();
- // reinterpret_cast auf uint16_t*, um direkt die Bits zu lesen
- auto* bits_ptr = reinterpret_cast<const uint16_t*>(bf16_ptr);
-
- int64_t rows = T.size(0);
- int64_t cols = T.size(1);
-
- // 1) Bitmuster als Hex
- std::cout << name << " Bitmuster (hex):\n";
- for (int64_t i = 0, N = T.numel(); i < N; ++i) {
-   uint16_t bits = bits_ptr[i];
-   std::cout << "0x"
-             << std::hex << std::setw(4) << std::setfill('0')
-             << bits;
-   if ((i+1) % cols == 0) std::cout << "\n";
-   else                   std::cout << " ";
- }
- std::cout << std::dec << std::setfill(' ') << "\n";
- 
-   // 2) Exakte Dezimal-Darstellung (ohne weitere Rundung beim Drucken)
-  std::cout << name << " Dezimal (max_digits10):\n";
-  std::cout << std::fixed
-            << std::setprecision(std::numeric_limits<float>::max_digits10);
-  for (int64_t i = 0, N = T.numel(); i < N; ++i) {
-    // der cast macht genau die IEEE-BF16->FP32-Konversion
-    float v = static_cast<float>(bf16_ptr[i]);
-    std::cout << v;
-    if ((i+1) % cols == 0) std::cout << "\n";
-    else                   std::cout << " ";
-  }
-  std::cout << std::endl;
- };
- 
-  ////Ausgabe der Tensoren
-  print_bf16_tensor(l_ten_left,  "l_ten_left");
-  print_bf16_tensor(l_ten_right, "l_ten_right");
-  print_bf16_tensor(l_ten_out,   "l_ten_out");
+// auto print_bf16_tensor = [&](const at::Tensor& T, const std::string& name) {
+// // Rohpointer auf die BFloat16-Objekte
+// auto* bf16_ptr = T.data_ptr<c10::BFloat16>();
+// // reinterpret_cast auf uint16_t*, um direkt die Bits zu lesen
+// auto* bits_ptr = reinterpret_cast<const uint16_t*>(bf16_ptr);
+//
+// int64_t rows = T.size(0);
+// int64_t cols = T.size(1);
+//
+// // 1) Bitmuster als Hex
+// std::cout << name << " Bitmuster (hex):\n";
+// for (int64_t i = 0, N = T.numel(); i < N; ++i) {
+//   uint16_t bits = bits_ptr[i];
+//   std::cout << "0x"
+//             << std::hex << std::setw(4) << std::setfill('0')
+//             << bits;
+//   if ((i+1) % cols == 0) std::cout << "\n";
+//   else                   std::cout << " ";
+// }
+// std::cout << std::dec << std::setfill(' ') << "\n";
+// 
+//   // 2) Exakte Dezimal-Darstellung (ohne weitere Rundung beim Drucken)
+//  std::cout << name << " Dezimal (max_digits10):\n";
+//  std::cout << std::fixed
+//            << std::setprecision(std::numeric_limits<float>::max_digits10);
+//  for (int64_t i = 0, N = T.numel(); i < N; ++i) {
+//    // der cast macht genau die IEEE-BF16->FP32-Konversion
+//    float v = static_cast<float>(bf16_ptr[i]);
+//    std::cout << v;
+//    if ((i+1) % cols == 0) std::cout << "\n";
+//    else                   std::cout << " ";
+//  }
+//  std::cout << std::endl;
+// };
+// 
+//  ////Ausgabe der Tensoren
+//  print_bf16_tensor(l_ten_left,  "l_ten_left");
+//  print_bf16_tensor(l_ten_right, "l_ten_right");
+//  print_bf16_tensor(l_ten_out,   "l_ten_out");
   
   //daniel ende -------------------------------------
   // warm up
@@ -137,16 +138,16 @@ void bench_binary( std::map< int64_t, int64_t > & i_dim_sizes_map,
   l_repetitions = l_repetitions_warm_up / l_dur.count() + 1;
 
     // daniel :beginn daten checken:
-  std::cout << "Torch-Einsum Dtype: " << l_ten_out_torch.dtype() << std::endl;
-  auto out_ref_fp32 = l_ten_out_torch
-                  .to(at::kFloat)
-                  .contiguous()
-                  .view(-1);
-  //std::cout << "=== Torch BF16->FP32 sample values ===" << std::endl;
-  //for(int i = 0; i < 25 && i < out_ref_fp32.size(0); ++i) {
-  //std::cout << "  [" << i << "] = " << out_ref_fp32[i].item<float>() << std::endl;
-  //}
-  std::cout << std::endl;
+//  std::cout << "Torch-Einsum Dtype: " << l_ten_out_torch.dtype() << std::endl;
+//  auto out_ref_fp32 = l_ten_out_torch
+//                  .to(at::kFloat)
+//                  .contiguous()
+//                  .view(-1);
+//  //std::cout << "=== Torch BF16->FP32 sample values ===" << std::endl;
+//  //for(int i = 0; i < 25 && i < out_ref_fp32.size(0); ++i) {
+//  //std::cout << "  [" << i << "] = " << out_ref_fp32[i].item<float>() << std::endl;
+//  //}
+//  std::cout << std::endl;
   //daniel :ende
 
   // run with repititions
@@ -192,7 +193,7 @@ void bench_binary( std::map< int64_t, int64_t > & i_dim_sizes_map,
                    l_dtype_comp, //daniel : hier stand vorher auch i_dtype_einsum_ir nur muss bei BF16 in FP32 gerechnet werden siehe oben
                    i_dtype_einsum_ir,
                    einsum_ir::ZERO,              // daniel: first touch
-                   einsum_ir::MADD,              // daniel: main kernel  
+                   einsum_ir::MADD,              // daniel: main kernel
                    einsum_ir::UNDEFINED_KTYPE ); // daniel: last touch
 
   l_tp0 = std::chrono::steady_clock::now();
@@ -226,17 +227,17 @@ void bench_binary( std::map< int64_t, int64_t > & i_dim_sizes_map,
   l_repetitions = l_repetitions_warm_up / l_dur.count() + 1;
 
     // daniel beginn───────────────────────────────
-    std::cout << "=== JIT BF16->FP32 sample values ===" << std::endl;
-    auto jit_out_fp32 = l_ten_out
-                           .to(at::kFloat)
-                           .contiguous()
-                           .view(-1);
-    for (int i = 0; i < 25 && i < jit_out_fp32.size(0); ++i) {
-      std::cout << "  [" << i << "] = "
-                << jit_out_fp32[i].item<float>()
-                << std::endl;
-    }
-    std::cout << std::endl;
+    //std::cout << "=== JIT BF16->FP32 sample values ===" << std::endl;
+    //auto jit_out_fp32 = l_ten_out
+    //                       .to(at::kFloat)
+    //                       .contiguous()
+    //                       .view(-1);
+    //for (int i = 0; i < 25 && i < jit_out_fp32.size(0); ++i) {
+    //  std::cout << "  [" << i << "] = "
+    //            << jit_out_fp32[i].item<float>()
+    //            << std::endl;
+    //}
+    //std::cout << std::endl;
     // daniel :ende ──────────────────────────────────────────────────────────
   
 
@@ -377,9 +378,9 @@ int main( int     i_argc,
    */
   std::map< std::string, int64_t > m_map_dim_name_to_id;
   //daniel: fügt m_map_dim_name_to_id folgendes hinzu ["a"] = 0 , ["b"] = 1, ["c"] = 2 , ["d"] = 3
-  einsum_ir::frontend::EinsumExpressionAscii::parse_dim_ids( l_expression_string_std,
+  einsum_ir::frontend::EinsumExpressionAscii::parse_dim_ids( l_expression_string_std, //danielx
                                                              m_map_dim_name_to_id );
-  
+  //die dimensionsnamen werden lexikographisch sortiert
   std::cout << "parsed dimension ids:" << std::endl;
   for( std::map< std::string, int64_t >::iterator l_di = m_map_dim_name_to_id.begin(); l_di != m_map_dim_name_to_id.end(); l_di++ ) {
     std::string l_dim_name = l_di->first;

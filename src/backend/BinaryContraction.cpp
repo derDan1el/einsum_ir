@@ -3,7 +3,9 @@
 #include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <iostream> //daniel wegmachen
 #include "ContractionLoops.h"
+
 
 void einsum_ir::backend::BinaryContraction::dim_types( int64_t         i_num_dims_t0,
                                                        int64_t         i_num_dims_t1,
@@ -85,7 +87,11 @@ void einsum_ir::backend::BinaryContraction::dim_types( int64_t                  
              einsum_ir::M,
              einsum_ir::C,
              o_dim_types_left->data() ); //daniel: [0] = C, [1] = C, [2] = M, [3] = K
-
+  //daniel::beginn
+  for( int64_t l_di = 0; l_di < i_num_dims_left; l_di++ ) {
+    std::cout << o_dim_types_left->at( l_di ) << " "<<std::endl; //daniel: [0] = C, [1] = C, [2] = M, [3] = K
+  }std::cout << "--------"<<std::endl;
+  //daniel ende
   dim_types( i_num_dims_left,
              i_num_dims_out,
              i_num_dims_right,
@@ -97,7 +103,12 @@ void einsum_ir::backend::BinaryContraction::dim_types( int64_t                  
              einsum_ir::N,
              einsum_ir::C,
              o_dim_types_right->data() ); //daniel: [0] = C, [1] = K, [2] = N, [3] = C
-
+  //daniel::beginn
+  for( int64_t l_di = 0; l_di < i_num_dims_right; l_di++ ) {
+    std::cout << o_dim_types_right->at( l_di ) << " "<<std::endl; //daniel: [0] = C, [1] = C, [2] = M, [3] = K
+  } std::cout << "--------"<<std::endl;
+  //daniel ende
+  
   dim_types( i_num_dims_left,
              i_num_dims_right,
              i_num_dims_out,
@@ -109,6 +120,12 @@ void einsum_ir::backend::BinaryContraction::dim_types( int64_t                  
              einsum_ir::N,
              einsum_ir::C,
              o_dim_types_out->data() ); // daniel: [0] = C, [1] = C, [2] = N
+
+  //daniel::beginn
+  for( int64_t l_di = 0; l_di < i_num_dims_out; l_di++ ) {
+    std::cout << o_dim_types_out->at( l_di ) << " "<<std::endl; //daniel: [0] = C, [1] = C, [2] = M, [3] = K
+  }std::cout << "--------"<<std::endl;
+  //daniel ende
 }
 //daniel :   filter_dim_ids( i_num_dims_out, einsum_ir::M, o_dim_types_out->data(), i_dim_ids_out, o_dim_ids_m->data() );
 int64_t einsum_ir::backend::BinaryContraction::filter_dim_ids( int64_t         i_num_dims_tensor,
@@ -347,14 +364,14 @@ void einsum_ir::backend::BinaryContraction::init( int64_t                       
 }
 
 einsum_ir::err_t einsum_ir::backend::BinaryContraction::compile_base() {
-  dim_types_ids( m_num_dims_left,
-                 m_num_dims_right,
-                 m_num_dims_out,
-                 m_dim_ids_left,
+  dim_types_ids( m_num_dims_left,   //anzahl dim links
+                 m_num_dims_right,  //anzahl dim rechts
+                 m_num_dims_out,    //anzahl dim output
+                 m_dim_ids_left,   
                  m_dim_ids_right,
                  m_dim_ids_out,
-                 &m_dim_types_out,
-                 &m_dim_ids_c,
+                 &m_dim_types_out, //daniel: [0] = C, [1] = C, [2] = N oder sowas
+                 &m_dim_ids_c,  //orte wo C vorkommt werden gespeichert mit ihren dim größen
                  &m_dim_ids_m,
                  &m_dim_ids_n,
                  &m_dim_ids_k,
@@ -384,7 +401,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryContraction::compile_base() {
     int64_t l_id = m_dim_ids_m[l_m];
     m_sizes_m[l_m] = m_dim_sizes_inner->at(l_id);
   }
-  for( int64_t l_n = 0; l_n < m_num_dims_n; l_n++ ) {
+  for( int64_t l_n = 0; l_n < m_num_dims_n; l_n++ ) { //speichert einfach von jeder dimensionsart die dim größe in den vector
     int64_t l_id = m_dim_ids_n[l_n];
     m_sizes_n[l_n] = m_dim_sizes_inner->at(l_id);
   }

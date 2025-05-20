@@ -1,11 +1,12 @@
 #include "ContractionLoops.h"
 #include <algorithm>
 
+#include <iostream> //daniel: remove this
 #ifdef _OPENMP
 #include <omp.h>
 #endif
 
-void einsum_ir::backend::ContractionLoops::init( std::map< int64_t, int64_t > const * i_sizes,
+void einsum_ir::backend::ContractionLoops::init( std::map< int64_t, int64_t > const * i_sizes, //daniel : l_dim_sizes
                                                  std::map< int64_t, int64_t > const * i_strides_left,
                                                  std::map< int64_t, int64_t > const * i_strides_right,
                                                  std::map< int64_t, int64_t > const * i_strides_out_aux,
@@ -77,6 +78,7 @@ einsum_ir::err_t einsum_ir::backend::ContractionLoops::compile() {
     m_cpx_stride_out_bytes      = 0;
   }
   m_num_loops = m_loop_ids->size();
+  std::cout<< "m_num_loops: " << m_num_loops << std::endl;
 
 
   //setup packing loop execution

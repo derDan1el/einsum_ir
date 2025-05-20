@@ -1,6 +1,6 @@
 #include "ContractionLoopsTpp.h"
 
-void einsum_ir::backend::ContractionLoopsTpp::init( std::map< int64_t, int64_t > const * i_sizes,
+void einsum_ir::backend::ContractionLoopsTpp::init( std::map< int64_t, int64_t > const * i_sizes, //daniel : l_dim_sizes
                                                     std::map< int64_t, int64_t > const * i_strides_left,
                                                     std::map< int64_t, int64_t > const * i_strides_right,
                                                     std::map< int64_t, int64_t > const * i_strides_out_aux,

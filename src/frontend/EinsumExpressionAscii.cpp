@@ -267,9 +267,8 @@ void einsum_ir::frontend::EinsumExpressionAscii::parse_path( std::string        
 void einsum_ir::frontend::EinsumExpressionAscii::parse_dim_ids( std::string                      const & i_expr_string,
                                                                 std::map< std::string, int64_t >       & o_map_dim_name_to_id ) {
   o_map_dim_name_to_id.clear();
-
   std::vector< std::string > l_tensors;
-  parse_tensors( i_expr_string, l_tensors );
+  parse_tensors( i_expr_string, l_tensors ); //daniel: o_tensor aus "[a,b,c],[a,c,d,b]->[a,b,d]" wird [0] = "a,b,c" und [1] = "a,c,d,b" [2] = "a,b,d"
   int64_t l_num_tensors = l_tensors.size();
 
   std::set< std::string > l_dim_names_set;
