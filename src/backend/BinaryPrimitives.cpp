@@ -91,7 +91,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryPrimitives::init( data_t    i_data_ty
             16, 256,
             16, 256 );
     }
-    else if( i_data_type == data_t::BF16 ) { //daniel: hier kommt man nie rein,weil der comp type übergeben wird um fp32 ist
+    else if( i_data_type == data_t::BF16 ) { //daniel: hier kommt man nie rein,weil der comp type übergeben wird und fp32 ist
       init(  8,  32,
             64, 1024,
             64, 1024,

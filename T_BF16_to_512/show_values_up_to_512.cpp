@@ -47,7 +47,6 @@ int main() {
   
   compute_bf16_errors(bf16_arr, fp32_arr, fp32_to_bf16_err_abs, fp32_to_bf16_err_rel);
 
-
   std::cout << std::setw(4) << "int"
             << std::setw(12) << "bf16_val"
             << std::setw(10) << "abs_err"

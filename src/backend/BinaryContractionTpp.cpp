@@ -377,9 +377,9 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
                                                             l_n,
                                                             l_ldc,
                                                             l_ldc,
-                                                            l_xmm_dtype_left,
-                                                            l_xmm_dtype_right,
-                                                            l_xmm_dtype_right); // hier eig. FP32 muss aber BF16 sein , man kann nur beim dispatchen  sehen ob das bauen klappt
+                                                            l_xmm_dtype_comp, //in 
+                                                            l_xmm_dtype_comp, //out
+                                                            l_xmm_dtype_comp); // compute
   }
   else
   {
@@ -422,7 +422,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
     l_flag_out_aux_unary = LIBXSMM_MELTW_FLAG_UNARY_BCAST_SCALAR;
     l_flag_out_aux_binary = LIBXSMM_MELTW_FLAG_BINARY_BCAST_SCALAR_IN_1;
   }
-
+// daniel : da hier der aux tensor ein unary op bekommt und die eingabetypen auch FP32 sowie comp und out auch FP32 sind bleibt das
   libxsmm_meltw_unary_shape l_shape_single_touch_aux_unary = libxsmm_create_meltw_unary_shape(l_m * l_r,        // rows (M·R)
                                                                                               l_n,              // cols (N)
                                                                                               l_ld_out_aux,     // leading dimension input/output A
