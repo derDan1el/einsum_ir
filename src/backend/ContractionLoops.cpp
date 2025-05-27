@@ -130,7 +130,6 @@ einsum_ir::err_t einsum_ir::backend::ContractionLoops::compile() {
       break;
     }
   }
-  //Todo daniel. hier gucken ob für bfloat auch 4 und 2 bytes übergeben werden 
   // scale with size of data types
   for( int64_t l_lo = 0; l_lo < m_num_loops; l_lo++ ) {
     m_loop_strides_left[l_lo]    *= m_num_bytes_scalar_left;

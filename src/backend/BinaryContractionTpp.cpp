@@ -370,27 +370,13 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
 
   // first-touch and last-touch shape
 
-  libxsmm_meltw_unary_shape l_shape_single_touch;
-  if (l_xmm_dtype_left == LIBXSMM_DATATYPE_BF16 && l_xmm_dtype_right == LIBXSMM_DATATYPE_BF16 && l_xmm_dtype_comp == LIBXSMM_DATATYPE_F32)
-  {
-    l_shape_single_touch = libxsmm_create_meltw_unary_shape(l_m * l_r,
-                                                            l_n,
-                                                            l_ldc,
-                                                            l_ldc,
-                                                            l_xmm_dtype_comp, //in 
-                                                            l_xmm_dtype_comp, //out
-                                                            l_xmm_dtype_comp); // compute
-  }
-  else
-  {
-    l_shape_single_touch = libxsmm_create_meltw_unary_shape(l_m * l_r,
-                                                            l_n,
-                                                            l_ldc,
-                                                            l_ldc,
-                                                            l_xmm_dtype_comp,
-                                                            l_xmm_dtype_comp,
-                                                            l_xmm_dtype_comp);
-  }
+  libxsmm_meltw_unary_shape l_shape_single_touch = libxsmm_create_meltw_unary_shape(l_m * l_r,
+                                                                                    l_n,
+                                                                                    l_ldc,
+                                                                                    l_ldc,
+                                                                                    l_xmm_dtype_out,
+                                                                                    l_xmm_dtype_out,
+                                                                                    l_xmm_dtype_out);
 
   // derive the leading dimension of the auxiliary output tensor
   int64_t l_ld_out_aux = l_dim_ids_nb.size() > 0 ? l_strides_out_aux.at(l_dim_ids_nb.back()) : l_m * l_r;
@@ -422,7 +408,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
     l_flag_out_aux_unary = LIBXSMM_MELTW_FLAG_UNARY_BCAST_SCALAR;
     l_flag_out_aux_binary = LIBXSMM_MELTW_FLAG_BINARY_BCAST_SCALAR_IN_1;
   }
-// daniel : da hier der aux tensor ein unary op bekommt und die eingabetypen auch FP32 sowie comp und out auch FP32 sind bleibt das
+  // daniel : da hier der aux tensor ein unary op bekommt und die eingabetypen auch FP32 sowie comp und out auch FP32 sind bleibt das
   libxsmm_meltw_unary_shape l_shape_single_touch_aux_unary = libxsmm_create_meltw_unary_shape(l_m * l_r,        // rows (M·R)
                                                                                               l_n,              // cols (N)
                                                                                               l_ld_out_aux,     // leading dimension input/output A
@@ -602,7 +588,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
       return einsum_ir::COMPILATION_FAILED;
     }
   }
-  
+
   // contraction loop interface
   m_cont_loops.init(&l_dim_sizes,
                     &l_strides_left,

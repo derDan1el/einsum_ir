@@ -93,14 +93,9 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
       at::Tensor l_ten_out = tmp_c.to(l_dtype_out_at);
   */
 
-  at::ScalarType l_dtype_out_at = i_dtype_at;
-  if (i_dtype_at == at::ScalarType::BFloat16)
-  {
-    l_dtype_out_at = at::ScalarType::Float; // daniel: Outputtensor ist FP32
-  }
   at::Tensor l_ten_left = at::rand(at::IntArrayRef(l_sizes_left.data(), l_sizes_left.size()), i_dtype_at); // daniel: zufällige Werte [0,1]
   at::Tensor l_ten_right = at::rand(at::IntArrayRef(l_sizes_right.data(), l_sizes_right.size()), i_dtype_at);
-  at::Tensor l_ten_out = at::rand(at::IntArrayRef(l_sizes_out.data(), l_sizes_out.size()), l_dtype_out_at);
+  at::Tensor l_ten_out = at::rand(at::IntArrayRef(l_sizes_out.data(), l_sizes_out.size()), i_dtype_at);
   std::cout << "at::einsum:" << std::endl;
 
   at::Tensor l_ten_out_torch;
@@ -128,6 +123,7 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
   l_time = l_dur.count() / l_repetitions;
   l_gflops = 1.0E-9 * l_n_flops / l_time;
 
+
   /*────────────────────── Hiermit kann man Input / Output von torch printen ────────────────────────────────────
     std::cout << "Input Left  (dtype=" << c10::toString(l_ten_left.dtype()) << "):\n"
               << l_ten_left << "\n\n";
@@ -154,7 +150,7 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
    */
   std::cout << "einsum_ir:" << std::endl;
   // daniel : checke ob dtype_einsum_ir == BF16 wenn ja solls in FP32 gerechnet werden
-  einsum_ir::data_t l_dtype_comp_and_out = (i_dtype_einsum_ir == einsum_ir::BF16) ? einsum_ir::FP32 : i_dtype_einsum_ir; // daniel siehe kommentar darüber
+  einsum_ir::data_t l_dtype_comp = (i_dtype_einsum_ir == einsum_ir::BF16) ? einsum_ir::FP32 : i_dtype_einsum_ir; // daniel siehe kommentar darüber
   einsum_ir::backend::MemoryManager l_memory;
   einsum_ir::backend::BinaryContractionTpp l_bin_cont;
   l_bin_cont.init(i_dim_ids_in_left.size(),
@@ -174,8 +170,8 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
                   &l_memory,
                   i_dtype_einsum_ir,
                   i_dtype_einsum_ir,
-                  l_dtype_comp_and_out,        // daniel : hier stand vorher auch i_dtype_einsum_ir nur muss bei BF16 in FP32 gerechnet werden siehe oben
-                  l_dtype_comp_and_out,        // daniel : der outputtensor ist auch fp32
+                  l_dtype_comp,        // daniel : hier stand vorher auch i_dtype_einsum_ir nur muss bei BF16 in FP32 gerechnet werden siehe oben
+                  i_dtype_einsum_ir,        // daniel : der outputtensor ist auch fp32
                   einsum_ir::ZERO,             // daniel: first touch
                   einsum_ir::MADD,             // daniel: main kernel
                   einsum_ir::UNDEFINED_KTYPE); // daniel: last touch
@@ -242,34 +238,32 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
    << l_ten_out << std::endl;
    ────────────────────────────────────────────────────────────────────────*/
 
-   // daniel : cast ist wichtig um allclose aufzurufen da beide den gleichen typ haben müssen und torch bei .einsum keine dtype angibt und der output dtype vom input abhängt
-  if (l_ten_out_torch.dtype() == at::kBFloat16)
-  {
-    l_ten_out_torch = l_ten_out_torch.to(at::kFloat);
-  }
+  // daniel : cast ist wichtig um allclose aufzurufen da beide den gleichen typ haben müssen und torch bei .einsum keine dtype angibt und der output dtype vom input abhängt
 
-  // 1) max Wert
-  std::cout << "max torch = " << l_ten_out_torch.max() << std::endl;
-  std::cout << "max jit   = " << l_ten_out.max()<< std::endl;
-  // 2) max abs diff
-  auto diff = (l_ten_out_torch - l_ten_out).abs();
-  auto max_e = diff.max();
-  std::cout << "max abs difference = " << max_e << std::endl;
+  auto max_torch = l_ten_out_torch.max().item<at::BFloat16>();
+  auto max_jit = l_ten_out.max().item<at::BFloat16>();
 
+  std::cout << "-----------------------------------\n"
+            << std::setw(25) << "max element torch :" << max_torch << "\n"
+            << std::setw(25) << "max element jit :" << max_jit << std::endl;
+
+  auto max_diff = (l_ten_out_torch - l_ten_out).abs().max().item<at::BFloat16>();
+  // relative tolerance for allclose
   if (!at::allclose(l_ten_out_torch, l_ten_out, 1e-03))
   {
-    std::cerr << "error: einsum_ir solution is not close to aten!" << std::endl;
-    std::cout << "acceptable difference:\t" << 1e-03 << std::endl;
-    std::cout << "maximal difference is:\t" << at::max(l_ten_out_torch - l_ten_out) << std::endl;
-    std::cout << "max value of l_ten_out_torch is:\t" << at::max(l_ten_out_torch) << std::endl;
-    std::cout << "max value of l_ten_out is:\t" << at::max(l_ten_out) << std::endl;
+    std::cerr
+        << "\n"
+        << "error:" << "einsum_ir solution is not close to aten!\n\n"
+        << "acceptable relative error :" << std::setw(20) << "" << 1e-03 << "\n"
+        << "max difference   :" << std::setw(20) << "" << max_diff << std::endl;
   }
   else
   {
-    std::cout << "  results are close" << std::endl;
-    std::cout << "maximal difference is:\t" << at::max(l_ten_out_torch - l_ten_out) << std::endl;
-    std::cout << "max value of l_ten_out_torch is:\t" << at::max(l_ten_out_torch) << std::endl;
-    std::cout << "max value of l_ten_out is:\t" << at::max(l_ten_out) << std::endl;
+    std::cout
+        << "\n"
+        << "results are close\n\n"
+        << "acceptable relative error:" << std::setw(20) << "" << 1e-03 << "\n"
+        << "max difference  :" << std::setw(20) << "" << max_diff << std::endl;
   }
 
   /**
