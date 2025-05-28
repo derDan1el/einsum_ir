@@ -1,0 +1,1460 @@
+=== Benchmark Error Log ===
+Date: Wed May 28 12:36:08 PM CEST 2025
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "256,256,256" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:36:10 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "256,256,256" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:36:13 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "256,256,256" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:36:16 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "512,512,512" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:36:19 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "512,512,512" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:36:22 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "512,512,512" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:36:26 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "128,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:36:28 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "128,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:36:30 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "128,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:36:32 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "256,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:36:35 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "256,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:36:37 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "256,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:36:40 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "512,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:36:42 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "512,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:36:45 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "512,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:36:48 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "768,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:36:50 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+max difference   :                    1
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "768,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:36:53 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "768,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:36:56 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "1024,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:36:59 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+max difference   :                    2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "1024,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:37:02 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "1024,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:37:04 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "1536,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:37:07 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+max difference   :                    2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "1536,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:37:10 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "1536,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:37:13 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "2048,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:37:16 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+max difference   :                    4
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "2048,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:37:19 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "2048,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:37:22 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "3072,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:37:25 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+max difference   :                    4
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "3072,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:37:28 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "3072,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:37:31 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "4096,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:37:34 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+max difference   :                    8
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "4096,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:37:38 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "4096,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:37:41 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "6144,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:37:44 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+max difference   :                    16
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "6144,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:37:47 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "6144,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:37:50 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "8192,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:37:54 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+max difference   :                    32
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "8192,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:37:57 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "8192,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:38:00 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "12288,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:38:04 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+max difference   :                    48
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "12288,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:38:07 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "12288,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:38:11 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "16384,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:38:14 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+max difference   :                    64
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "16384,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:38:17 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "16384,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:38:21 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->bnm" "4,128,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:38:24 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->bnm" "4,128,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:38:26 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->bnm" "4,128,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:38:29 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->bnm" "8,128,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:38:32 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->bnm" "8,128,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:38:35 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->bnm" "8,128,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:38:37 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->bnm" "16,128,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:38:40 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->bnm" "16,128,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:38:43 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->bnm" "16,128,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:38:46 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->bnm" "32,128,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:38:49 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->bnm" "32,128,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:38:52 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->bnm" "32,128,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:38:55 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,128,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:38:58 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+max difference   :                    8
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,128,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:39:01 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,128,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:39:04 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,256,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:39:07 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+max difference   :                    16
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,256,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:39:10 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,256,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:39:14 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,512,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:39:17 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+max difference   :                    40
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,512,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:39:20 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,512,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:39:23 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,768,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:39:27 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+max difference   :                    64
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,768,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:39:30 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,768,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:39:34 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,1024,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:39:37 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+max difference   :                    96
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,1024,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:39:41 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,1024,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:39:44 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,1536,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:39:48 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+max difference   :                    192
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,1536,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:39:51 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,1536,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:39:55 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,2048,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:39:59 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+max difference   :                    288
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,2048,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:40:03 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,2048,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:40:07 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,3072,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:40:11 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+max difference   :                    576
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,3072,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:40:16 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,3072,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:40:20 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,4096,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:40:25 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+max difference   :                    832
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,4096,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:40:29 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,4096,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:40:35 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,6144,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:40:40 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+max difference   :                    1792
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,6144,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:40:45 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,6144,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:40:52 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,8192,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:40:57 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+max difference   :                    3840
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,8192,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:41:04 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,8192,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:41:11 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,12288,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:41:18 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+max difference   :                    2048
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,12288,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:41:26 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,12288,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:41:35 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,16384,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:41:43 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+max difference   :                    768
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,16384,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:41:52 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bkm,bnk->nm" "16,16384,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:42:04 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "ikm,nik->nm" "8,8,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:42:06 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "ikm,nik->nm" "8,8,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:42:09 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "ikm,nik->nm" "8,8,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:42:11 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "ikm,nik->nm" "16,16,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:42:13 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "ikm,nik->nm" "16,16,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:42:16 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "ikm,nik->nm" "16,16,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:42:18 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "ikm,nik->nm" "31,31,64,64" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:42:21 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+max difference   :                    nan
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "ikm,nik->nm" "31,31,64,64" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:42:23 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "ikm,nik->nm" "31,31,64,64" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:42:26 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "ikm,nik->nm" "32,32,64,64" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:42:28 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+max difference   :                    6
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "ikm,nik->nm" "32,32,64,64" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:42:31 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "ikm,nik->nm" "32,32,64,64" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:42:33 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "ikm,nik->nm" "64,64,64,64" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:42:36 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+max difference   :                    28
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "ikm,nik->nm" "64,64,64,64" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:42:39 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "ikm,nik->nm" "64,64,64,64" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:42:42 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "abkm,abnk->abnm" "2,4,128,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:42:45 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "abkm,abnk->abnm" "2,4,128,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:42:48 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "abkm,abnk->abnm" "2,4,128,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:42:51 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "abkm,abnk->abnm" "2,8,128,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:42:54 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "abkm,abnk->abnm" "2,8,128,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:42:57 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "abkm,abnk->abnm" "2,8,128,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:42:59 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "abkm,abnk->abnm" "4,4,128,128,128" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:43:02 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "abkm,abnk->abnm" "4,4,128,128,128" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:43:05 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "abkm,abnk->abnm" "4,4,128,128,128" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:43:08 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "abdfe,cf->abcde" "48,36,24,36,48,36" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:43:17 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "abdfe,cf->abcde" "48,36,24,36,48,36" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:43:26 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "abdfe,cf->abcde" "48,36,24,36,48,36" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:43:41 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "acdfe,bf->abcde" "48,24,36,36,48,36" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:43:50 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "acdfe,bf->abcde" "48,24,36,36,48,36" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:43:59 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "acdfe,bf->abcde" "48,24,36,36,48,36" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:44:14 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "abed,ce->abcd" "96,84,24,96,96" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:44:20 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "abed,ce->abcd" "96,84,24,96,96" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:44:27 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "abed,ce->abcd" "96,84,24,96,96" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:44:37 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "abcfe,df->abcde" "48,36,36,24,48,48" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:44:47 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "abcfe,df->abcde" "48,36,36,24,48,48" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:44:58 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "abcfe,df->abcde" "48,36,36,24,48,48" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:45:16 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "aced,be->abcd" "96,24,84,96,84" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:45:22 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "aced,be->abcd" "96,24,84,96,84" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:45:28 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "aced,be->abcd" "96,24,84,96,84" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:45:38 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "jki,efghjk->efghi" "6,64,6,64,24,6,64" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:45:44 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "jki,efghjk->efghi" "6,64,6,64,24,6,64" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:45:51 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "jki,efghjk->efghi" "6,64,6,64,24,6,64" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:45:57 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "abed,ce->abcd" "96,84,24,84,96" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:46:04 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "abed,ce->abcd" "96,84,24,84,96" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:46:10 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "abed,ce->abcd" "96,84,24,84,96" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:46:19 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bcgf,adeg->abcdef" "24,20,20,24,20,20,24" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:46:26 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bcgf,adeg->abcdef" "24,20,20,24,20,20,24" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:46:33 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bcgf,adeg->abcdef" "24,20,20,24,20,20,24" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:46:46 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bdgf,aceg->abcdef" "24,20,20,24,20,20,24" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:46:54 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bdgf,aceg->abcdef" "24,20,20,24,20,20,24" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:47:01 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bdgf,aceg->abcdef" "24,20,20,24,20,20,24" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:47:14 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "acgf,bdeg->abcdef" "24,20,20,24,20,20,24" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:47:21 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "acgf,bdeg->abcdef" "24,20,20,24,20,20,24" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:47:28 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "acgf,bdeg->abcdef" "24,20,20,24,20,20,24" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:47:41 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "abgf,cdeg->abcdef" "24,20,20,24,20,20,24" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:47:48 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "abgf,cdeg->abcdef" "24,20,20,24,20,20,24" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:47:55 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "abgf,cdeg->abcdef" "24,20,20,24,20,20,24" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:48:08 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "efhjki,gjk->efghi" "6,64,24,4,94,6,64" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:48:14 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "efhjki,gjk->efghi" "6,64,24,4,94,6,64" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:48:20 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "efhjki,gjk->efghi" "6,64,24,4,94,6,64" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:48:27 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bced,ae->abcd" "96,84,84,84,96" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:48:36 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bced,ae->abcd" "96,84,84,84,96" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:48:46 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "bced,ae->abcd" "96,84,84,84,96" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:49:01 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "aced,be->abcd" "96,84,84,84,96" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:49:11 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "aced,be->abcd" "96,84,84,84,96" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:49:21 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "aced,be->abcd" "96,84,84,84,96" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:49:37 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "abed,ce->abcd" "96,84,84,84,96" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:49:47 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "abed,ce->abcd" "96,84,84,84,96" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:49:57 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "abed,ce->abcd" "96,84,84,84,96" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:50:13 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "aedc,ebd->abc" "96,84,84,84,96" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:50:21 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+max difference   :                    104
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "aedc,ebd->abc" "96,84,84,84,96" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:50:31 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "aedc,ebd->abc" "96,84,84,84,96" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:50:44 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "gkiljh,ekilfj->efgh" "6,64,4,94,6,64,6,64" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:51:01 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+max difference   :                    24448
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "gkiljh,ekilfj->efgh" "6,64,4,94,6,64,6,64" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:51:25 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "gkiljh,ekilfj->efgh" "6,64,4,94,6,64,6,64" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:52:00 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "gikljh,eiklfj->efgh" "6,64,4,94,4,94,6,64" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:52:17 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+max difference   :                    23808
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "gikljh,eiklfj->efgh" "6,64,4,94,4,94,6,64" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:52:40 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "gikljh,eiklfj->efgh" "6,64,4,94,4,94,6,64" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:53:13 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "efiklj,ghkl->efghij" "6,64,4,94,4,94,6,64" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:53:28 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "efiklj,ghkl->efghij" "6,64,4,94,4,94,6,64" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:53:50 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "efiklj,ghkl->efghij" "6,64,4,94,4,94,6,64" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:54:23 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "efiklj,ghkl->efghij" "6,64,6,64,4,94,4,94" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:54:38 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "efiklj,ghkl->efghij" "6,64,6,64,4,94,4,94" FP32
+Exit code: 0
+Timestamp: Wed May 28 12:54:59 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "efiklj,ghkl->efghij" "6,64,6,64,4,94,4,94" FP64
+Exit code: 0
+Timestamp: Wed May 28 12:55:33 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "fihg,dieh->defg" "151,48,181,40,151,48" BF16
+Exit code: 0
+Timestamp: Wed May 28 12:59:01 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+max difference   :                    1.59694e+29
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "fihg,dieh->defg" "151,48,181,40,151,48" FP32
+Exit code: 0
+Timestamp: Wed May 28 01:04:05 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "fihg,dieh->defg" "151,48,181,40,151,48" FP64
+Exit code: 0
+Timestamp: Wed May 28 01:12:19 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "cefd,aebf->abcd" "96,84,84,84,84,96" BF16
+Exit code: 0
+Timestamp: Wed May 28 01:15:58 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+max difference   :                    88
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "cefd,aebf->abcd" "96,84,84,84,84,96" FP32
+Exit code: 0
+Timestamp: Wed May 28 01:22:16 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 0, backend = 2
+
+----------------------------------------
+Command: OMP_NUM_THREADS=1 ./build/bench_binary "cefd,aebf->abcd" "96,84,84,84,84,96" FP64
+Exit code: 0
+Timestamp: Wed May 28 01:32:04 PM CEST 2025
+STDERR:
+[BP::init] i_data_type = 1, backend = 2
+

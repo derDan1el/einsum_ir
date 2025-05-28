@@ -26,7 +26,7 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
   std::chrono::steady_clock::time_point l_tp0, l_tp1;
   std::chrono::duration<double> l_dur;
   int64_t l_n_flops = 0;
-  int64_t l_repetitions = 1000000;
+  int64_t l_repetitions = 10;
   int64_t l_repetitions_warm_up = 10;
   std::vector<int64_t> l_dim_ids_permute_left;
   std::vector<int64_t> l_dim_ids_permute_right;
@@ -123,7 +123,6 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
   l_time = l_dur.count() / l_repetitions;
   l_gflops = 1.0E-9 * l_n_flops / l_time;
 
-
   /*────────────────────── Hiermit kann man Input / Output von torch printen ────────────────────────────────────
     std::cout << "Input Left  (dtype=" << c10::toString(l_ten_left.dtype()) << "):\n"
               << l_ten_left << "\n\n";
@@ -170,8 +169,8 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
                   &l_memory,
                   i_dtype_einsum_ir,
                   i_dtype_einsum_ir,
-                  l_dtype_comp,        // daniel : hier stand vorher auch i_dtype_einsum_ir nur muss bei BF16 in FP32 gerechnet werden siehe oben
-                  i_dtype_einsum_ir,        // daniel : der outputtensor ist auch fp32
+                  l_dtype_comp,                // daniel : hier stand vorher auch i_dtype_einsum_ir nur muss bei BF16 in FP32 gerechnet werden siehe oben
+                  i_dtype_einsum_ir,           // daniel : der outputtensor ist auch fp32
                   einsum_ir::ZERO,             // daniel: first touch
                   einsum_ir::MADD,             // daniel: main kernel
                   einsum_ir::UNDEFINED_KTYPE); // daniel: last touch
@@ -238,32 +237,73 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
    << l_ten_out << std::endl;
    ────────────────────────────────────────────────────────────────────────*/
 
-  // daniel : cast ist wichtig um allclose aufzurufen da beide den gleichen typ haben müssen und torch bei .einsum keine dtype angibt und der output dtype vom input abhängt
+  if (l_ten_out.dtype() == at::kBFloat16)
+  {
+    auto max_torch = l_ten_out_torch.max().item<at::BFloat16>();
+    auto max_jit = l_ten_out.max().item<at::BFloat16>();
 
-  auto max_torch = l_ten_out_torch.max().item<at::BFloat16>();
-  auto max_jit = l_ten_out.max().item<at::BFloat16>();
+    std::cout << "-----------------------------------\n"
+              << std::setw(25) << "max element torch :" << max_torch << "\n"
+              << std::setw(25) << "max element jit :" << max_jit << std::endl;
 
-  std::cout << "-----------------------------------\n"
-            << std::setw(25) << "max element torch :" << max_torch << "\n"
-            << std::setw(25) << "max element jit :" << max_jit << std::endl;
+    auto max_diff = (l_ten_out_torch - l_ten_out).abs().max().item<at::BFloat16>();
+    std::cout << "max difference :" << std::setw(10) << "" << max_diff << std::endl;
 
-  auto max_diff = (l_ten_out_torch - l_ten_out).abs().max().item<at::BFloat16>();
+    float max_rel_error = 0.0f;
+    float torch_val = 0.0f;
+    float kernel_val = 0.0f;
+
+    // Flatten die Tensoren für element-weise Iteration
+    auto torch_flat = l_ten_out_torch.flatten();
+    auto kernel_flat = l_ten_out.flatten();
+
+    for (int64_t i = 0; i < torch_flat.numel(); i++)
+    {
+      auto torch_element = torch_flat[i].item<at::BFloat16>();
+      auto kernel_element = kernel_flat[i].item<at::BFloat16>();
+
+      // differenz berechnen
+      float differenz = std::abs(static_cast<float>(torch_element) - static_cast<float>(kernel_element));
+
+      // größeren Wert finden
+      float groesserer_wert = std::max(std::abs(static_cast<float>(torch_element)),
+                                       std::abs(static_cast<float>(kernel_element)));
+
+      // (Division durch 0 vermeiden)
+      if (groesserer_wert > 1e-10f)
+      {
+        float relativer_fehler = differenz / groesserer_wert;
+
+        // Prüfe ob das der bisher größte relative Fehler ist
+        if (relativer_fehler > max_rel_error)
+        {
+          max_rel_error = relativer_fehler;
+          torch_val = static_cast<float>(torch_element);
+          kernel_val = static_cast<float>(kernel_element);
+        }
+      }
+    }
+
+    std::cout << "-----------------------------------\n"
+              << "Element-wise relative error :\n"
+              << std::setw(25) << "Biggest relative error:" << max_rel_error << "\n"
+              << std::setw(25) << "Torch value at max error:" << torch_val << "\n"
+              << std::setw(25) << "Kernel value at max error:" << kernel_val << std::endl;
+  }
   // relative tolerance for allclose
   if (!at::allclose(l_ten_out_torch, l_ten_out, 1e-03))
   {
     std::cerr
         << "\n"
         << "error:" << "einsum_ir solution is not close to aten!\n\n"
-        << "acceptable relative error :" << std::setw(20) << "" << 1e-03 << "\n"
-        << "max difference   :" << std::setw(20) << "" << max_diff << std::endl;
+        << "acceptable relative error :" << std::setw(20) << "" << 1e-03 << std::endl;
   }
   else
   {
     std::cout
         << "\n"
         << "results are close\n\n"
-        << "acceptable relative error:" << std::setw(20) << "" << 1e-03 << "\n"
-        << "max difference  :" << std::setw(20) << "" << max_diff << std::endl;
+        << "acceptable relative error:" << std::setw(20) << "" << 1e-03 << std::endl;
   }
 
   /**
