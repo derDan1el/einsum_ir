@@ -26,8 +26,8 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
   std::chrono::steady_clock::time_point l_tp0, l_tp1;
   std::chrono::duration<double> l_dur;
   int64_t l_n_flops = 0;
-  int64_t l_repetitions = 10;
-  int64_t l_repetitions_warm_up = 10;
+  int64_t l_repetitions = 1;
+  int64_t l_repetitions_warm_up = 1;
   std::vector<int64_t> l_dim_ids_permute_left;
   std::vector<int64_t> l_dim_ids_permute_right;
   double l_time_compile = 0;
@@ -262,22 +262,22 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
       auto torch_element = torch_flat[i].item<at::BFloat16>();
       auto kernel_element = kernel_flat[i].item<at::BFloat16>();
 
-      // differenz berechnen
-      float differenz = std::abs(static_cast<float>(torch_element) - static_cast<float>(kernel_element));
 
-      // größeren Wert finden
-      float groesserer_wert = std::max(std::abs(static_cast<float>(torch_element)),
+      float difference = std::abs(static_cast<float>(torch_element) - static_cast<float>(kernel_element));
+
+
+      float bigger_val = std::max(std::abs(static_cast<float>(torch_element)),
                                        std::abs(static_cast<float>(kernel_element)));
 
       // (Division durch 0 vermeiden)
-      if (groesserer_wert > 1e-10f)
+      if (bigger_val > 1e-10f)
       {
-        float relativer_fehler = differenz / groesserer_wert;
+        float rel_error = difference / bigger_val;
 
         // Prüfe ob das der bisher größte relative Fehler ist
-        if (relativer_fehler > max_rel_error)
+        if (rel_error > max_rel_error)
         {
-          max_rel_error = relativer_fehler;
+          max_rel_error = rel_error;
           torch_val = static_cast<float>(torch_element);
           kernel_val = static_cast<float>(kernel_element);
         }
