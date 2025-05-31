@@ -10,25 +10,25 @@ fig, ax1 = plt.subplots(figsize=(14, 8))
 
 # Erste Y-Achse (links) für absolute Fehler
 color1 = '#e74c3c'  # Rot
-ax1.set_xlabel('K-Dimension', fontweight='bold', fontsize=12)
-ax1.set_ylabel('Max Absolute Error', color=color1, fontweight='bold', fontsize=12)
+ax1.set_xlabel('k-dimension size ', fontweight='bold', fontsize=12)
+ax1.set_ylabel('max. absolute error', color=color1, fontweight='bold', fontsize=12)
 line1 = ax1.plot(df['k_dimension'], df['max_absolute_error'], 
                  color=color1, linewidth=2.5, marker='o', markersize=4, 
-                 label='Absolute Error', alpha=0.8)
+                 label='max. absolute error', alpha=0.8)
 ax1.tick_params(axis='y', labelcolor=color1)
 ax1.grid(True, alpha=0.3)
 
 # Zweite Y-Achse (rechts) für relative Fehler
 ax2 = ax1.twinx()
 color2 = '#3498db'  # Blau
-ax2.set_ylabel('Max Relative Error', color=color2, fontweight='bold', fontsize=12)
+ax2.set_ylabel('max. relative error', color=color2, fontweight='bold', fontsize=12)
 line2 = ax2.plot(df['k_dimension'], df['max_relative_error'], 
                  color=color2, linewidth=2.5, marker='s', markersize=4,
-                 label='Relative Error', alpha=0.8)
+                 label='relative rrror', alpha=0.8)
 ax2.tick_params(axis='y', labelcolor=color2)
 
 # Titel
-plt.title('BF16 Rounding Error Analysis: km,nk->nm (M=N=128)\nAbsolute vs Relative Error Growth with K-Dimension', 
+plt.title('Numerical Divergence of PyTorch at::einsum and LIBXSMM Kernel Output of km,nk->nm', 
           fontweight='bold', fontsize=14, pad=20)
 
 # Legende kombinieren

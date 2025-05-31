@@ -59,43 +59,10 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
     l_n_flops *= l_dim_size;
   }
 
-  /*
-      auto f32_opts = at::TensorOptions().dtype(at::kFloat).device(at::kCPU);
-
-      // --- 2) Werte als 1D‐Liste (row-major) für a, b, c
-      std::vector<float> a_vals = {
-          1.0f, 0.5f, 0.2f, 0.1f,
-          0.0f, 0.3f, 0.7f, 0.9f,
-          1.0f, 1.0f, 0.5f, 0.5f,
-          0.2f, 0.2f, 0.8f, 0.4f};
-
-      std::vector<float> b_vals = {
-          0.1f, 0.2f, 0.3f, 0.4f,
-          0.5f, 0.6f, 0.7f, 0.8f,
-          0.9f, 1.0f, 0.1f, 0.2f,
-          0.3f, 0.4f, 0.5f, 0.6f};
-
-      // c (Output-Puffer mit festen Werten, wird vom Kernel überschrieben)
-      std::vector<float> c_vals = {
-          0.1f, 0.1f, 0.1f, 0.1f,
-          0.2f, 0.2f, 0.2f, 0.2f,
-          0.3f, 0.3f, 0.3f, 0.3f,
-          0.4f, 0.4f, 0.4f, 0.4f};
-
-      // --- 3) Erzeuge 1D-Tensoren und reshaped auf 4×4
-      at::Tensor tmp_a = at::tensor(a_vals, f32_opts).reshape({4, 4});
-      at::Tensor tmp_b = at::tensor(b_vals, f32_opts).reshape({4, 4});
-      at::Tensor tmp_c = at::tensor(c_vals, f32_opts).reshape({4, 4});
-
-      // --- 4) In BF16 casten (Inputs und Output-Puffer)
-      at::Tensor l_ten_left = tmp_a.to(at::kBFloat16);
-      at::Tensor l_ten_right = tmp_b.to(at::kBFloat16);
-      at::Tensor l_ten_out = tmp_c.to(l_dtype_out_at);
-  */
 
   at::Tensor l_ten_left = at::rand(at::IntArrayRef(l_sizes_left.data(), l_sizes_left.size()), i_dtype_at); // daniel: zufällige Werte [0,1]
   at::Tensor l_ten_right = at::rand(at::IntArrayRef(l_sizes_right.data(), l_sizes_right.size()), i_dtype_at);
-  at::Tensor l_ten_out = at::rand(at::IntArrayRef(l_sizes_out.data(), l_sizes_out.size()), i_dtype_at);
+  at::Tensor l_ten_out = at::ones(at::IntArrayRef(l_sizes_out.data(), l_sizes_out.size()), i_dtype_at);
   std::cout << "at::einsum:" << std::endl;
 
   at::Tensor l_ten_out_torch;
@@ -221,21 +188,6 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
   std::cout << "  time (contract): " << l_time << std::endl;
   std::cout << "  gflops: " << l_gflops << std::endl;
 
-  /*────────────────────────Ausgabe: ten out von kernel und dtype────────────────────────────────────────────────
-    // daniel : beginn den datentyp der tensoren verifizieren
-   std::cout << "Torch-Output DType:  "
-             << c10::toString(l_ten_out_torch.dtype())
-             << std::endl;
-   std::cout << "Kernel-Output DType: "
-             << c10::toString(l_ten_out.dtype())
-             << std::endl;
-
-   daniel : ende
-
-   std::cout << "JIT-Output (dtype="
-   << c10::toString(l_ten_out.dtype()) << "):\n"
-   << l_ten_out << std::endl;
-   ────────────────────────────────────────────────────────────────────────*/
 
   if (l_ten_out.dtype() == at::kBFloat16)
   {
@@ -307,58 +259,58 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
   }
 
   /**
-   * Matmul
-   **/
-  int64_t l_size_c = 1;
-  int64_t l_size_m = 1;
-  int64_t l_size_n = 1;
-  int64_t l_size_k = 1;
-
-  for (int64_t l_di = 0; l_di < l_bin_cont.m_num_dims_c; l_di++)
-  {
-    l_size_c *= l_bin_cont.m_sizes_c[l_di];
-  }
-  for (int64_t l_di = 0; l_di < l_bin_cont.m_num_dims_m; l_di++)
-  {
-    l_size_m *= l_bin_cont.m_sizes_m[l_di];
-  }
-  for (int64_t l_di = 0; l_di < l_bin_cont.m_num_dims_n; l_di++)
-  {
-    l_size_n *= l_bin_cont.m_sizes_n[l_di];
-  }
-  for (int64_t l_di = 0; l_di < l_bin_cont.m_num_dims_k; l_di++)
-  {
-    l_size_k *= l_bin_cont.m_sizes_k[l_di];
-  }
-
-  at::Tensor l_mat_a = at::rand({l_size_c, l_size_k, l_size_m});
-  at::Tensor l_mat_b = at::rand({l_size_c, l_size_n, l_size_k});
-  at::Tensor l_out_matmul;
-  std::cout << "at::matmul:" << std::endl;
-
-  // warm up
-  l_tp0 = std::chrono::steady_clock::now();
-  for (int64_t l_rep = 0; l_rep < l_repetitions_warm_up; l_rep++)
-  {
-    l_out_matmul = at::matmul(l_mat_b, l_mat_a);
-  }
-  l_tp1 = std::chrono::steady_clock::now();
-  l_dur = std::chrono::duration_cast<std::chrono::duration<double>>(l_tp1 - l_tp0);
-  l_repetitions = l_repetitions_warm_up / l_dur.count() + 1;
-
-  // run with repititions
-  l_tp0 = std::chrono::steady_clock::now();
-  for (int64_t l_rep = 0; l_rep < l_repetitions; l_rep++)
-  {
-    l_out_matmul = at::matmul(l_mat_b, l_mat_a);
-  }
-  l_tp1 = std::chrono::steady_clock::now();
-  l_dur = std::chrono::duration_cast<std::chrono::duration<double>>(l_tp1 - l_tp0);
-  l_time = l_dur.count() / l_repetitions;
-  l_gflops = 1.0E-9 * l_n_flops / l_time;
-
-  std::cout << "  time:   " << l_time << std::endl;
-  std::cout << "  gflops: " << l_gflops << std::endl;
+//   * Matmul
+//   **/
+//  int64_t l_size_c = 1;
+//  int64_t l_size_m = 1;
+//  int64_t l_size_n = 1;
+//  int64_t l_size_k = 1;
+//
+//  for (int64_t l_di = 0; l_di < l_bin_cont.m_num_dims_c; l_di++)
+//  {
+//    l_size_c *= l_bin_cont.m_sizes_c[l_di];
+//  }
+//  for (int64_t l_di = 0; l_di < l_bin_cont.m_num_dims_m; l_di++)
+//  {
+//    l_size_m *= l_bin_cont.m_sizes_m[l_di];
+//  }
+//  for (int64_t l_di = 0; l_di < l_bin_cont.m_num_dims_n; l_di++)
+//  {
+//    l_size_n *= l_bin_cont.m_sizes_n[l_di];
+//  }
+//  for (int64_t l_di = 0; l_di < l_bin_cont.m_num_dims_k; l_di++)
+//  {
+//    l_size_k *= l_bin_cont.m_sizes_k[l_di];
+//  }
+//
+//  at::Tensor l_mat_a = at::rand({l_size_c, l_size_k, l_size_m});
+//  at::Tensor l_mat_b = at::rand({l_size_c, l_size_n, l_size_k});
+//  at::Tensor l_out_matmul;
+//  std::cout << "at::matmul:" << std::endl;
+//
+//  // warm up
+//  l_tp0 = std::chrono::steady_clock::now();
+//  for (int64_t l_rep = 0; l_rep < l_repetitions_warm_up; l_rep++)
+//  {
+//    l_out_matmul = at::matmul(l_mat_b, l_mat_a);
+//  }
+//  l_tp1 = std::chrono::steady_clock::now();
+//  l_dur = std::chrono::duration_cast<std::chrono::duration<double>>(l_tp1 - l_tp0);
+//  l_repetitions = l_repetitions_warm_up / l_dur.count() + 1;
+//
+//  // run with repititions
+//  l_tp0 = std::chrono::steady_clock::now();
+//  for (int64_t l_rep = 0; l_rep < l_repetitions; l_rep++)
+//  {
+//    l_out_matmul = at::matmul(l_mat_b, l_mat_a);
+//  }
+//  l_tp1 = std::chrono::steady_clock::now();
+//  l_dur = std::chrono::duration_cast<std::chrono::duration<double>>(l_tp1 - l_tp0);
+//  l_time = l_dur.count() / l_repetitions;
+//  l_gflops = 1.0E-9 * l_n_flops / l_time;
+//
+//  std::cout << "  time:   " << l_time << std::endl;
+//  std::cout << "  gflops: " << l_gflops << std::endl;
 }
 
 int main(int i_argc,
@@ -386,7 +338,6 @@ int main(int i_argc,
    * parse expression string
    **/
   std::string l_expression_string_arg(i_argv[1]);
-  std::cout << "einsum string: " << l_expression_string_arg << " Daniel" << std::endl;
   std::string l_expression_string_std;
   std::string l_expression_string_schar;
 

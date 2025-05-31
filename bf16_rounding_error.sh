@@ -1,6 +1,9 @@
 #!/bin/bash
 # filepath: /home/daniel/einsum_ir/bf16_rounding_error.sh
 
+
+# Diese .sh datei führt tensorkontraktionen aus von der form  km,nk ->nm wobei alle dimension=128 groß sind
+# bis auf die k dimension. Ziel ist es absoluten und relativen Fehler zu analysieren bei steigenden k werten.
 output_file="bf16_error_analysis.csv"
 
 echo "k_dimension,max_absolute_error,max_relative_error" > "$output_file"

@@ -1,0 +1,3013 @@
+=== BF16 Error Analysis of 24 Einsum Expressions ===
+Started at: Fri May 30 10:42:40 PM CEST 2025
+=======================================================
+
+--- Test 1/24 ---
+Einsum: abdfe,cf->abcde
+Dimensions: 48,36,24,36,48,36
+Command: OMP_NUM_THREADS=144 /home/daniel/einsum_ir/build/bench_binary "abdfe,cf->abcde" "48,36,24,36,48,36" BF16
+
+running bench_binary!
+parsed tensors:
+  a,b,d,f,e
+  c,f
+  a,b,c,d,e
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+parsed dimension sizes:
+  a: 48
+  b: 36
+  c: 24
+  d: 36
+  e: 48
+  f: 36
+dtype: BF16
+at::einsum:
+  time (contract): 0.00747316
+  gflops: 690.442
+einsum_ir:
+[BP::init] i_data_type = 0, backend = 2
+o_dim_ids_mb[0] = 4
+o_dim_ids_nb[0] = 2
+o_dim_ids_kb[0] = 5
+Parameter                Wert           
+----------------------------------------
+i_primitive_blocking     0
+m_num_dims_left          5
+m_num_dims_right         2
+m_num_dims_out           5
+l_dim_ids_left_active    0
+                         1
+                         3
+                         5
+                         4
+l_dim_ids_right_active   2
+                         5
+m_dim_ids_out            0
+                         1
+                         2
+                         3
+                         4
+m_dim_sizes_inner        [0->48];[1->36];[2->24];[3->36];[4->48];[5->36]
+i_strides_left           nullptr
+i_strides_right          nullptr
+i_strides_out            nullptr
+l_dim_ids_cb             
+l_dim_ids_mb             4
+l_dim_ids_nb             2
+l_dim_ids_kb             5
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_strides_left           
+0                        ->2239488
+1                        ->62208
+3                        ->1728
+4                        ->1
+5                        ->48
+l_strides_right          
+2                        ->36
+5                        ->1
+l_strides_out            
+0                        ->1492992
+1                        ->41472
+2                        ->1728
+3                        ->48
+4                        ->1
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_dim_sizes              
+0                        ->48
+1                        ->36
+2                        ->24
+3                        ->36
+4                        ->48
+5                        ->36
+----------------------------------------
+
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffa5120000
+[DEBUG] GEMM shape: m=48 n=24 k=36 lda=48 ldb=36 ldc=1728
+[DEBUG] dim_types_out: 1 1 2 1 1 
+m_num_loops: 3
+JIT compile err: 0
+  time (compile): 0.000340434
+  time (contract): 0.0530418
+  gflops: 97.2777
+-----------------------------------
+max element torch :      16.125
+max element jit :        16.125
+max difference :          0
+-----------------------------------
+Element-wise relative error :
+Biggest relative error:  0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+EXTRACTED VALUES:
+  Max element torch: 16.125
+  Max element jit: 16.125
+  Max difference: 0
+  Biggest relative error: 0
+
+=================================================================
+
+--- Test 2/24 ---
+Einsum: acdfe,bf->abcde
+Dimensions: 48,24,36,36,48,36
+Command: OMP_NUM_THREADS=144 /home/daniel/einsum_ir/build/bench_binary "acdfe,bf->abcde" "48,24,36,36,48,36" BF16
+
+running bench_binary!
+parsed tensors:
+  a,c,d,f,e
+  b,f
+  a,b,c,d,e
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+parsed dimension sizes:
+  a: 48
+  b: 24
+  c: 36
+  d: 36
+  e: 48
+  f: 36
+dtype: BF16
+at::einsum:
+  time (contract): 0.00726818
+  gflops: 709.914
+einsum_ir:
+[BP::init] i_data_type = 0, backend = 2
+o_dim_ids_mb[0] = 4
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 5
+Parameter                Wert           
+----------------------------------------
+i_primitive_blocking     0
+m_num_dims_left          5
+m_num_dims_right         2
+m_num_dims_out           5
+l_dim_ids_left_active    0
+                         2
+                         3
+                         5
+                         4
+l_dim_ids_right_active   1
+                         5
+m_dim_ids_out            0
+                         1
+                         2
+                         3
+                         4
+m_dim_sizes_inner        [0->48];[1->24];[2->36];[3->36];[4->48];[5->36]
+i_strides_left           nullptr
+i_strides_right          nullptr
+i_strides_out            nullptr
+l_dim_ids_cb             
+l_dim_ids_mb             4
+l_dim_ids_nb             1
+l_dim_ids_kb             5
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_strides_left           
+0                        ->2239488
+2                        ->62208
+3                        ->1728
+4                        ->1
+5                        ->48
+l_strides_right          
+1                        ->36
+5                        ->1
+l_strides_out            
+0                        ->1492992
+1                        ->62208
+2                        ->1728
+3                        ->48
+4                        ->1
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_dim_sizes              
+0                        ->48
+1                        ->24
+2                        ->36
+3                        ->36
+4                        ->48
+5                        ->36
+----------------------------------------
+
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffa574d000
+[DEBUG] GEMM shape: m=48 n=24 k=36 lda=48 ldb=36 ldc=62208
+[DEBUG] dim_types_out: 1 2 1 1 1 
+m_num_loops: 3
+JIT compile err: 0
+  time (compile): 0.000361458
+  time (contract): 0.0523386
+  gflops: 98.5846
+-----------------------------------
+max element torch :      15.4375
+max element jit :        15.4375
+max difference :          0
+-----------------------------------
+Element-wise relative error :
+Biggest relative error:  0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+EXTRACTED VALUES:
+  Max element torch: 15.4375
+  Max element jit: 15.4375
+  Max difference: 0
+  Biggest relative error: 0
+
+=================================================================
+
+--- Test 3/24 ---
+Einsum: abed,ce->abcd
+Dimensions: 96,84,24,96,96
+Command: OMP_NUM_THREADS=144 /home/daniel/einsum_ir/build/bench_binary "abed,ce->abcd" "96,84,24,96,96" BF16
+
+running bench_binary!
+parsed tensors:
+  a,b,e,d
+  c,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 24
+  d: 96
+  e: 96
+dtype: BF16
+at::einsum:
+  time (contract): 0.00555207
+  gflops: 642.509
+einsum_ir:
+[BP::init] i_data_type = 0, backend = 2
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 2
+o_dim_ids_kb[0] = 4
+Parameter                Wert           
+----------------------------------------
+i_primitive_blocking     0
+m_num_dims_left          4
+m_num_dims_right         2
+m_num_dims_out           4
+l_dim_ids_left_active    0
+                         1
+                         4
+                         3
+l_dim_ids_right_active   2
+                         4
+m_dim_ids_out            0
+                         1
+                         2
+                         3
+m_dim_sizes_inner        [0->96];[1->84];[2->24];[3->96];[4->96]
+i_strides_left           nullptr
+i_strides_right          nullptr
+i_strides_out            nullptr
+l_dim_ids_cb             
+l_dim_ids_mb             3
+l_dim_ids_nb             2
+l_dim_ids_kb             4
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_strides_left           
+0                        ->774144
+1                        ->9216
+3                        ->1
+4                        ->96
+l_strides_right          
+2                        ->96
+4                        ->1
+l_strides_out            
+0                        ->193536
+1                        ->2304
+2                        ->96
+3                        ->1
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_dim_sizes              
+0                        ->96
+1                        ->84
+2                        ->24
+3                        ->96
+4                        ->96
+----------------------------------------
+
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffbf0b3000
+[DEBUG] GEMM shape: m=96 n=24 k=96 lda=96 ldb=96 ldc=96
+[DEBUG] dim_types_out: 1 1 2 1 
+m_num_loops: 2
+JIT compile err: 0
+  time (compile): 0.00053713
+  time (contract): 0.032955
+  gflops: 108.246
+-----------------------------------
+max element torch :      34.75
+max element jit :        34.75
+max difference :          0
+-----------------------------------
+Element-wise relative error :
+Biggest relative error:  0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+EXTRACTED VALUES:
+  Max element torch: 34.75
+  Max element jit: 34.75
+  Max difference: 0
+  Biggest relative error: 0
+
+=================================================================
+
+--- Test 4/24 ---
+Einsum: abcfe,df->abcde
+Dimensions: 48,36,36,24,48,48
+Command: OMP_NUM_THREADS=144 /home/daniel/einsum_ir/build/bench_binary "abcfe,df->abcde" "48,36,36,24,48,48" BF16
+
+running bench_binary!
+parsed tensors:
+  a,b,c,f,e
+  d,f
+  a,b,c,d,e
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+parsed dimension sizes:
+  a: 48
+  b: 36
+  c: 36
+  d: 24
+  e: 48
+  f: 48
+dtype: BF16
+at::einsum:
+  time (contract): 0.00830624
+  gflops: 828.258
+einsum_ir:
+[BP::init] i_data_type = 0, backend = 2
+o_dim_ids_mb[0] = 4
+o_dim_ids_nb[0] = 3
+o_dim_ids_kb[0] = 5
+Parameter                Wert           
+----------------------------------------
+i_primitive_blocking     0
+m_num_dims_left          5
+m_num_dims_right         2
+m_num_dims_out           5
+l_dim_ids_left_active    0
+                         1
+                         2
+                         5
+                         4
+l_dim_ids_right_active   3
+                         5
+m_dim_ids_out            0
+                         1
+                         2
+                         3
+                         4
+m_dim_sizes_inner        [0->48];[1->36];[2->36];[3->24];[4->48];[5->48]
+i_strides_left           nullptr
+i_strides_right          nullptr
+i_strides_out            nullptr
+l_dim_ids_cb             
+l_dim_ids_mb             4
+l_dim_ids_nb             3
+l_dim_ids_kb             5
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_strides_left           
+0                        ->2985984
+1                        ->82944
+2                        ->2304
+4                        ->1
+5                        ->48
+l_strides_right          
+3                        ->48
+5                        ->1
+l_strides_out            
+0                        ->1492992
+1                        ->41472
+2                        ->1152
+3                        ->48
+4                        ->1
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_dim_sizes              
+0                        ->48
+1                        ->36
+2                        ->36
+3                        ->24
+4                        ->48
+5                        ->48
+----------------------------------------
+
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff979ff000
+[DEBUG] GEMM shape: m=48 n=24 k=48 lda=48 ldb=48 ldc=48
+[DEBUG] dim_types_out: 1 1 1 2 1 
+m_num_loops: 3
+JIT compile err: 0
+  time (compile): 0.000562185
+  time (contract): 0.0829493
+  gflops: 82.9387
+-----------------------------------
+max element torch :      19.625
+max element jit :        19.625
+max difference :          0
+-----------------------------------
+Element-wise relative error :
+Biggest relative error:  0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+EXTRACTED VALUES:
+  Max element torch: 19.625
+  Max element jit: 19.625
+  Max difference: 0
+  Biggest relative error: 0
+
+=================================================================
+
+--- Test 5/24 ---
+Einsum: aced,be->abcd
+Dimensions: 96,24,84,96,84
+Command: OMP_NUM_THREADS=144 /home/daniel/einsum_ir/build/bench_binary "aced,be->abcd" "96,24,84,96,84" BF16
+
+running bench_binary!
+parsed tensors:
+  a,c,e,d
+  b,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 24
+  c: 84
+  d: 96
+  e: 84
+dtype: BF16
+at::einsum:
+  time (contract): 0.00467404
+  gflops: 667.806
+einsum_ir:
+[BP::init] i_data_type = 0, backend = 2
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 4
+Parameter                Wert           
+----------------------------------------
+i_primitive_blocking     0
+m_num_dims_left          4
+m_num_dims_right         2
+m_num_dims_out           4
+l_dim_ids_left_active    0
+                         2
+                         4
+                         3
+l_dim_ids_right_active   1
+                         4
+m_dim_ids_out            0
+                         1
+                         2
+                         3
+m_dim_sizes_inner        [0->96];[1->24];[2->84];[3->96];[4->84]
+i_strides_left           nullptr
+i_strides_right          nullptr
+i_strides_out            nullptr
+l_dim_ids_cb             
+l_dim_ids_mb             3
+l_dim_ids_nb             1
+l_dim_ids_kb             4
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_strides_left           
+0                        ->677376
+2                        ->8064
+3                        ->1
+4                        ->96
+l_strides_right          
+1                        ->84
+4                        ->1
+l_strides_out            
+0                        ->193536
+1                        ->8064
+2                        ->96
+3                        ->1
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_dim_sizes              
+0                        ->96
+1                        ->24
+2                        ->84
+3                        ->96
+4                        ->84
+----------------------------------------
+
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffa1055000
+[DEBUG] GEMM shape: m=96 n=24 k=84 lda=96 ldb=84 ldc=8064
+[DEBUG] dim_types_out: 1 2 1 1 
+m_num_loops: 2
+JIT compile err: 0
+  time (compile): 0.000541418
+  time (contract): 0.0304248
+  gflops: 102.592
+-----------------------------------
+max element torch :      29.75
+max element jit :        29.75
+max difference :          0
+-----------------------------------
+Element-wise relative error :
+Biggest relative error:  0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+EXTRACTED VALUES:
+  Max element torch: 29.75
+  Max element jit: 29.75
+  Max difference: 0
+  Biggest relative error: 0
+
+=================================================================
+
+--- Test 6/24 ---
+Einsum: jki,efghjk->efghi
+Dimensions: 6,64,6,64,24,6,64
+Command: OMP_NUM_THREADS=144 /home/daniel/einsum_ir/build/bench_binary "jki,efghjk->efghi" "6,64,6,64,24,6,64" BF16
+
+running bench_binary!
+parsed tensors:
+  j,k,i
+  e,f,g,h,j,k
+  e,f,g,h,i
+parsed dimension ids:
+  e: 0
+  f: 1
+  g: 2
+  h: 3
+  i: 4
+  j: 5
+  k: 6
+parsed dimension sizes:
+  e: 6
+  f: 64
+  g: 6
+  h: 64
+  i: 24
+  j: 6
+  k: 64
+dtype: BF16
+at::einsum:
+  time (contract): 0.0208285
+  gflops: 130.49
+einsum_ir:
+[BP::init] i_data_type = 0, backend = 2
+o_dim_ids_mb[0] = 4
+o_dim_ids_nb[0] = 3
+o_dim_ids_kb[0] = 5
+o_dim_ids_kb[1] = 6
+Parameter                Wert           
+----------------------------------------
+i_primitive_blocking     0
+m_num_dims_left          3
+m_num_dims_right         6
+m_num_dims_out           5
+l_dim_ids_left_active    5
+                         6
+                         4
+l_dim_ids_right_active   0
+                         1
+                         2
+                         3
+                         5
+                         6
+m_dim_ids_out            0
+                         1
+                         2
+                         3
+                         4
+m_dim_sizes_inner        [0->6];[1->64];[2->6];[3->64];[4->24];[5->6];[6->64]
+i_strides_left           nullptr
+i_strides_right          nullptr
+i_strides_out            nullptr
+l_dim_ids_cb             
+l_dim_ids_mb             4
+l_dim_ids_nb             3
+l_dim_ids_kb             5,6
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_strides_left           
+4                        ->1
+5                        ->1536
+6                        ->24
+l_strides_right          
+0                        ->9437184
+1                        ->147456
+2                        ->24576
+3                        ->384
+5                        ->64
+6                        ->1
+l_strides_out            
+0                        ->589824
+1                        ->9216
+2                        ->1536
+3                        ->24
+4                        ->1
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_dim_sizes              
+0                        ->6
+1                        ->64
+2                        ->6
+3                        ->64
+4                        ->24
+5                        ->6
+6                        ->64
+----------------------------------------
+
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff88a83000
+[DEBUG] GEMM shape: m=24 n=64 k=384 lda=24 ldb=384 ldc=24
+[DEBUG] dim_types_out: 2 2 2 2 1 
+m_num_loops: 3
+JIT compile err: 0
+  time (compile): 0.00045483
+  time (contract): 0.016578
+  gflops: 163.946
+-----------------------------------
+max element torch :      114
+max element jit :        114
+max difference :          0
+-----------------------------------
+Element-wise relative error :
+Biggest relative error:  0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+EXTRACTED VALUES:
+  Max element torch: 114
+  Max element jit: 114
+  Max difference: 0
+  Biggest relative error: 0
+
+=================================================================
+
+--- Test 7/24 ---
+Einsum: abed,ce->abcd
+Dimensions: 96,84,24,84,96
+Command: OMP_NUM_THREADS=144 /home/daniel/einsum_ir/build/bench_binary "abed,ce->abcd" "96,84,24,84,96" BF16
+
+running bench_binary!
+parsed tensors:
+  a,b,e,d
+  c,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 24
+  d: 84
+  e: 96
+dtype: BF16
+at::einsum:
+  time (contract): 0.00533061
+  gflops: 585.552
+einsum_ir:
+[BP::init] i_data_type = 0, backend = 2
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 2
+o_dim_ids_kb[0] = 4
+Parameter                Wert           
+----------------------------------------
+i_primitive_blocking     0
+m_num_dims_left          4
+m_num_dims_right         2
+m_num_dims_out           4
+l_dim_ids_left_active    0
+                         1
+                         4
+                         3
+l_dim_ids_right_active   2
+                         4
+m_dim_ids_out            0
+                         1
+                         2
+                         3
+m_dim_sizes_inner        [0->96];[1->84];[2->24];[3->84];[4->96]
+i_strides_left           nullptr
+i_strides_right          nullptr
+i_strides_out            nullptr
+l_dim_ids_cb             
+l_dim_ids_mb             3
+l_dim_ids_nb             2
+l_dim_ids_kb             4
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_strides_left           
+0                        ->677376
+1                        ->8064
+3                        ->1
+4                        ->84
+l_strides_right          
+2                        ->96
+4                        ->1
+l_strides_out            
+0                        ->169344
+1                        ->2016
+2                        ->84
+3                        ->1
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_dim_sizes              
+0                        ->96
+1                        ->84
+2                        ->24
+3                        ->84
+4                        ->96
+----------------------------------------
+
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff8e511000
+[DEBUG] GEMM shape: m=84 n=24 k=96 lda=84 ldb=96 ldc=84
+[DEBUG] dim_types_out: 1 1 2 1 
+m_num_loops: 2
+JIT compile err: 0
+  time (compile): 0.000324978
+  time (contract): 0.0372092
+  gflops: 83.8865
+-----------------------------------
+max element torch :      34.5
+max element jit :        34.5
+max difference :          0
+-----------------------------------
+Element-wise relative error :
+Biggest relative error:  0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+EXTRACTED VALUES:
+  Max element torch: 34.5
+  Max element jit: 34.5
+  Max difference: 0
+  Biggest relative error: 0
+
+=================================================================
+
+--- Test 8/24 ---
+Einsum: bcgf,adeg->abcdef
+Dimensions: 24,20,20,24,20,20,24
+Command: OMP_NUM_THREADS=144 /home/daniel/einsum_ir/build/bench_binary "bcgf,adeg->abcdef" "24,20,20,24,20,20,24" BF16
+
+running bench_binary!
+parsed tensors:
+  b,c,g,f
+  a,d,e,g
+  a,b,c,d,e,f
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+  g: 6
+parsed dimension sizes:
+  a: 24
+  b: 20
+  c: 20
+  d: 24
+  e: 20
+  f: 20
+  g: 24
+dtype: BF16
+at::einsum:
+  time (contract): 0.00395605
+  gflops: 1118.21
+einsum_ir:
+[BP::init] i_data_type = 0, backend = 2
+o_dim_ids_mb[0] = 5
+o_dim_ids_nb[0] = 4
+o_dim_ids_kb[0] = 6
+Parameter                Wert           
+----------------------------------------
+i_primitive_blocking     0
+m_num_dims_left          4
+m_num_dims_right         4
+m_num_dims_out           6
+l_dim_ids_left_active    1
+                         2
+                         6
+                         5
+l_dim_ids_right_active   0
+                         3
+                         4
+                         6
+m_dim_ids_out            0
+                         1
+                         2
+                         3
+                         4
+                         5
+m_dim_sizes_inner        [0->24];[1->20];[2->20];[3->24];[4->20];[5->20];[6->24]
+i_strides_left           nullptr
+i_strides_right          nullptr
+i_strides_out            nullptr
+l_dim_ids_cb             
+l_dim_ids_mb             5
+l_dim_ids_nb             4
+l_dim_ids_kb             6
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_strides_left           
+1                        ->9600
+2                        ->480
+5                        ->1
+6                        ->20
+l_strides_right          
+0                        ->11520
+3                        ->480
+4                        ->24
+6                        ->1
+l_strides_out            
+0                        ->3840000
+1                        ->192000
+2                        ->9600
+3                        ->400
+4                        ->20
+5                        ->1
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_dim_sizes              
+0                        ->24
+1                        ->20
+2                        ->20
+3                        ->24
+4                        ->20
+5                        ->20
+6                        ->24
+----------------------------------------
+
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffa1aa6000
+[DEBUG] GEMM shape: m=20 n=20 k=24 lda=20 ldb=24 ldc=20
+[DEBUG] dim_types_out: 2 1 1 2 2 1 
+m_num_loops: 4
+JIT compile err: 0
+  time (compile): 0.000569032
+  time (contract): 0.0958834
+  gflops: 46.136
+-----------------------------------
+max element torch :      12.5
+max element jit :        12.5
+max difference :          0
+-----------------------------------
+Element-wise relative error :
+Biggest relative error:  0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+EXTRACTED VALUES:
+  Max element torch: 12.5
+  Max element jit: 12.5
+  Max difference: 0
+  Biggest relative error: 0
+
+=================================================================
+
+--- Test 9/24 ---
+Einsum: bdgf,aceg->abcdef
+Dimensions: 24,20,20,24,20,20,24
+Command: OMP_NUM_THREADS=144 /home/daniel/einsum_ir/build/bench_binary "bdgf,aceg->abcdef" "24,20,20,24,20,20,24" BF16
+
+running bench_binary!
+parsed tensors:
+  b,d,g,f
+  a,c,e,g
+  a,b,c,d,e,f
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+  g: 6
+parsed dimension sizes:
+  a: 24
+  b: 20
+  c: 20
+  d: 24
+  e: 20
+  f: 20
+  g: 24
+dtype: BF16
+at::einsum:
+  time (contract): 0.00471731
+  gflops: 937.756
+einsum_ir:
+[BP::init] i_data_type = 0, backend = 2
+o_dim_ids_mb[0] = 5
+o_dim_ids_nb[0] = 4
+o_dim_ids_kb[0] = 6
+Parameter                Wert           
+----------------------------------------
+i_primitive_blocking     0
+m_num_dims_left          4
+m_num_dims_right         4
+m_num_dims_out           6
+l_dim_ids_left_active    1
+                         3
+                         6
+                         5
+l_dim_ids_right_active   0
+                         2
+                         4
+                         6
+m_dim_ids_out            0
+                         1
+                         2
+                         3
+                         4
+                         5
+m_dim_sizes_inner        [0->24];[1->20];[2->20];[3->24];[4->20];[5->20];[6->24]
+i_strides_left           nullptr
+i_strides_right          nullptr
+i_strides_out            nullptr
+l_dim_ids_cb             
+l_dim_ids_mb             5
+l_dim_ids_nb             4
+l_dim_ids_kb             6
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_strides_left           
+1                        ->11520
+3                        ->480
+5                        ->1
+6                        ->20
+l_strides_right          
+0                        ->9600
+2                        ->480
+4                        ->24
+6                        ->1
+l_strides_out            
+0                        ->3840000
+1                        ->192000
+2                        ->9600
+3                        ->400
+4                        ->20
+5                        ->1
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_dim_sizes              
+0                        ->24
+1                        ->20
+2                        ->20
+3                        ->24
+4                        ->20
+5                        ->20
+6                        ->24
+----------------------------------------
+
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff91379000
+[DEBUG] GEMM shape: m=20 n=20 k=24 lda=20 ldb=24 ldc=20
+[DEBUG] dim_types_out: 2 1 2 1 2 1 
+m_num_loops: 4
+JIT compile err: 0
+  time (compile): 0.000532554
+  time (contract): 0.0889608
+  gflops: 49.7262
+-----------------------------------
+max element torch :      12.5625
+max element jit :        12.5625
+max difference :          0
+-----------------------------------
+Element-wise relative error :
+Biggest relative error:  0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+EXTRACTED VALUES:
+  Max element torch: 12.5625
+  Max element jit: 12.5625
+  Max difference: 0
+  Biggest relative error: 0
+
+=================================================================
+
+--- Test 10/24 ---
+Einsum: acgf,bdeg->abcdef
+Dimensions: 24,20,20,24,20,20,24
+Command: OMP_NUM_THREADS=144 /home/daniel/einsum_ir/build/bench_binary "acgf,bdeg->abcdef" "24,20,20,24,20,20,24" BF16
+
+running bench_binary!
+parsed tensors:
+  a,c,g,f
+  b,d,e,g
+  a,b,c,d,e,f
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+  g: 6
+parsed dimension sizes:
+  a: 24
+  b: 20
+  c: 20
+  d: 24
+  e: 20
+  f: 20
+  g: 24
+dtype: BF16
+at::einsum:
+  time (contract): 0.00504644
+  gflops: 876.594
+einsum_ir:
+[BP::init] i_data_type = 0, backend = 2
+o_dim_ids_mb[0] = 5
+o_dim_ids_nb[0] = 4
+o_dim_ids_kb[0] = 6
+Parameter                Wert           
+----------------------------------------
+i_primitive_blocking     0
+m_num_dims_left          4
+m_num_dims_right         4
+m_num_dims_out           6
+l_dim_ids_left_active    0
+                         2
+                         6
+                         5
+l_dim_ids_right_active   1
+                         3
+                         4
+                         6
+m_dim_ids_out            0
+                         1
+                         2
+                         3
+                         4
+                         5
+m_dim_sizes_inner        [0->24];[1->20];[2->20];[3->24];[4->20];[5->20];[6->24]
+i_strides_left           nullptr
+i_strides_right          nullptr
+i_strides_out            nullptr
+l_dim_ids_cb             
+l_dim_ids_mb             5
+l_dim_ids_nb             4
+l_dim_ids_kb             6
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_strides_left           
+0                        ->9600
+2                        ->480
+5                        ->1
+6                        ->20
+l_strides_right          
+1                        ->11520
+3                        ->480
+4                        ->24
+6                        ->1
+l_strides_out            
+0                        ->3840000
+1                        ->192000
+2                        ->9600
+3                        ->400
+4                        ->20
+5                        ->1
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_dim_sizes              
+0                        ->24
+1                        ->20
+2                        ->20
+3                        ->24
+4                        ->20
+5                        ->20
+6                        ->24
+----------------------------------------
+
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff89293000
+[DEBUG] GEMM shape: m=20 n=20 k=24 lda=20 ldb=24 ldc=20
+[DEBUG] dim_types_out: 1 2 1 2 2 1 
+m_num_loops: 4
+JIT compile err: 0
+  time (compile): 0.000363345
+  time (contract): 0.0851199
+  gflops: 51.97
+-----------------------------------
+max element torch :      12.875
+max element jit :        12.875
+max difference :          0
+-----------------------------------
+Element-wise relative error :
+Biggest relative error:  0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+EXTRACTED VALUES:
+  Max element torch: 12.875
+  Max element jit: 12.875
+  Max difference: 0
+  Biggest relative error: 0
+
+=================================================================
+
+--- Test 11/24 ---
+Einsum: abgf,cdeg->abcdef
+Dimensions: 24,20,20,24,20,20,24
+Command: OMP_NUM_THREADS=144 /home/daniel/einsum_ir/build/bench_binary "abgf,cdeg->abcdef" "24,20,20,24,20,20,24" BF16
+
+running bench_binary!
+parsed tensors:
+  a,b,g,f
+  c,d,e,g
+  a,b,c,d,e,f
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+  g: 6
+parsed dimension sizes:
+  a: 24
+  b: 20
+  c: 20
+  d: 24
+  e: 20
+  f: 20
+  g: 24
+dtype: BF16
+at::einsum:
+  time (contract): 0.00457075
+  gflops: 967.824
+einsum_ir:
+[BP::init] i_data_type = 0, backend = 2
+o_dim_ids_mb[0] = 5
+o_dim_ids_nb[0] = 4
+o_dim_ids_kb[0] = 6
+Parameter                Wert           
+----------------------------------------
+i_primitive_blocking     0
+m_num_dims_left          4
+m_num_dims_right         4
+m_num_dims_out           6
+l_dim_ids_left_active    0
+                         1
+                         6
+                         5
+l_dim_ids_right_active   2
+                         3
+                         4
+                         6
+m_dim_ids_out            0
+                         1
+                         2
+                         3
+                         4
+                         5
+m_dim_sizes_inner        [0->24];[1->20];[2->20];[3->24];[4->20];[5->20];[6->24]
+i_strides_left           nullptr
+i_strides_right          nullptr
+i_strides_out            nullptr
+l_dim_ids_cb             
+l_dim_ids_mb             5
+l_dim_ids_nb             4
+l_dim_ids_kb             6
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_strides_left           
+0                        ->9600
+1                        ->480
+5                        ->1
+6                        ->20
+l_strides_right          
+2                        ->11520
+3                        ->480
+4                        ->24
+6                        ->1
+l_strides_out            
+0                        ->3840000
+1                        ->192000
+2                        ->9600
+3                        ->400
+4                        ->20
+5                        ->1
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_dim_sizes              
+0                        ->24
+1                        ->20
+2                        ->20
+3                        ->24
+4                        ->20
+5                        ->20
+6                        ->24
+----------------------------------------
+
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffad3ee000
+[DEBUG] GEMM shape: m=20 n=20 k=24 lda=20 ldb=24 ldc=20
+[DEBUG] dim_types_out: 1 1 2 2 2 1 
+m_num_loops: 4
+JIT compile err: 0
+  time (compile): 0.000372657
+  time (contract): 0.0837638
+  gflops: 52.8114
+-----------------------------------
+max element torch :      12.75
+max element jit :        12.75
+max difference :          0
+-----------------------------------
+Element-wise relative error :
+Biggest relative error:  0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+EXTRACTED VALUES:
+  Max element torch: 12.75
+  Max element jit: 12.75
+  Max difference: 0
+  Biggest relative error: 0
+
+=================================================================
+
+--- Test 12/24 ---
+Einsum: efhjki,gjk->efghi
+Dimensions: 6,64,24,4,94,6,64
+Command: OMP_NUM_THREADS=144 /home/daniel/einsum_ir/build/bench_binary "efhjki,gjk->efghi" "6,64,24,4,94,6,64" BF16
+
+running bench_binary!
+parsed tensors:
+  e,f,h,j,k,i
+  g,j,k
+  e,f,g,h,i
+parsed dimension ids:
+  e: 0
+  f: 1
+  g: 2
+  h: 3
+  i: 4
+  j: 5
+  k: 6
+parsed dimension sizes:
+  e: 6
+  f: 64
+  g: 24
+  h: 4
+  i: 94
+  j: 6
+  k: 64
+dtype: BF16
+at::einsum:
+  time (contract): 0.00405648
+  gflops: 656.057
+einsum_ir:
+[BP::init] i_data_type = 0, backend = 2
+o_dim_ids_mb[0] = 4
+o_dim_ids_nb[0] = 2
+o_dim_ids_kb[0] = 5
+o_dim_ids_kb[1] = 6
+Parameter                Wert           
+----------------------------------------
+i_primitive_blocking     0
+m_num_dims_left          6
+m_num_dims_right         3
+m_num_dims_out           5
+l_dim_ids_left_active    0
+                         1
+                         3
+                         5
+                         6
+                         4
+l_dim_ids_right_active   2
+                         5
+                         6
+m_dim_ids_out            0
+                         1
+                         2
+                         3
+                         4
+m_dim_sizes_inner        [0->6];[1->64];[2->24];[3->4];[4->94];[5->6];[6->64]
+i_strides_left           nullptr
+i_strides_right          nullptr
+i_strides_out            nullptr
+l_dim_ids_cb             
+l_dim_ids_mb             4
+l_dim_ids_nb             2
+l_dim_ids_kb             5,6
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_strides_left           
+0                        ->9240576
+1                        ->144384
+3                        ->36096
+4                        ->1
+5                        ->6016
+6                        ->94
+l_strides_right          
+2                        ->384
+5                        ->64
+6                        ->1
+l_strides_out            
+0                        ->577536
+1                        ->9024
+2                        ->376
+3                        ->94
+4                        ->1
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_dim_sizes              
+0                        ->6
+1                        ->64
+2                        ->24
+3                        ->4
+4                        ->94
+5                        ->6
+6                        ->64
+----------------------------------------
+
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff976d0000
+[DEBUG] GEMM shape: m=94 n=24 k=384 lda=94 ldb=384 ldc=376
+[DEBUG] dim_types_out: 1 1 2 1 1 
+m_num_loops: 3
+JIT compile err: 0
+  time (compile): 0.000531883
+  time (contract): 0.0290119
+  gflops: 91.7307
+-----------------------------------
+max element torch :      116.5
+max element jit :        116.5
+max difference :          0
+-----------------------------------
+Element-wise relative error :
+Biggest relative error:  0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+EXTRACTED VALUES:
+  Max element torch: 116.5
+  Max element jit: 116.5
+  Max difference: 0
+  Biggest relative error: 0
+
+=================================================================
+
+--- Test 13/24 ---
+Einsum: bced,ae->abcd
+Dimensions: 96,84,84,84,96
+Command: OMP_NUM_THREADS=144 /home/daniel/einsum_ir/build/bench_binary "bced,ae->abcd" "96,84,84,84,96" BF16
+
+running bench_binary!
+parsed tensors:
+  b,c,e,d
+  a,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 84
+  e: 96
+dtype: BF16
+at::einsum:
+  time (contract): 0.00568138
+  gflops: 1922.9
+einsum_ir:
+[BP::init] i_data_type = 0, backend = 2
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 0
+o_dim_ids_kb[0] = 4
+Parameter                Wert           
+----------------------------------------
+i_primitive_blocking     0
+m_num_dims_left          4
+m_num_dims_right         2
+m_num_dims_out           4
+l_dim_ids_left_active    1
+                         2
+                         4
+                         3
+l_dim_ids_right_active   0
+                         4
+m_dim_ids_out            0
+                         1
+                         2
+                         3
+m_dim_sizes_inner        [0->96];[1->84];[2->84];[3->84];[4->96]
+i_strides_left           nullptr
+i_strides_right          nullptr
+i_strides_out            nullptr
+l_dim_ids_cb             
+l_dim_ids_mb             3
+l_dim_ids_nb             0
+l_dim_ids_kb             4
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_strides_left           
+1                        ->677376
+2                        ->8064
+3                        ->1
+4                        ->84
+l_strides_right          
+0                        ->96
+4                        ->1
+l_strides_out            
+0                        ->592704
+1                        ->7056
+2                        ->84
+3                        ->1
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_dim_sizes              
+0                        ->96
+1                        ->84
+2                        ->84
+3                        ->84
+4                        ->96
+----------------------------------------
+
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff8ffc2000
+[DEBUG] GEMM shape: m=84 n=96 k=96 lda=84 ldb=96 ldc=592704
+[DEBUG] dim_types_out: 2 1 1 1 
+m_num_loops: 2
+JIT compile err: 0
+  time (compile): 0.000529642
+  time (contract): 0.082366
+  gflops: 132.636
+-----------------------------------
+max element torch :      35.75
+max element jit :        35.75
+max difference :          0
+-----------------------------------
+Element-wise relative error :
+Biggest relative error:  0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+EXTRACTED VALUES:
+  Max element torch: 35.75
+  Max element jit: 35.75
+  Max difference: 0
+  Biggest relative error: 0
+
+=================================================================
+
+--- Test 14/24 ---
+Einsum: aced,be->abcd
+Dimensions: 96,84,84,84,96
+Command: OMP_NUM_THREADS=144 /home/daniel/einsum_ir/build/bench_binary "aced,be->abcd" "96,84,84,84,96" BF16
+
+running bench_binary!
+parsed tensors:
+  a,c,e,d
+  b,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 84
+  e: 96
+dtype: BF16
+at::einsum:
+  time (contract): 0.00572375
+  gflops: 1908.66
+einsum_ir:
+[BP::init] i_data_type = 0, backend = 2
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 4
+Parameter                Wert           
+----------------------------------------
+i_primitive_blocking     0
+m_num_dims_left          4
+m_num_dims_right         2
+m_num_dims_out           4
+l_dim_ids_left_active    0
+                         2
+                         4
+                         3
+l_dim_ids_right_active   1
+                         4
+m_dim_ids_out            0
+                         1
+                         2
+                         3
+m_dim_sizes_inner        [0->96];[1->84];[2->84];[3->84];[4->96]
+i_strides_left           nullptr
+i_strides_right          nullptr
+i_strides_out            nullptr
+l_dim_ids_cb             
+l_dim_ids_mb             3
+l_dim_ids_nb             1
+l_dim_ids_kb             4
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_strides_left           
+0                        ->677376
+2                        ->8064
+3                        ->1
+4                        ->84
+l_strides_right          
+1                        ->96
+4                        ->1
+l_strides_out            
+0                        ->592704
+1                        ->7056
+2                        ->84
+3                        ->1
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_dim_sizes              
+0                        ->96
+1                        ->84
+2                        ->84
+3                        ->84
+4                        ->96
+----------------------------------------
+
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff98d7c000
+[DEBUG] GEMM shape: m=84 n=84 k=96 lda=84 ldb=96 ldc=7056
+[DEBUG] dim_types_out: 1 2 1 1 
+m_num_loops: 2
+JIT compile err: 0
+  time (compile): 0.00035557
+  time (contract): 0.0783171
+  gflops: 139.493
+-----------------------------------
+max element torch :      34
+max element jit :        34
+max difference :          0
+-----------------------------------
+Element-wise relative error :
+Biggest relative error:  0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+EXTRACTED VALUES:
+  Max element torch: 34
+  Max element jit: 34
+  Max difference: 0
+  Biggest relative error: 0
+
+=================================================================
+
+--- Test 15/24 ---
+Einsum: abed,ce->abcd
+Dimensions: 96,84,84,84,96
+Command: OMP_NUM_THREADS=144 /home/daniel/einsum_ir/build/bench_binary "abed,ce->abcd" "96,84,84,84,96" BF16
+
+running bench_binary!
+parsed tensors:
+  a,b,e,d
+  c,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 84
+  e: 96
+dtype: BF16
+at::einsum:
+  time (contract): 0.0055542
+  gflops: 1966.93
+einsum_ir:
+[BP::init] i_data_type = 0, backend = 2
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 2
+o_dim_ids_kb[0] = 4
+Parameter                Wert           
+----------------------------------------
+i_primitive_blocking     0
+m_num_dims_left          4
+m_num_dims_right         2
+m_num_dims_out           4
+l_dim_ids_left_active    0
+                         1
+                         4
+                         3
+l_dim_ids_right_active   2
+                         4
+m_dim_ids_out            0
+                         1
+                         2
+                         3
+m_dim_sizes_inner        [0->96];[1->84];[2->84];[3->84];[4->96]
+i_strides_left           nullptr
+i_strides_right          nullptr
+i_strides_out            nullptr
+l_dim_ids_cb             
+l_dim_ids_mb             3
+l_dim_ids_nb             2
+l_dim_ids_kb             4
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_strides_left           
+0                        ->677376
+1                        ->8064
+3                        ->1
+4                        ->84
+l_strides_right          
+2                        ->96
+4                        ->1
+l_strides_out            
+0                        ->592704
+1                        ->7056
+2                        ->84
+3                        ->1
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_dim_sizes              
+0                        ->96
+1                        ->84
+2                        ->84
+3                        ->84
+4                        ->96
+----------------------------------------
+
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff829d9000
+[DEBUG] GEMM shape: m=84 n=84 k=96 lda=84 ldb=96 ldc=84
+[DEBUG] dim_types_out: 1 1 2 1 
+m_num_loops: 2
+JIT compile err: 0
+  time (compile): 0.000354417
+  time (contract): 0.0794331
+  gflops: 137.534
+-----------------------------------
+max element torch :      37.25
+max element jit :        37.25
+max difference :          0
+-----------------------------------
+Element-wise relative error :
+Biggest relative error:  0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+EXTRACTED VALUES:
+  Max element torch: 37.25
+  Max element jit: 37.25
+  Max difference: 0
+  Biggest relative error: 0
+
+=================================================================
+
+--- Test 16/24 ---
+Einsum: aedc,ebd->abc
+Dimensions: 96,84,84,84,96
+Command: OMP_NUM_THREADS=144 /home/daniel/einsum_ir/build/bench_binary "aedc,ebd->abc" "96,84,84,84,96" BF16
+
+running bench_binary!
+parsed tensors:
+  a,e,d,c
+  e,b,d
+  a,b,c
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 84
+  e: 96
+dtype: BF16
+at::einsum:
+  time (contract): 0.00659252
+  gflops: 1657.14
+einsum_ir:
+[BP::init] i_data_type = 0, backend = 2
+o_dim_ids_mb[0] = 2
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 3
+Parameter                Wert           
+----------------------------------------
+i_primitive_blocking     0
+m_num_dims_left          4
+m_num_dims_right         3
+m_num_dims_out           3
+l_dim_ids_left_active    0
+                         4
+                         3
+                         2
+l_dim_ids_right_active   4
+                         1
+                         3
+m_dim_ids_out            0
+                         1
+                         2
+m_dim_sizes_inner        [0->96];[1->84];[2->84];[3->84];[4->96]
+i_strides_left           nullptr
+i_strides_right          nullptr
+i_strides_out            nullptr
+l_dim_ids_cb             
+l_dim_ids_mb             2
+l_dim_ids_nb             1
+l_dim_ids_kb             3
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_strides_left           
+0                        ->677376
+2                        ->1
+3                        ->84
+4                        ->7056
+l_strides_right          
+1                        ->84
+3                        ->1
+4                        ->7056
+l_strides_out            
+0                        ->7056
+1                        ->84
+2                        ->1
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_dim_sizes              
+0                        ->96
+1                        ->84
+2                        ->84
+3                        ->84
+4                        ->96
+----------------------------------------
+
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffb5a8b000
+[DEBUG] GEMM shape: m=84 n=84 k=84 lda=84 ldb=84 ldc=84
+[DEBUG] dim_types_out: 1 2 1 
+m_num_loops: 3
+JIT compile err: 0
+  time (compile): 0.000602824
+  time (contract): 0.0854205
+  gflops: 127.893
+-----------------------------------
+max element torch :      2080
+max element jit :        2144
+max difference :          104
+-----------------------------------
+Element-wise relative error :
+Biggest relative error:  0.0492424
+Torch value at max error:2008
+Kernel value at max error:2112
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+finished running bench_binary!
+
+EXTRACTED VALUES:
+  Max element torch: 2080
+  Max element jit: 2144
+  Max difference: 104
+  Biggest relative error: 0.0492424
+
+=================================================================
+
+--- Test 17/24 ---
+Einsum: gkiljh,ekilfj->efgh
+Dimensions: 6,64,4,94,6,64,6,64
+Command: OMP_NUM_THREADS=144 /home/daniel/einsum_ir/build/bench_binary "gkiljh,ekilfj->efgh" "6,64,4,94,6,64,6,64" BF16
+
+running bench_binary!
+parsed tensors:
+  g,k,i,l,j,h
+  e,k,i,l,f,j
+  e,f,g,h
+parsed dimension ids:
+  e: 0
+  f: 1
+  g: 2
+  h: 3
+  i: 4
+  j: 5
+  k: 6
+  l: 7
+parsed dimension sizes:
+  e: 6
+  f: 64
+  g: 4
+  h: 94
+  i: 6
+  j: 64
+  k: 6
+  l: 64
+dtype: BF16
+at::einsum:
+  time (contract): 0.0272303
+  gflops: 1563.72
+einsum_ir:
+[BP::init] i_data_type = 0, backend = 2
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 5
+Parameter                Wert           
+----------------------------------------
+i_primitive_blocking     0
+m_num_dims_left          6
+m_num_dims_right         6
+m_num_dims_out           4
+l_dim_ids_left_active    2
+                         6
+                         4
+                         7
+                         5
+                         3
+l_dim_ids_right_active   0
+                         6
+                         4
+                         7
+                         1
+                         5
+m_dim_ids_out            0
+                         1
+                         2
+                         3
+m_dim_sizes_inner        [0->6];[1->64];[2->4];[3->94];[4->6];[5->64];[6->6];[7->64]
+i_strides_left           nullptr
+i_strides_right          nullptr
+i_strides_out            nullptr
+l_dim_ids_cb             
+l_dim_ids_mb             3
+l_dim_ids_nb             1
+l_dim_ids_kb             5
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_strides_left           
+2                        ->13860864
+3                        ->1
+4                        ->385024
+5                        ->94
+6                        ->2310144
+7                        ->6016
+l_strides_right          
+0                        ->9437184
+1                        ->64
+4                        ->262144
+5                        ->1
+6                        ->1572864
+7                        ->4096
+l_strides_out            
+0                        ->24064
+1                        ->376
+2                        ->94
+3                        ->1
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_dim_sizes              
+0                        ->6
+1                        ->64
+2                        ->4
+3                        ->94
+4                        ->6
+5                        ->64
+6                        ->6
+7                        ->64
+----------------------------------------
+
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffae09c000
+[DEBUG] GEMM shape: m=94 n=64 k=64 lda=94 ldb=64 ldc=376
+[DEBUG] dim_types_out: 2 2 1 1 
+m_num_loops: 6
+JIT compile err: 0
+  time (compile): 0.000422575
+  time (contract): 0.335219
+  gflops: 127.023
+-----------------------------------
+max element torch :      32640
+max element jit :        8192
+max difference :          24448
+-----------------------------------
+Element-wise relative error :
+Biggest relative error:  0.74902
+Torch value at max error:32640
+Kernel value at max error:8192
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+finished running bench_binary!
+
+EXTRACTED VALUES:
+  Max element torch: 32640
+  Max element jit: 8192
+  Max difference: 24448
+  Biggest relative error: 0.74902
+
+=================================================================
+
+--- Test 18/24 ---
+Einsum: gikljh,eiklfj->efgh
+Dimensions: 6,64,4,94,4,94,6,64
+Command: OMP_NUM_THREADS=144 /home/daniel/einsum_ir/build/bench_binary "gikljh,eiklfj->efgh" "6,64,4,94,4,94,6,64" BF16
+
+running bench_binary!
+parsed tensors:
+  g,i,k,l,j,h
+  e,i,k,l,f,j
+  e,f,g,h
+parsed dimension ids:
+  e: 0
+  f: 1
+  g: 2
+  h: 3
+  i: 4
+  j: 5
+  k: 6
+  l: 7
+parsed dimension sizes:
+  e: 6
+  f: 64
+  g: 4
+  h: 94
+  i: 4
+  j: 94
+  k: 6
+  l: 64
+dtype: BF16
+at::einsum:
+  time (contract): 0.0266199
+  gflops: 1566.25
+einsum_ir:
+[BP::init] i_data_type = 0, backend = 2
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 5
+Parameter                Wert           
+----------------------------------------
+i_primitive_blocking     0
+m_num_dims_left          6
+m_num_dims_right         6
+m_num_dims_out           4
+l_dim_ids_left_active    2
+                         4
+                         6
+                         7
+                         5
+                         3
+l_dim_ids_right_active   0
+                         4
+                         6
+                         7
+                         1
+                         5
+m_dim_ids_out            0
+                         1
+                         2
+                         3
+m_dim_sizes_inner        [0->6];[1->64];[2->4];[3->94];[4->4];[5->94];[6->6];[7->64]
+i_strides_left           nullptr
+i_strides_right          nullptr
+i_strides_out            nullptr
+l_dim_ids_cb             
+l_dim_ids_mb             3
+l_dim_ids_nb             1
+l_dim_ids_kb             5
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_strides_left           
+2                        ->13572096
+3                        ->1
+4                        ->3393024
+5                        ->94
+6                        ->565504
+7                        ->8836
+l_strides_right          
+0                        ->9240576
+1                        ->94
+4                        ->2310144
+5                        ->1
+6                        ->385024
+7                        ->6016
+l_strides_out            
+0                        ->24064
+1                        ->376
+2                        ->94
+3                        ->1
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_dim_sizes              
+0                        ->6
+1                        ->64
+2                        ->4
+3                        ->94
+4                        ->4
+5                        ->94
+6                        ->6
+7                        ->64
+----------------------------------------
+
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffa3181000
+[DEBUG] GEMM shape: m=94 n=64 k=94 lda=94 ldb=94 ldc=376
+[DEBUG] dim_types_out: 2 2 1 1 
+m_num_loops: 6
+JIT compile err: 0
+  time (compile): 0.000501579
+  time (contract): 0.390055
+  gflops: 106.891
+-----------------------------------
+max element torch :      32000
+max element jit :        8384
+max difference :          23808
+-----------------------------------
+Element-wise relative error :
+Biggest relative error:  0.744
+Torch value at max error:32000
+Kernel value at max error:8192
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+finished running bench_binary!
+
+EXTRACTED VALUES:
+  Max element torch: 32000
+  Max element jit: 8384
+  Max difference: 23808
+  Biggest relative error: 0.744
+
+=================================================================
+
+--- Test 19/24 ---
+Einsum: efiklj,ghkl->efghij
+Dimensions: 6,64,4,94,4,94,6,64
+Command: OMP_NUM_THREADS=144 /home/daniel/einsum_ir/build/bench_binary "efiklj,ghkl->efghij" "6,64,4,94,4,94,6,64" BF16
+
+running bench_binary!
+parsed tensors:
+  e,f,i,k,l,j
+  g,h,k,l
+  e,f,g,h,i,j
+parsed dimension ids:
+  e: 0
+  f: 1
+  g: 2
+  h: 3
+  i: 4
+  j: 5
+  k: 6
+  l: 7
+parsed dimension sizes:
+  e: 6
+  f: 64
+  g: 4
+  h: 94
+  i: 4
+  j: 94
+  k: 6
+  l: 64
+dtype: BF16
+at::einsum:
+  time (contract): 0.00723389
+  gflops: 5763.63
+einsum_ir:
+[BP::init] i_data_type = 0, backend = 2
+o_dim_ids_mb[0] = 5
+o_dim_ids_nb[0] = 3
+o_dim_ids_kb[0] = 6
+o_dim_ids_kb[1] = 7
+Parameter                Wert           
+----------------------------------------
+i_primitive_blocking     0
+m_num_dims_left          6
+m_num_dims_right         4
+m_num_dims_out           6
+l_dim_ids_left_active    0
+                         1
+                         4
+                         6
+                         7
+                         5
+l_dim_ids_right_active   2
+                         3
+                         6
+                         7
+m_dim_ids_out            0
+                         1
+                         2
+                         3
+                         4
+                         5
+m_dim_sizes_inner        [0->6];[1->64];[2->4];[3->94];[4->4];[5->94];[6->6];[7->64]
+i_strides_left           nullptr
+i_strides_right          nullptr
+i_strides_out            nullptr
+l_dim_ids_cb             
+l_dim_ids_mb             5
+l_dim_ids_nb             3
+l_dim_ids_kb             6,7
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_strides_left           
+0                        ->9240576
+1                        ->144384
+4                        ->36096
+5                        ->1
+6                        ->6016
+7                        ->94
+l_strides_right          
+2                        ->36096
+3                        ->384
+6                        ->64
+7                        ->1
+l_strides_out            
+0                        ->9048064
+1                        ->141376
+2                        ->35344
+3                        ->376
+4                        ->94
+5                        ->1
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_dim_sizes              
+0                        ->6
+1                        ->64
+2                        ->4
+3                        ->94
+4                        ->4
+5                        ->94
+6                        ->6
+7                        ->64
+----------------------------------------
+
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff8c588000
+[DEBUG] GEMM shape: m=94 n=94 k=384 lda=94 ldb=384 ldc=376
+[DEBUG] dim_types_out: 1 1 2 2 1 1 
+m_num_loops: 4
+JIT compile err: 0
+  time (compile): 0.000348082
+  time (contract): 0.26184
+  gflops: 159.233
+-----------------------------------
+max element torch :      120.5
+max element jit :        120.5
+max difference :          0
+-----------------------------------
+Element-wise relative error :
+Biggest relative error:  0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+EXTRACTED VALUES:
+  Max element torch: 120.5
+  Max element jit: 120.5
+  Max difference: 0
+  Biggest relative error: 0
+
+=================================================================
+
+--- Test 20/24 ---
+Einsum: efiklj,ghkl->efghij
+Dimensions: 6,64,6,64,4,94,4,94
+Command: OMP_NUM_THREADS=144 /home/daniel/einsum_ir/build/bench_binary "efiklj,ghkl->efghij" "6,64,6,64,4,94,4,94" BF16
+
+running bench_binary!
+parsed tensors:
+  e,f,i,k,l,j
+  g,h,k,l
+  e,f,g,h,i,j
+parsed dimension ids:
+  e: 0
+  f: 1
+  g: 2
+  h: 3
+  i: 4
+  j: 5
+  k: 6
+  l: 7
+parsed dimension sizes:
+  e: 6
+  f: 64
+  g: 6
+  h: 64
+  i: 4
+  j: 94
+  k: 4
+  l: 94
+dtype: BF16
+at::einsum:
+  time (contract): 0.00718024
+  gflops: 5806.69
+einsum_ir:
+[BP::init] i_data_type = 0, backend = 2
+o_dim_ids_mb[0] = 5
+o_dim_ids_nb[0] = 3
+o_dim_ids_kb[0] = 6
+o_dim_ids_kb[1] = 7
+Parameter                Wert           
+----------------------------------------
+i_primitive_blocking     0
+m_num_dims_left          6
+m_num_dims_right         4
+m_num_dims_out           6
+l_dim_ids_left_active    0
+                         1
+                         4
+                         6
+                         7
+                         5
+l_dim_ids_right_active   2
+                         3
+                         6
+                         7
+m_dim_ids_out            0
+                         1
+                         2
+                         3
+                         4
+                         5
+m_dim_sizes_inner        [0->6];[1->64];[2->6];[3->64];[4->4];[5->94];[6->4];[7->94]
+i_strides_left           nullptr
+i_strides_right          nullptr
+i_strides_out            nullptr
+l_dim_ids_cb             
+l_dim_ids_mb             5
+l_dim_ids_nb             3
+l_dim_ids_kb             6,7
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_strides_left           
+0                        ->9048064
+1                        ->141376
+4                        ->35344
+5                        ->1
+6                        ->8836
+7                        ->94
+l_strides_right          
+2                        ->24064
+3                        ->376
+6                        ->94
+7                        ->1
+l_strides_out            
+0                        ->9240576
+1                        ->144384
+2                        ->24064
+3                        ->376
+4                        ->94
+5                        ->1
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_dim_sizes              
+0                        ->6
+1                        ->64
+2                        ->6
+3                        ->64
+4                        ->4
+5                        ->94
+6                        ->4
+7                        ->94
+----------------------------------------
+
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff96471000
+[DEBUG] GEMM shape: m=94 n=64 k=376 lda=94 ldb=376 ldc=376
+[DEBUG] dim_types_out: 1 1 2 2 1 1 
+m_num_loops: 4
+JIT compile err: 0
+  time (compile): 0.000285237
+  time (contract): 0.294254
+  gflops: 141.692
+-----------------------------------
+max element torch :      115.5
+max element jit :        115.5
+max difference :          0
+-----------------------------------
+Element-wise relative error :
+Biggest relative error:  0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+EXTRACTED VALUES:
+  Max element torch: 115.5
+  Max element jit: 115.5
+  Max difference: 0
+  Biggest relative error: 0
+
+=================================================================
+
+--- Test 21/24 ---
+Einsum: fihg,dieh->defg
+Dimensions: 151,48,181,40,151,48
+Command: OMP_NUM_THREADS=144 /home/daniel/einsum_ir/build/bench_binary "fihg,dieh->defg" "151,48,181,40,151,48" BF16
+
+running bench_binary!
+parsed tensors:
+  f,i,h,g
+  d,i,e,h
+  d,e,f,g
+parsed dimension ids:
+  d: 0
+  e: 1
+  f: 2
+  g: 3
+  h: 4
+  i: 5
+parsed dimension sizes:
+  d: 151
+  e: 48
+  f: 181
+  g: 40
+  h: 151
+  i: 48
+dtype: BF16
+at::einsum:
+  time (contract): 0.0474763
+  gflops: 16022.4
+einsum_ir:
+[BP::init] i_data_type = 0, backend = 2
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 4
+Parameter                Wert           
+----------------------------------------
+i_primitive_blocking     0
+m_num_dims_left          4
+m_num_dims_right         4
+m_num_dims_out           4
+l_dim_ids_left_active    2
+                         5
+                         4
+                         3
+l_dim_ids_right_active   0
+                         5
+                         1
+                         4
+m_dim_ids_out            0
+                         1
+                         2
+                         3
+m_dim_sizes_inner        [0->151];[1->48];[2->181];[3->40];[4->151];[5->48]
+i_strides_left           nullptr
+i_strides_right          nullptr
+i_strides_out            nullptr
+l_dim_ids_cb             
+l_dim_ids_mb             3
+l_dim_ids_nb             1
+l_dim_ids_kb             4
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_strides_left           
+2                        ->289920
+3                        ->1
+4                        ->40
+5                        ->6040
+l_strides_right          
+0                        ->347904
+1                        ->151
+4                        ->1
+5                        ->7248
+l_strides_out            
+0                        ->347520
+1                        ->7240
+2                        ->40
+3                        ->1
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_dim_sizes              
+0                        ->151
+1                        ->48
+2                        ->181
+3                        ->40
+4                        ->151
+5                        ->48
+----------------------------------------
+
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff9e80e000
+[DEBUG] GEMM shape: m=40 n=48 k=151 lda=40 ldb=151 ldc=7240
+[DEBUG] dim_types_out: 2 2 1 1 
+m_num_loops: 4
+JIT compile err: 0
+  time (compile): 0.000370673
+  time (contract): 8.52734
+  gflops: 89.2054
+-----------------------------------
+max element torch :      1912
+max element jit :        1.59694e+29
+max difference :          1.59694e+29
+-----------------------------------
+Element-wise relative error :
+Biggest relative error:  1
+Torch value at max error:1768
+Kernel value at max error:1.19152e+28
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+finished running bench_binary!
+
+EXTRACTED VALUES:
+  Max element torch: 1912
+  Max element jit: 1.59694e+29
+  Max difference: 1.59694e+29
+  Biggest relative error: 1
+
+=================================================================
+
+--- Test 22/24 ---
+Einsum: cefd,aebf->abcd
+Dimensions: 96,84,84,84,84,96
+Command: OMP_NUM_THREADS=144 /home/daniel/einsum_ir/build/bench_binary "cefd,aebf->abcd" "96,84,84,84,84,96" BF16
+
+running bench_binary!
+parsed tensors:
+  c,e,f,d
+  a,e,b,f
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 84
+  e: 84
+  f: 96
+dtype: BF16
+at::einsum:
+  time (contract): 0.0619064
+  gflops: 14823.6
+einsum_ir:
+[BP::init] i_data_type = 0, backend = 2
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 5
+Parameter                Wert           
+----------------------------------------
+i_primitive_blocking     0
+m_num_dims_left          4
+m_num_dims_right         4
+m_num_dims_out           4
+l_dim_ids_left_active    2
+                         4
+                         5
+                         3
+l_dim_ids_right_active   0
+                         4
+                         1
+                         5
+m_dim_ids_out            0
+                         1
+                         2
+                         3
+m_dim_sizes_inner        [0->96];[1->84];[2->84];[3->84];[4->84];[5->96]
+i_strides_left           nullptr
+i_strides_right          nullptr
+i_strides_out            nullptr
+l_dim_ids_cb             
+l_dim_ids_mb             3
+l_dim_ids_nb             1
+l_dim_ids_kb             5
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_strides_left           
+2                        ->677376
+3                        ->1
+4                        ->8064
+5                        ->84
+l_strides_right          
+0                        ->677376
+1                        ->96
+4                        ->8064
+5                        ->1
+l_strides_out            
+0                        ->592704
+1                        ->7056
+2                        ->84
+3                        ->1
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_dim_sizes              
+0                        ->96
+1                        ->84
+2                        ->84
+3                        ->84
+4                        ->84
+5                        ->96
+----------------------------------------
+
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffbd52b000
+[DEBUG] GEMM shape: m=84 n=84 k=96 lda=84 ldb=96 ldc=7056
+[DEBUG] dim_types_out: 2 2 1 1 
+m_num_loops: 6
+JIT compile err: 0
+  time (compile): 0.00037992
+  time (contract): 6.37014
+  gflops: 144.059
+-----------------------------------
+max element torch :      2112
+max element jit :        2128
+max difference :          96
+-----------------------------------
+Element-wise relative error :
+Biggest relative error:  0.0472441
+Torch value at max error:1936
+Kernel value at max error:2032
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+finished running bench_binary!
+
+EXTRACTED VALUES:
+  Max element torch: 2112
+  Max element jit: 2128
+  Max difference: 96
+  Biggest relative error: 0.0472441
+
+=================================================================
+
+--- Test 23/24 ---
+Einsum: aefd,becf->abcd
+Dimensions: 96,84,84,84,96,96
+Command: OMP_NUM_THREADS=144 /home/daniel/einsum_ir/build/bench_binary "aefd,becf->abcd" "96,84,84,84,96,96" BF16
+
+running bench_binary!
+parsed tensors:
+  a,e,f,d
+  b,e,c,f
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 84
+  e: 96
+  f: 96
+dtype: BF16
+at::einsum:
+  time (contract): 0.060753
+  gflops: 17262.9
+einsum_ir:
+[BP::init] i_data_type = 0, backend = 2
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 2
+o_dim_ids_kb[0] = 5
+Parameter                Wert           
+----------------------------------------
+i_primitive_blocking     0
+m_num_dims_left          4
+m_num_dims_right         4
+m_num_dims_out           4
+l_dim_ids_left_active    0
+                         4
+                         5
+                         3
+l_dim_ids_right_active   1
+                         4
+                         2
+                         5
+m_dim_ids_out            0
+                         1
+                         2
+                         3
+m_dim_sizes_inner        [0->96];[1->84];[2->84];[3->84];[4->96];[5->96]
+i_strides_left           nullptr
+i_strides_right          nullptr
+i_strides_out            nullptr
+l_dim_ids_cb             
+l_dim_ids_mb             3
+l_dim_ids_nb             2
+l_dim_ids_kb             5
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_strides_left           
+0                        ->774144
+3                        ->1
+4                        ->8064
+5                        ->84
+l_strides_right          
+1                        ->774144
+2                        ->96
+4                        ->8064
+5                        ->1
+l_strides_out            
+0                        ->592704
+1                        ->7056
+2                        ->84
+3                        ->1
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_dim_sizes              
+0                        ->96
+1                        ->84
+2                        ->84
+3                        ->84
+4                        ->96
+5                        ->96
+----------------------------------------
+
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff85767000
+[DEBUG] GEMM shape: m=84 n=84 k=96 lda=84 ldb=96 ldc=84
+[DEBUG] dim_types_out: 1 2 2 1 
+m_num_loops: 6
+JIT compile err: 0
+  time (compile): 0.000568489
+  time (contract): 7.13428
+  gflops: 147.005
+-----------------------------------
+max element torch :      2400
+max element jit :        2480
+max difference :          144
+-----------------------------------
+Element-wise relative error :
+Biggest relative error:  0.0604027
+Torch value at max error:2240
+Kernel value at max error:2384
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+finished running bench_binary!
+
+EXTRACTED VALUES:
+  Max element torch: 2400
+  Max element jit: 2480
+  Max difference: 144
+  Biggest relative error: 0.0604027
+
+=================================================================
+
+--- Test 24/24 ---
+Einsum: cfed,afbe->abcd
+Dimensions: 96,84,84,96,84,84
+Command: OMP_NUM_THREADS=144 /home/daniel/einsum_ir/build/bench_binary "cfed,afbe->abcd" "96,84,84,96,84,84" BF16
+
+running bench_binary!
+parsed tensors:
+  c,f,e,d
+  a,f,b,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 96
+  e: 84
+  f: 84
+dtype: BF16
+at::einsum:
+  time (contract): 0.0547499
+  gflops: 16761.3
+einsum_ir:
+[BP::init] i_data_type = 0, backend = 2
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 4
+Parameter                Wert           
+----------------------------------------
+i_primitive_blocking     0
+m_num_dims_left          4
+m_num_dims_right         4
+m_num_dims_out           4
+l_dim_ids_left_active    2
+                         5
+                         4
+                         3
+l_dim_ids_right_active   0
+                         5
+                         1
+                         4
+m_dim_ids_out            0
+                         1
+                         2
+                         3
+m_dim_sizes_inner        [0->96];[1->84];[2->84];[3->96];[4->84];[5->84]
+i_strides_left           nullptr
+i_strides_right          nullptr
+i_strides_out            nullptr
+l_dim_ids_cb             
+l_dim_ids_mb             3
+l_dim_ids_nb             1
+l_dim_ids_kb             4
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_strides_left           
+2                        ->677376
+3                        ->1
+4                        ->96
+5                        ->8064
+l_strides_right          
+0                        ->592704
+1                        ->84
+4                        ->1
+5                        ->7056
+l_strides_out            
+0                        ->677376
+1                        ->8064
+2                        ->96
+3                        ->1
+----------------------------------------
+
+Parameter                Wert           
+----------------------------------------
+l_dim_sizes              
+0                        ->96
+1                        ->84
+2                        ->84
+3                        ->96
+4                        ->84
+5                        ->84
+----------------------------------------
+
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff8db79000
+[DEBUG] GEMM shape: m=96 n=84 k=84 lda=96 ldb=84 ldc=8064
+[DEBUG] dim_types_out: 2 2 1 1 
+m_num_loops: 6
+JIT compile err: 0
+  time (compile): 0.000570729
+  time (contract): 4.86671
+  gflops: 188.562
+-----------------------------------
+max element torch :      1856
+max element jit :        1904
+max difference :          104
+-----------------------------------
+Element-wise relative error :
+Biggest relative error:  0.0570175
+Torch value at max error:1720
+Kernel value at max error:1824
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+finished running bench_binary!
+
+EXTRACTED VALUES:
+  Max element torch: 1856
+  Max element jit: 1904
+  Max difference: 104
+  Biggest relative error: 0.0570175
+
+=================================================================
+
+=== ANALYSIS COMPLETED ===
+Finished at: Fri May 30 11:08:34 PM CEST 2025
+Total tests: 24
+Results saved to: errors_of_24_einsum_expressions.csv
