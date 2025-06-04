@@ -82,6 +82,12 @@ namespace einsum_ir {
     UNDEFINED_BACKEND = 99
   } backend_t;
 
+//    typedef enum {
+//    NORMAL_BF16_CONTRACTION  = 0,  // satisfies the BF16 contraction requirements
+//    VNNI_FORMAT_CONTRACTION  = 1,  // VNNI format contraction
+//    UNSUPPORTED_BF16_CONTRACTION = 99 // does not satisfy the BF16 contraction requirements and no VNNI format given
+//  } contraction_type_t;
+
   constexpr int64_t ce_n_bytes( data_t i_dtype ) {
     if     ( i_dtype == BF16 )  return 2;
     else if( i_dtype == FP32 )  return 4;

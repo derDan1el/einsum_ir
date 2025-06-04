@@ -83,6 +83,12 @@ class einsum_ir::backend::BinaryContractionTpp: public BinaryContraction {
      */
     static libxsmm_datatype dtype_to_libxsmm( data_t i_dtype );
 
+    // verify that the bf16 tensor contraction is 
+    void verify_bf16_compute_safety(); 
+    bool are_k_dims_rightmost_and_contiguous();
+    bool are_all_k_dims_even();
+    bool is_k_product_within_limit();
+
   public:
     /**
      * Destructor

@@ -59,10 +59,9 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
     l_n_flops *= l_dim_size;
   }
 
-
   at::Tensor l_ten_left = at::rand(at::IntArrayRef(l_sizes_left.data(), l_sizes_left.size()), i_dtype_at); // daniel: zufällige Werte [0,1]
   at::Tensor l_ten_right = at::rand(at::IntArrayRef(l_sizes_right.data(), l_sizes_right.size()), i_dtype_at);
-  at::Tensor l_ten_out = at::ones(at::IntArrayRef(l_sizes_out.data(), l_sizes_out.size()), i_dtype_at);
+  at::Tensor l_ten_out = at::rand(at::IntArrayRef(l_sizes_out.data(), l_sizes_out.size()), i_dtype_at);
   std::cout << "at::einsum:" << std::endl;
 
   at::Tensor l_ten_out_torch;
@@ -188,7 +187,6 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
   std::cout << "  time (contract): " << l_time << std::endl;
   std::cout << "  gflops: " << l_gflops << std::endl;
 
-
   if (l_ten_out.dtype() == at::kBFloat16)
   {
     auto max_torch = l_ten_out_torch.max().item<at::BFloat16>();
@@ -204,40 +202,41 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
     float max_rel_error = 0.0f;
     float torch_val = 0.0f;
     float kernel_val = 0.0f;
-
-    // Flatten die Tensoren für element-weise Iteration
-    auto torch_flat = l_ten_out_torch.flatten();
-    auto kernel_flat = l_ten_out.flatten();
-
-    for (int64_t i = 0; i < torch_flat.numel(); i++)
+    if (max_diff > 0.0f)
     {
-      auto torch_element = torch_flat[i].item<at::BFloat16>();
-      auto kernel_element = kernel_flat[i].item<at::BFloat16>();
-
-
-      float difference = std::abs(static_cast<float>(torch_element) - static_cast<float>(kernel_element));
-
-
-      float bigger_val = std::max(std::abs(static_cast<float>(torch_element)),
-                                       std::abs(static_cast<float>(kernel_element)));
-
-      // (Division durch 0 vermeiden)
-      if (bigger_val > 1e-10f)
+      
+      // Flatten die Tensoren für element-weise Iteration
+      auto torch_flat = l_ten_out_torch.flatten();
+      auto kernel_flat = l_ten_out.flatten();
+      
+      for (int64_t i = 0; i < torch_flat.numel(); i++)
       {
-        float rel_error = difference / bigger_val;
+        auto torch_element = torch_flat[i].item<at::BFloat16>();
+        auto kernel_element = kernel_flat[i].item<at::BFloat16>();
 
-        // Prüfe ob das der bisher größte relative Fehler ist
-        if (rel_error > max_rel_error)
+        float difference = std::abs(static_cast<float>(torch_element) - static_cast<float>(kernel_element));
+
+        float bigger_val = std::max(std::abs(static_cast<float>(torch_element)),
+                                    std::abs(static_cast<float>(kernel_element)));
+
+        // (Division durch 0 vermeiden)
+        if (bigger_val > 1e-10f)
         {
-          max_rel_error = rel_error;
-          torch_val = static_cast<float>(torch_element);
-          kernel_val = static_cast<float>(kernel_element);
+          float rel_error = difference / bigger_val;
+
+          // Prüfe ob das der bisher größte relative Fehler ist
+          if (rel_error > max_rel_error)
+          {
+            max_rel_error = rel_error;
+            torch_val = static_cast<float>(torch_element);
+            kernel_val = static_cast<float>(kernel_element);
+          }
         }
       }
     }
 
     std::cout << "-----------------------------------\n"
-              << "Element-wise relative error :\n"
+              << "Element-wise relative errors\n"
               << std::setw(25) << "Biggest relative error:" << max_rel_error << "\n"
               << std::setw(25) << "Torch value at max error:" << torch_val << "\n"
               << std::setw(25) << "Kernel value at max error:" << kernel_val << std::endl;
@@ -261,56 +260,56 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
   /**
 //   * Matmul
 //   **/
-//  int64_t l_size_c = 1;
-//  int64_t l_size_m = 1;
-//  int64_t l_size_n = 1;
-//  int64_t l_size_k = 1;
-//
-//  for (int64_t l_di = 0; l_di < l_bin_cont.m_num_dims_c; l_di++)
-//  {
-//    l_size_c *= l_bin_cont.m_sizes_c[l_di];
-//  }
-//  for (int64_t l_di = 0; l_di < l_bin_cont.m_num_dims_m; l_di++)
-//  {
-//    l_size_m *= l_bin_cont.m_sizes_m[l_di];
-//  }
-//  for (int64_t l_di = 0; l_di < l_bin_cont.m_num_dims_n; l_di++)
-//  {
-//    l_size_n *= l_bin_cont.m_sizes_n[l_di];
-//  }
-//  for (int64_t l_di = 0; l_di < l_bin_cont.m_num_dims_k; l_di++)
-//  {
-//    l_size_k *= l_bin_cont.m_sizes_k[l_di];
-//  }
-//
-//  at::Tensor l_mat_a = at::rand({l_size_c, l_size_k, l_size_m});
-//  at::Tensor l_mat_b = at::rand({l_size_c, l_size_n, l_size_k});
-//  at::Tensor l_out_matmul;
-//  std::cout << "at::matmul:" << std::endl;
-//
-//  // warm up
-//  l_tp0 = std::chrono::steady_clock::now();
-//  for (int64_t l_rep = 0; l_rep < l_repetitions_warm_up; l_rep++)
-//  {
-//    l_out_matmul = at::matmul(l_mat_b, l_mat_a);
-//  }
-//  l_tp1 = std::chrono::steady_clock::now();
-//  l_dur = std::chrono::duration_cast<std::chrono::duration<double>>(l_tp1 - l_tp0);
-//  l_repetitions = l_repetitions_warm_up / l_dur.count() + 1;
-//
-//  // run with repititions
-//  l_tp0 = std::chrono::steady_clock::now();
-//  for (int64_t l_rep = 0; l_rep < l_repetitions; l_rep++)
-//  {
-//    l_out_matmul = at::matmul(l_mat_b, l_mat_a);
-//  }
-//  l_tp1 = std::chrono::steady_clock::now();
-//  l_dur = std::chrono::duration_cast<std::chrono::duration<double>>(l_tp1 - l_tp0);
-//  l_time = l_dur.count() / l_repetitions;
-//  l_gflops = 1.0E-9 * l_n_flops / l_time;
-//
-//  std::cout << "  time:   " << l_time << std::endl;
-//  std::cout << "  gflops: " << l_gflops << std::endl;
+  //  int64_t l_size_c = 1;
+  //  int64_t l_size_m = 1;
+  //  int64_t l_size_n = 1;
+  //  int64_t l_size_k = 1;
+  //
+  //  for (int64_t l_di = 0; l_di < l_bin_cont.m_num_dims_c; l_di++)
+  //  {
+  //    l_size_c *= l_bin_cont.m_sizes_c[l_di];
+  //  }
+  //  for (int64_t l_di = 0; l_di < l_bin_cont.m_num_dims_m; l_di++)
+  //  {
+  //    l_size_m *= l_bin_cont.m_sizes_m[l_di];
+  //  }
+  //  for (int64_t l_di = 0; l_di < l_bin_cont.m_num_dims_n; l_di++)
+  //  {
+  //    l_size_n *= l_bin_cont.m_sizes_n[l_di];
+  //  }
+  //  for (int64_t l_di = 0; l_di < l_bin_cont.m_num_dims_k; l_di++)
+  //  {
+  //    l_size_k *= l_bin_cont.m_sizes_k[l_di];
+  //  }
+  //
+  //  at::Tensor l_mat_a = at::rand({l_size_c, l_size_k, l_size_m});
+  //  at::Tensor l_mat_b = at::rand({l_size_c, l_size_n, l_size_k});
+  //  at::Tensor l_out_matmul;
+  //  std::cout << "at::matmul:" << std::endl;
+  //
+  //  // warm up
+  //  l_tp0 = std::chrono::steady_clock::now();
+  //  for (int64_t l_rep = 0; l_rep < l_repetitions_warm_up; l_rep++)
+  //  {
+  //    l_out_matmul = at::matmul(l_mat_b, l_mat_a);
+  //  }
+  //  l_tp1 = std::chrono::steady_clock::now();
+  //  l_dur = std::chrono::duration_cast<std::chrono::duration<double>>(l_tp1 - l_tp0);
+  //  l_repetitions = l_repetitions_warm_up / l_dur.count() + 1;
+  //
+  //  // run with repititions
+  //  l_tp0 = std::chrono::steady_clock::now();
+  //  for (int64_t l_rep = 0; l_rep < l_repetitions; l_rep++)
+  //  {
+  //    l_out_matmul = at::matmul(l_mat_b, l_mat_a);
+  //  }
+  //  l_tp1 = std::chrono::steady_clock::now();
+  //  l_dur = std::chrono::duration_cast<std::chrono::duration<double>>(l_tp1 - l_tp0);
+  //  l_time = l_dur.count() / l_repetitions;
+  //  l_gflops = 1.0E-9 * l_n_flops / l_time;
+  //
+  //  std::cout << "  time:   " << l_time << std::endl;
+  //  std::cout << "  gflops: " << l_gflops << std::endl;
 }
 
 int main(int i_argc,
@@ -528,6 +527,14 @@ int main(int i_argc,
     int64_t l_dim_id = m_map_dim_name_to_id[l_dim_name];
     l_dim_ids_out.push_back(l_dim_id);
   }
+
+  einsum_ir::frontend::EinsumExpressionAscii::check_bf16_shape_constraints(l_dim_ids_in_left,
+                                                                           l_dim_ids_in_right,
+                                                                           l_dim_ids_out,
+                                                                           l_tensor_dim_names_left,
+                                                                           l_tensor_dim_names_right,
+                                                                           l_tensor_dim_names_out,
+                                                                           l_dim_sizes_map);
 
   bench_binary(l_dim_sizes_map,
                l_dim_ids_in_left,

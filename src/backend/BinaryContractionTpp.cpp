@@ -32,6 +32,7 @@ einsum_ir::backend::BinaryContractionTpp::~BinaryContractionTpp()
   }
 }
 
+
 einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
 {
   BinaryContraction::compile_base(); // daniel: kompilier wird nichts ,man findet dim typen heraus und setzt member variablen
@@ -39,7 +40,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
 
   // determine blocking type
   BinaryPrimitives l_bin_prim;
-  l_bin_prim.init(m_dtype_comp, // achtung compute type wird mitgegeben nicht input type vielleicht left/right type angeben?
+  l_bin_prim.init(m_dtype_out, // hier stand comp eig
                   backend_t::TPP);
 
   int64_t const *l_dim_ids_left_active = m_dim_ids_permute_left != nullptr ? m_dim_ids_permute_left : m_dim_ids_left;
@@ -365,7 +366,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
 
   // set leading dimensions
   l_lda = l_dim_ids_kb.size() > 0 ? l_strides_left.at(l_dim_ids_kb.back()) : l_m * l_r;
-  l_ldb = l_dim_ids_nb.size() > 0 ? l_strides_right.at(l_dim_ids_nb.back()) : l_k * l_r; // daniel : nur ldb wird = 8 die anderen sind 1 : vermutung weil tensor b 4 dimensionen hat braucht man noch eine leading dim?
+  l_ldb = l_dim_ids_nb.size() > 0 ? l_strides_right.at(l_dim_ids_nb.back()) : l_k * l_r;
   l_ldc = l_dim_ids_nb.size() > 0 ? l_strides_out.at(l_dim_ids_nb.back()) : l_m * l_r;
 
   // first-touch and last-touch shape

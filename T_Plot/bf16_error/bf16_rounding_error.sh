@@ -4,7 +4,7 @@
 
 # Diese .sh datei führt tensorkontraktionen aus von der form  km,nk ->nm wobei alle dimension=128 groß sind
 # bis auf die k dimension. Ziel ist es absoluten und relativen Fehler zu analysieren bei steigenden k werten.
-output_file="bf16_error_analysis.csv"
+output_file="bf16_error_analysis_2.csv"
 
 echo "k_dimension,max_absolute_error,max_relative_error" > "$output_file"
 
@@ -16,7 +16,7 @@ for k in $(seq 256 256 32768); do
     
     for run in $(seq 1 20); do
       echo "$run"
-      output=$(OMP_NUM_THREADS=1 ./build/bench_binary "km,nk->nm" "$k,128,128" BF16 2>&1)
+      output=$(OMP_NUM_THREADS=144 /home/daniel/einsum_ir/build/bench_binary "km,nk->nm" "$k,128,128" BF16 2>&1)
         
         abs_error=$(echo "$output" | grep "max difference" | awk '{print $4}')
         

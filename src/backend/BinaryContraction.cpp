@@ -351,7 +351,7 @@ void einsum_ir::backend::BinaryContraction::init( int64_t                       
   m_dim_ids_permute_left  = i_dim_ids_permute_left;  //daniel: leerer vektor
   m_dim_ids_permute_right = i_dim_ids_permute_right; //daniel: leerer vektor
 
-  m_dtype_left  = i_dtype_left;  //alles einusm_ir::FP32
+  m_dtype_left  = i_dtype_left;
   m_dtype_right = i_dtype_right;
   m_dtype_comp  = i_dtype_comp;
   m_dtype_out   = i_dtype_out;

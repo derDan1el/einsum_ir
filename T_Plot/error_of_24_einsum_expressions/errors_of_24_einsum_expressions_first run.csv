@@ -22,4 +22,4 @@ einsum_expression,dimensions,max_element_torch,max_element_jit,max_difference,bi
 "fihg,dieh->defg","151,48,181,40,151,48",1912,1.59694e+29,1.59694e+29,1
 "cefd,aebf->abcd","96,84,84,84,84,96",2112,2128,96,0.0472441
 "aefd,becf->abcd","96,84,84,84,96,96",2400,2480,144,0.0604027
-"cfed,afbe->abcd","96,84,84,96,84,84",1856,1904,104,0.0570175
+"cfed,afbe->abcd","96,84,84,96,20,25",1856,1904,104,0.0570175

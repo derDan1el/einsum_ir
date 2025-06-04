@@ -43,11 +43,11 @@ einsum_ir::err_t einsum_ir::backend::BinaryPrimitives::init( data_t    i_data_ty
              6,  32,
             16, 256 );
     }
-    else if( i_data_type == data_t::BF16 ) {//daniel: TODO: hier kommt man nie rein, weil der comp type übergeben wird und das ist bei BF16: FP32
+    else if( i_data_type == data_t::BF16 ) {
       init(  4,  16,   // daniel: cb min, cb max 
             32, 128,   // daniel: mb min, mb max 
             12,  64,   // daniel: nb min, nb max
-            32, 512 ); // daniel: kb min, kb max
+            32, 1024 ); // daniel: kb min, kb max
     }
     else {
       return err_t::INVALID_DTYPE;
@@ -71,7 +71,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryPrimitives::init( data_t    i_data_ty
       init(  4,  16,
             32, 512,
             32, 512,
-            32, 512 );
+            32, 1024 );
     }
     else {
       return err_t::INVALID_DTYPE;
@@ -91,7 +91,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryPrimitives::init( data_t    i_data_ty
             16, 256,
             16, 256 );
     }
-    else if( i_data_type == data_t::BF16 ) { //daniel: hier kommt man nie rein,weil der comp type übergeben wird und fp32 ist
+    else if( i_data_type == data_t::BF16 ) {
       init(  8,  32,
             64, 1024,
             64, 1024,
