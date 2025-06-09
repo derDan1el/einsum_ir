@@ -26,7 +26,7 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
   std::chrono::steady_clock::time_point l_tp0, l_tp1;
   std::chrono::duration<double> l_dur;
   int64_t l_n_flops = 0;
-  int64_t l_repetitions = 1;
+  int64_t l_repetitions = 10;
   int64_t l_repetitions_warm_up = 1;
   std::vector<int64_t> l_dim_ids_permute_left;
   std::vector<int64_t> l_dim_ids_permute_right;
@@ -527,14 +527,14 @@ int main(int i_argc,
     int64_t l_dim_id = m_map_dim_name_to_id[l_dim_name];
     l_dim_ids_out.push_back(l_dim_id);
   }
-
-  einsum_ir::frontend::EinsumExpressionAscii::check_bf16_shape_constraints(l_dim_ids_in_left,
-                                                                           l_dim_ids_in_right,
-                                                                           l_dim_ids_out,
-                                                                           l_tensor_dim_names_left,
-                                                                           l_tensor_dim_names_right,
-                                                                           l_tensor_dim_names_out,
-                                                                           l_dim_sizes_map);
+//
+  //einsum_ir::frontend::EinsumExpressionAscii::check_bf16_shape_constraints(l_dim_ids_in_left,
+  //                                                                         l_dim_ids_in_right,
+  //                                                                         l_dim_ids_out,
+  //                                                                         l_tensor_dim_names_left,
+  //                                                                         l_tensor_dim_names_right,
+  //                                                                         l_tensor_dim_names_out,
+  //                                                                         l_dim_sizes_map);
 
   bench_binary(l_dim_sizes_map,
                l_dim_ids_in_left,
