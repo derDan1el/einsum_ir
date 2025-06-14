@@ -92,8 +92,7 @@ int main()
 
   libxsmm_bitfield flags = LIBXSMM_GEMM_FLAGS('N', 'N') | LIBXSMM_GEMM_FLAG_VNNI_C; // LIBXSMM_GEMM_FLAG_VNNI_C;//LIBXSMM_GEMM_FLAG_VNNI_B;// ;
   
-  flags |= LIBXSMM_GEMM_FLAG_BETA_0;
-
+  flags |= LIBXSMM_GEMM_FLAG_BETA_0;   // C+= A*B +C
   libxsmm_bitfield l_prefetch_flags_brgemm = 0;
 
   libxsmm_gemm_batch_reduce_config br_config;

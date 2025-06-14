@@ -219,6 +219,29 @@ public:
                                            std::vector<std::string> const &i_tensor_dim_names_right,
                                            std::vector<std::string> const &i_tensor_dim_names_out,
                                            std::map<int64_t, int64_t> const &i_dim_sizes_map);
+
+  /**
+   *
+   * This function relocates the VNNI k dimension of size 4 in the left tensor in front of the first occurence of
+   * a k-dimension, or a c-dimension or if not present, at the beginning of the einsum expression.
+   *
+   * examples:
+   *
+   * -(left tensor segment): [a,b,c,d,k] -> [k,a,b,c,d] if a,b,c,d are m dimensions
+   * -(left tensor segment): [a,b,c,d,k] -> [a,b,k,c,d] if b ist a k-dimension and c,d are m dimensions
+   * -(left tensor segment): [a,b,c,d,k] -> [a,b,c,k,d] if c ist a c-dimension and d is a m dimension
+   * -(left tensor segment): [a,b,c,d,k] -> [a,b,c,d,k] if d is a k/c-dimension
+   *
+   *@param i_expression_string_std input expression string in standard format. [a,b,k],[d,e,k]->[d,e,a,b]
+   *@param i_expression_string_schar input expression string in single-character format. abck,dek->deab
+   *@param o_expression_string_std_vnni output expression string in standard format with relocated VNNI k dimension
+   *
+   * @note the goal ist to enlarge the primitve size of the m dimension by relocating the k dimension without
+   * permuting the tensor by activating the VNNI-A Flag. (ONLY USECASE :BF16 input tensor with VNNI k dimension)
+   **/
+  static void relocate_vnni_k_dimension(std::string const &i_expression_string_std,
+                                        std::string const &i_expression_string_schar,
+                                        std::string &o_expression_string_std_vnni);
 };
 
 #endif

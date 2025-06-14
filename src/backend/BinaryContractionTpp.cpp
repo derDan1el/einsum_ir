@@ -32,7 +32,6 @@ einsum_ir::backend::BinaryContractionTpp::~BinaryContractionTpp()
   }
 }
 
-
 einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
 {
   BinaryContraction::compile_base(); // daniel: kompilier wird nichts ,man findet dim typen heraus und setzt member variablen
@@ -496,6 +495,12 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
   // create main kernel
   libxsmm_gemm_shape l_shape_brgemm;
   libxsmm_bitfield l_flags_brgemm = LIBXSMM_GEMM_FLAGS('N', 'N'); // daniel: 'N' = no transpose
+
+  if (m_vnni_a)
+  {
+    l_flags_brgemm |= LIBXSMM_GEMM_FLAG_VNNI_A;
+  }
+
   libxsmm_bitfield l_prefetch_flags_brgemm = 0;
 
   l_shape_brgemm = libxsmm_create_gemm_shape(l_m,

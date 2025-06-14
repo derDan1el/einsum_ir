@@ -297,13 +297,12 @@ int main()
 }
 
 /*
-Kompilieren für Grace CPU:
-g++ driver.cpp \
-    -std=c++17 -O0 \
-    -I/home/daniel/libxsmm/include \
-    -L/home/daniel/libxsmm/lib -lxsmm \
-    -o driver
+ausführen mit:
+
+
+g++ driver_A_vnni.cpp     -std=c++17 -O0     -I/home/daniel/libxsmm/include     -L/home/daniel/libxsmm/lib -lxsmm     -o driver
 
 export LD_LIBRARY_PATH=/home/daniel/libxsmm/lib:$LD_LIBRARY_PATH
+
 ./driver
 */

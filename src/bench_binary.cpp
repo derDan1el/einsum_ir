@@ -21,13 +21,15 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
                   std::vector<int64_t> *i_loop_order,
                   at::ScalarType i_dtype_at,
                   einsum_ir::data_t i_dtype_einsum_ir,
-                  std::string i_einsum_string)
+                  std::string i_einsum_string,
+                  std::vector<int64_t> &i_dim_ids_in_left_vnni)
 {
+
   std::chrono::steady_clock::time_point l_tp0, l_tp1;
   std::chrono::duration<double> l_dur;
   int64_t l_n_flops = 0;
-  int64_t l_repetitions = 10;
-  int64_t l_repetitions_warm_up = 1;
+  int64_t l_repetitions = 300;
+  int64_t l_repetitions_warm_up = 10;
   std::vector<int64_t> l_dim_ids_permute_left;
   std::vector<int64_t> l_dim_ids_permute_right;
   double l_time_compile = 0;
@@ -118,7 +120,7 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
   einsum_ir::data_t l_dtype_comp = (i_dtype_einsum_ir == einsum_ir::BF16) ? einsum_ir::FP32 : i_dtype_einsum_ir; // daniel siehe kommentar darüber
   einsum_ir::backend::MemoryManager l_memory;
   einsum_ir::backend::BinaryContractionTpp l_bin_cont;
-  l_bin_cont.init(i_dim_ids_in_left.size(),
+  l_bin_cont.init(i_dim_ids_in_left_vnni.size() == 0 ? i_dim_ids_in_left.size() : i_dim_ids_in_left_vnni.size(),
                   i_dim_ids_in_right.size(),
                   i_dim_ids_out.size(),
                   &i_dim_sizes_map,
@@ -127,7 +129,7 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
                   nullptr,
                   &i_dim_sizes_map,
                   i_loop_order,
-                  i_dim_ids_in_left.data(),
+                  i_dim_ids_in_left_vnni.size() == 0 ? i_dim_ids_in_left.data() : i_dim_ids_in_left_vnni.data(),
                   i_dim_ids_in_right.data(),
                   i_dim_ids_out.data(),
                   l_dim_ids_permute_left.data(),
@@ -137,6 +139,7 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
                   i_dtype_einsum_ir,
                   l_dtype_comp,                // daniel : hier stand vorher auch i_dtype_einsum_ir nur muss bei BF16 in FP32 gerechnet werden siehe oben
                   i_dtype_einsum_ir,           // daniel : der outputtensor ist auch fp32
+                  i_dim_ids_in_left_vnni.size() == 0 ? 0 : 1,
                   einsum_ir::ZERO,             // daniel: first touch
                   einsum_ir::MADD,             // daniel: main kernel
                   einsum_ir::UNDEFINED_KTYPE); // daniel: last touch
@@ -204,11 +207,11 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
     float kernel_val = 0.0f;
     if (max_diff > 0.0f)
     {
-      
+
       // Flatten die Tensoren für element-weise Iteration
       auto torch_flat = l_ten_out_torch.flatten();
       auto kernel_flat = l_ten_out.flatten();
-      
+
       for (int64_t i = 0; i < torch_flat.numel(); i++)
       {
         auto torch_element = torch_flat[i].item<at::BFloat16>();
@@ -357,6 +360,7 @@ int main(int i_argc,
    * parse input tensors and output tensors
    **/
   std::vector<std::string> l_tensors;
+
   // daniel: fügt l_tensor vektor folgende elemente hinzu: [0]="a,b,c" , [1] = "a,c,d,b" , [2]= "a,b,d"
   einsum_ir::frontend::EinsumExpressionAscii::parse_tensors(l_expression_string_std,
                                                             l_tensors);
@@ -395,6 +399,7 @@ int main(int i_argc,
    * parse dimension sizes
    */
   std::string l_dim_sizes_string(i_argv[2]);
+
   std::vector<int64_t> l_dim_sizes_vec;
   // daniel: l_dim_sizes_vec: [0]= 32, [1]= 8, [2]= 4 , [3]= 2
   einsum_ir::frontend::EinsumExpressionAscii::parse_dim_sizes(l_dim_sizes_string,
@@ -527,15 +532,69 @@ int main(int i_argc,
     int64_t l_dim_id = m_map_dim_name_to_id[l_dim_name];
     l_dim_ids_out.push_back(l_dim_id);
   }
-//
-  //einsum_ir::frontend::EinsumExpressionAscii::check_bf16_shape_constraints(l_dim_ids_in_left,
-  //                                                                         l_dim_ids_in_right,
-  //                                                                         l_dim_ids_out,
-  //                                                                         l_tensor_dim_names_left,
-  //                                                                         l_tensor_dim_names_right,
-  //                                                                         l_tensor_dim_names_out,
-  //                                                                         l_dim_sizes_map);
 
+  
+  std::vector<int64_t> l_dim_ids_in_left_vnni;
+  
+  if (l_dtype_einsum_ir == einsum_ir::BF16)
+  {
+    //einsum_ir::frontend::EinsumExpressionAscii::check_bf16_shape_constraints(l_dim_ids_in_left,
+    //                                                                         l_dim_ids_in_right,
+    //                                                                         l_dim_ids_out,
+    //                                                                         l_tensor_dim_names_left,
+    //                                                                         l_tensor_dim_names_right,
+    //                                                                         l_tensor_dim_names_out,
+    //                                                                         l_dim_sizes_map);
+
+
+    std::cout << "BF16 VNNI test:" << std::endl;
+    // schaue ob die fastest dimension beim A Tensor eine k dimension ist mit dimension_size = 4
+    std::string last_dim_name_left = l_tensor_dim_names_left.back();
+    bool in_right = std::find(l_tensor_dim_names_right.begin(),
+                              l_tensor_dim_names_right.end(),
+                              last_dim_name_left) != l_tensor_dim_names_right.end();
+
+    bool in_out = std::find(l_tensor_dim_names_out.begin(),
+                            l_tensor_dim_names_out.end(),
+                            last_dim_name_left) != l_tensor_dim_names_out.end();
+
+    int64_t last_dim_id_left = m_map_dim_name_to_id[last_dim_name_left];
+    int64_t last_dim_size_left = l_dim_sizes_vec[last_dim_id_left];
+
+    // vorletzte Dimensions == m-Dimension?
+    std::string possible_m_dim = l_tensor_dim_names_left[(l_tensor_dim_names_left.size() - 2)];
+    bool is_m_dim = std::find(l_tensor_dim_names_right.begin(),
+                              l_tensor_dim_names_right.end(),
+                              possible_m_dim) == l_tensor_dim_names_right.end();
+
+    if (last_dim_size_left == 4 && in_right && !in_out && is_m_dim)
+    {
+      std::cout << "left Tensor has VNNI-A Layout" << std::endl;
+
+      std::vector<std::string> l_tensors_vnni;
+      std::string l_expression_string_std_vnni;
+
+      einsum_ir::frontend::EinsumExpressionAscii::relocate_vnni_k_dimension(l_expression_string_std,
+                                                                            l_expression_string_schar,
+                                                                            l_expression_string_std_vnni);
+
+      einsum_ir::frontend::EinsumExpressionAscii::parse_tensors(l_expression_string_std_vnni,
+                                                                l_tensors_vnni);
+
+      std::vector<std::string> l_tensor_dim_names_left_vnni;
+
+      einsum_ir::frontend::EinsumExpressionAscii::split_string(l_tensors_vnni[0],
+                                                               std::string(","),
+                                                               l_tensor_dim_names_left_vnni);
+
+      for (std::size_t l_na = 0; l_na < l_tensor_dim_names_left_vnni.size(); l_na++)
+      {
+        std::string l_dim_name_vnni = l_tensor_dim_names_left_vnni[l_na];
+        int64_t l_dim_id_vnni = m_map_dim_name_to_id[l_dim_name_vnni];
+        l_dim_ids_in_left_vnni.push_back(l_dim_id_vnni);
+      }
+    }
+  }
   bench_binary(l_dim_sizes_map,
                l_dim_ids_in_left,
                l_dim_ids_in_right,
@@ -543,7 +602,8 @@ int main(int i_argc,
                l_loop_order_ptr,
                l_dtype_at,
                l_dtype_einsum_ir,
-               l_expression_string_schar);
+               l_expression_string_schar,
+               l_dim_ids_in_left_vnni);
 
   std::cout << "finished running bench_binary!" << std::endl;
   return EXIT_SUCCESS;

@@ -24,7 +24,6 @@ int main() {
   for (int l_i = 0; l_i < n/4; ++l_i) {
     for (int l_j = 0; l_j < m; ++l_j) {
       for (int l_i2 = 0; l_i2 < 4; ++l_i2) {
-        // h_c_gold wird hier direkt in VNNI umgeschrieben
         h_c_gold[(l_i * ldc * 4) + (l_j * 4) + l_i2] =
           tmp_c[(((l_i * 4) + l_i2) * ldc) + l_j];
       }

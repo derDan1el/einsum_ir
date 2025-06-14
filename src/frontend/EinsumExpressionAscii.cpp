@@ -479,3 +479,41 @@ void einsum_ir::frontend::EinsumExpressionAscii::check_bf16_shape_constraints(st
     }
   }
 }
+
+void einsum_ir::frontend::EinsumExpressionAscii::relocate_vnni_k_dimension(std::string const &i_expression_string_std,
+                                                                           std::string const &i_expression_string_schar,
+                                                                           std::string &o_expression_string_std_vnni)
+{
+  o_expression_string_std_vnni = i_expression_string_std;
+  std::string copy_i_expression_string_schar = i_expression_string_schar;
+  auto it_comma = std::find(i_expression_string_schar.begin(),
+                            i_expression_string_schar.end(),
+                            ',');
+  auto it_arrow = std::find(i_expression_string_schar.begin(),
+                            i_expression_string_schar.end(),
+                            '-');
+  // idx von comma und von arrow end:
+  int64_t l_comma_idx = it_comma - i_expression_string_schar.begin();
+  int64_t l_i = -1;
+  for (l_i = l_comma_idx - 2; l_i >= 0; l_i--) // if l_comma_idx - 2 < 0 then left tensor is only "k" abort
+  {
+    char dim_name = i_expression_string_schar[l_i];
+    auto found_right = std::find(it_comma + 1,
+                                 it_arrow,
+                                 dim_name);
+    if (found_right != it_arrow) // found_right != it_arrow means that a k/c dimension was found in the right tensor
+
+    {
+      copy_i_expression_string_schar.erase(l_comma_idx - 1, 1);
+      copy_i_expression_string_schar.insert(l_i + 1, 1, i_expression_string_schar[l_comma_idx - 1]);
+      break;
+    }
+  }
+  if (l_i < 0) // no k/c dimension found in left tensor : put the vnni k dimension at the beginning
+  {
+    copy_i_expression_string_schar.erase(l_comma_idx - 1, 1);
+    copy_i_expression_string_schar.insert(0, 1, i_expression_string_schar[l_comma_idx - 1]);
+  }
+  einsum_ir::frontend::EinsumExpressionAscii::schar_to_standard(copy_i_expression_string_schar,
+                                                                o_expression_string_std_vnni);
+}
