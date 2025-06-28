@@ -1,0 +1,5033 @@
+=== Multi-Core Benchmark Log Started: Fri Jun 20 04:33:24 PM CEST 2025 ===
+=== Using 72 CPU Threads (NVIDIA Grace CPU) ===
+
+=== Multi-Core Testing: abdfe,cf->abcde with dimensions: 48,36,24,36,48,36 ===
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "abdfe,cf->abcde" "48,36,24,36,48,36" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,b,d,f,e
+  c,f
+  a,b,c,d,e
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+parsed dimension sizes:
+  a: 48
+  b: 36
+  c: 24
+  d: 36
+  e: 48
+  f: 36
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.00773478
+  gflops: 667.088
+einsum_ir:
+2 
+3 
+--------
+1 
+1 
+2 
+1 
+1 
+--------
+[BP::init] i_data_type = 2, backend = 2
+2 
+3 
+--------
+1 
+1 
+2 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 4
+o_dim_ids_nb[0] = 2
+o_dim_ids_kb[0] = 5
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff90cc7000
+[DEBUG] GEMM shape: m=48 n=24 k=36 lda=48 ldb=36 ldc=1728
+[DEBUG] dim_types_out: 1 1 2 1 1 
+m_num_loops: 3
+JIT compile err: 0
+  time (compile): 0.000444078
+  time (contract): 0.00150854
+  gflops: 3420.38
+-----------------------------------
+      max element torch :15.9375
+        max element jit :15.9375
+max difference :          0
+-----------------------------------
+Element-wise relative errors
+  Biggest relative error:0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "abdfe,cf->abcde" "48,36,24,36,48,36" FP32
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,b,d,f,e
+  c,f
+  a,b,c,d,e
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+parsed dimension sizes:
+  a: 48
+  b: 36
+  c: 24
+  d: 36
+  e: 48
+  f: 36
+dtype: FP32
+at::einsum:
+  time (contract): 0.0102416
+  gflops: 503.804
+einsum_ir:
+2 
+3 
+--------
+1 
+1 
+2 
+1 
+1 
+--------
+[BP::init] i_data_type = 0, backend = 2
+2 
+3 
+--------
+1 
+1 
+2 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 4
+o_dim_ids_nb[0] = 2
+o_dim_ids_kb[0] = 5
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffa2891000
+[DEBUG] GEMM shape: m=48 n=24 k=36 lda=48 ldb=36 ldc=1728
+[DEBUG] dim_types_out: 1 1 2 1 1 
+m_num_loops: 3
+JIT compile err: 0
+  time (compile): 0.000461389
+  time (contract): 0.00281956
+  gflops: 1829.99
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "abdfe,cf->abcde" "48,36,24,36,48,36" FP64
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,b,d,f,e
+  c,f
+  a,b,c,d,e
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+parsed dimension sizes:
+  a: 48
+  b: 36
+  c: 24
+  d: 36
+  e: 48
+  f: 36
+dtype: FP64
+at::einsum:
+  time (contract): 0.434159
+  gflops: 11.8845
+einsum_ir:
+2 
+3 
+--------
+1 
+1 
+2 
+1 
+1 
+--------
+[BP::init] i_data_type = 1, backend = 2
+2 
+3 
+--------
+1 
+1 
+2 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 4
+o_dim_ids_nb[0] = 2
+o_dim_ids_kb[0] = 5
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff83af9000
+[DEBUG] GEMM shape: m=48 n=24 k=36 lda=48 ldb=36 ldc=1728
+[DEBUG] dim_types_out: 1 1 2 1 1 
+m_num_loops: 3
+JIT compile err: 0
+  time (compile): 0.000396751
+  time (contract): 0.00583643
+  gflops: 884.064
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Multi-Core Testing: acdfe,bf->abcde with dimensions: 48,24,36,36,48,36 ===
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "acdfe,bf->abcde" "48,24,36,36,48,36" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,c,d,f,e
+  b,f
+  a,b,c,d,e
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+parsed dimension sizes:
+  a: 48
+  b: 24
+  c: 36
+  d: 36
+  e: 48
+  f: 36
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.00681727
+  gflops: 756.869
+einsum_ir:
+2 
+3 
+--------
+1 
+2 
+1 
+1 
+1 
+--------
+[BP::init] i_data_type = 2, backend = 2
+2 
+3 
+--------
+1 
+2 
+1 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 4
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 5
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff869d2000
+[DEBUG] GEMM shape: m=48 n=24 k=36 lda=48 ldb=36 ldc=62208
+[DEBUG] dim_types_out: 1 2 1 1 1 
+m_num_loops: 3
+JIT compile err: 0
+  time (compile): 0.000460109
+  time (contract): 0.00169616
+  gflops: 3042.04
+-----------------------------------
+      max element torch :15.9375
+        max element jit :15.9375
+max difference :          0
+-----------------------------------
+Element-wise relative errors
+  Biggest relative error:0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "acdfe,bf->abcde" "48,24,36,36,48,36" FP32
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,c,d,f,e
+  b,f
+  a,b,c,d,e
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+parsed dimension sizes:
+  a: 48
+  b: 24
+  c: 36
+  d: 36
+  e: 48
+  f: 36
+dtype: FP32
+at::einsum:
+  time (contract): 0.00957753
+  gflops: 538.738
+einsum_ir:
+2 
+3 
+--------
+1 
+2 
+1 
+1 
+1 
+--------
+[BP::init] i_data_type = 0, backend = 2
+2 
+3 
+--------
+1 
+2 
+1 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 4
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 5
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffb6d7a000
+[DEBUG] GEMM shape: m=48 n=24 k=36 lda=48 ldb=36 ldc=62208
+[DEBUG] dim_types_out: 1 2 1 1 1 
+m_num_loops: 3
+JIT compile err: 0
+  time (compile): 0.000459021
+  time (contract): 0.00283793
+  gflops: 1818.15
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "acdfe,bf->abcde" "48,24,36,36,48,36" FP64
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,c,d,f,e
+  b,f
+  a,b,c,d,e
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+parsed dimension sizes:
+  a: 48
+  b: 24
+  c: 36
+  d: 36
+  e: 48
+  f: 36
+dtype: FP64
+at::einsum:
+  time (contract): 0.444283
+  gflops: 11.6137
+einsum_ir:
+2 
+3 
+--------
+1 
+2 
+1 
+1 
+1 
+--------
+[BP::init] i_data_type = 1, backend = 2
+2 
+3 
+--------
+1 
+2 
+1 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 4
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 5
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff809a5000
+[DEBUG] GEMM shape: m=48 n=24 k=36 lda=48 ldb=36 ldc=62208
+[DEBUG] dim_types_out: 1 2 1 1 1 
+m_num_loops: 3
+JIT compile err: 0
+  time (compile): 0.00045563
+  time (contract): 0.00612738
+  gflops: 842.085
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Multi-Core Testing: abed,ce->abcd with dimensions: 96,84,24,96,96 ===
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "abed,ce->abcd" "96,84,24,96,96" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,b,e,d
+  c,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 24
+  d: 96
+  e: 96
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.00495222
+  gflops: 720.334
+einsum_ir:
+2 
+3 
+--------
+1 
+1 
+2 
+1 
+--------
+[BP::init] i_data_type = 2, backend = 2
+2 
+3 
+--------
+1 
+1 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 2
+o_dim_ids_kb[0] = 4
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffbe46f000
+[DEBUG] GEMM shape: m=96 n=24 k=96 lda=96 ldb=96 ldc=96
+[DEBUG] dim_types_out: 1 1 2 1 
+m_num_loops: 2
+JIT compile err: 0
+  time (compile): 0.000443886
+  time (contract): 0.000417826
+  gflops: 8537.65
+-----------------------------------
+      max element torch :36.5
+        max element jit :36.5
+max difference :          0
+-----------------------------------
+Element-wise relative errors
+  Biggest relative error:0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "abed,ce->abcd" "96,84,24,96,96" FP32
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,b,e,d
+  c,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 24
+  d: 96
+  e: 96
+dtype: FP32
+at::einsum:
+  time (contract): 0.00584215
+  gflops: 610.606
+einsum_ir:
+2 
+3 
+--------
+1 
+1 
+2 
+1 
+--------
+[BP::init] i_data_type = 0, backend = 2
+2 
+3 
+--------
+1 
+1 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 2
+o_dim_ids_kb[0] = 4
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff966d9000
+[DEBUG] GEMM shape: m=96 n=24 k=96 lda=96 ldb=96 ldc=96
+[DEBUG] dim_types_out: 1 1 2 1 
+m_num_loops: 2
+JIT compile err: 0
+  time (compile): 0.000367057
+  time (contract): 0.00117038
+  gflops: 3047.96
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "abed,ce->abcd" "96,84,24,96,96" FP64
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,b,e,d
+  c,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 24
+  d: 96
+  e: 96
+dtype: FP64
+at::einsum:
+  time (contract): 0.200164
+  gflops: 17.8217
+einsum_ir:
+2 
+3 
+--------
+1 
+1 
+2 
+1 
+--------
+[BP::init] i_data_type = 1, backend = 2
+2 
+3 
+--------
+1 
+1 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 2
+o_dim_ids_kb[0] = 4
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffbeac3000
+[DEBUG] GEMM shape: m=96 n=24 k=96 lda=96 ldb=96 ldc=96
+[DEBUG] dim_types_out: 1 1 2 1 
+m_num_loops: 2
+JIT compile err: 0
+  time (compile): 0.00038344
+  time (contract): 0.00237868
+  gflops: 1499.68
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Multi-Core Testing: abcfe,df->abcde with dimensions: 48,36,36,24,48,48 ===
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "abcfe,df->abcde" "48,36,36,24,48,48" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,b,c,f,e
+  d,f
+  a,b,c,d,e
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+parsed dimension sizes:
+  a: 48
+  b: 36
+  c: 36
+  d: 24
+  e: 48
+  f: 48
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.00798226
+  gflops: 861.875
+einsum_ir:
+2 
+3 
+--------
+1 
+1 
+1 
+2 
+1 
+--------
+[BP::init] i_data_type = 2, backend = 2
+2 
+3 
+--------
+1 
+1 
+1 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 4
+o_dim_ids_nb[0] = 3
+o_dim_ids_kb[0] = 5
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffbd9e1000
+[DEBUG] GEMM shape: m=48 n=24 k=48 lda=48 ldb=48 ldc=48
+[DEBUG] dim_types_out: 1 1 1 2 1 
+m_num_loops: 3
+JIT compile err: 0
+  time (compile): 0.000464077
+  time (contract): 0.00134244
+  gflops: 5124.76
+-----------------------------------
+      max element torch :22
+        max element jit :22
+max difference :          0
+-----------------------------------
+Element-wise relative errors
+  Biggest relative error:0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "abcfe,df->abcde" "48,36,36,24,48,48" FP32
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,b,c,f,e
+  d,f
+  a,b,c,d,e
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+parsed dimension sizes:
+  a: 48
+  b: 36
+  c: 36
+  d: 24
+  e: 48
+  f: 48
+dtype: FP32
+at::einsum:
+  time (contract): 0.0119579
+  gflops: 575.328
+einsum_ir:
+2 
+3 
+--------
+1 
+1 
+1 
+2 
+1 
+--------
+[BP::init] i_data_type = 0, backend = 2
+2 
+3 
+--------
+1 
+1 
+1 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 4
+o_dim_ids_nb[0] = 3
+o_dim_ids_kb[0] = 5
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffa6327000
+[DEBUG] GEMM shape: m=48 n=24 k=48 lda=48 ldb=48 ldc=48
+[DEBUG] dim_types_out: 1 1 1 2 1 
+m_num_loops: 3
+JIT compile err: 0
+  time (compile): 0.000431342
+  time (contract): 0.00294472
+  gflops: 2336.29
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "abcfe,df->abcde" "48,36,36,24,48,48" FP64
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,b,c,f,e
+  d,f
+  a,b,c,d,e
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+parsed dimension sizes:
+  a: 48
+  b: 36
+  c: 36
+  d: 24
+  e: 48
+  f: 48
+dtype: FP64
+at::einsum:
+  time (contract): 0.486858
+  gflops: 14.1308
+einsum_ir:
+2 
+3 
+--------
+1 
+1 
+1 
+2 
+1 
+--------
+[BP::init] i_data_type = 1, backend = 2
+2 
+3 
+--------
+1 
+1 
+1 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 4
+o_dim_ids_nb[0] = 3
+o_dim_ids_kb[0] = 5
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff8797d000
+[DEBUG] GEMM shape: m=48 n=24 k=48 lda=48 ldb=48 ldc=48
+[DEBUG] dim_types_out: 1 1 1 2 1 
+m_num_loops: 3
+JIT compile err: 0
+  time (compile): 0.000458637
+  time (contract): 0.00555185
+  gflops: 1239.17
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Multi-Core Testing: aced,be->abcd with dimensions: 96,24,84,96,84 ===
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "aced,be->abcd" "96,24,84,96,84" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,c,e,d
+  b,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 24
+  c: 84
+  d: 96
+  e: 84
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.00446213
+  gflops: 699.52
+einsum_ir:
+2 
+3 
+--------
+1 
+2 
+1 
+1 
+--------
+[BP::init] i_data_type = 2, backend = 2
+2 
+3 
+--------
+1 
+2 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 4
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff9cde9000
+[DEBUG] GEMM shape: m=96 n=24 k=84 lda=96 ldb=84 ldc=8064
+[DEBUG] dim_types_out: 1 2 1 1 
+m_num_loops: 2
+JIT compile err: 0
+  time (compile): 0.000465869
+  time (contract): 0.000452433
+  gflops: 6899.03
+-----------------------------------
+      max element torch :31.875
+        max element jit :31.875
+max difference :          0
+-----------------------------------
+Element-wise relative errors
+  Biggest relative error:0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "aced,be->abcd" "96,24,84,96,84" FP32
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,c,e,d
+  b,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 24
+  c: 84
+  d: 96
+  e: 84
+dtype: FP32
+at::einsum:
+  time (contract): 0.00572239
+  gflops: 545.462
+einsum_ir:
+2 
+3 
+--------
+1 
+2 
+1 
+1 
+--------
+[BP::init] i_data_type = 0, backend = 2
+2 
+3 
+--------
+1 
+2 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 4
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff812ed000
+[DEBUG] GEMM shape: m=96 n=24 k=84 lda=96 ldb=84 ldc=8064
+[DEBUG] dim_types_out: 1 2 1 1 
+m_num_loops: 2
+JIT compile err: 0
+  time (compile): 0.00042859
+  time (contract): 0.00106417
+  gflops: 2933.13
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "aced,be->abcd" "96,24,84,96,84" FP64
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,c,e,d
+  b,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 24
+  c: 84
+  d: 96
+  e: 84
+dtype: FP64
+at::einsum:
+  time (contract): 0.17909
+  gflops: 17.429
+einsum_ir:
+2 
+3 
+--------
+1 
+2 
+1 
+1 
+--------
+[BP::init] i_data_type = 1, backend = 2
+2 
+3 
+--------
+1 
+2 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 4
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff9d425000
+[DEBUG] GEMM shape: m=96 n=24 k=84 lda=96 ldb=84 ldc=8064
+[DEBUG] dim_types_out: 1 2 1 1 
+m_num_loops: 2
+JIT compile err: 0
+  time (compile): 0.000424239
+  time (contract): 0.00214559
+  gflops: 1454.77
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Multi-Core Testing: jki,efghjk->efghi with dimensions: 6,64,6,64,24,6,64 ===
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "jki,efghjk->efghi" "6,64,6,64,24,6,64" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  j,k,i
+  e,f,g,h,j,k
+  e,f,g,h,i
+parsed dimension ids:
+  e: 0
+  f: 1
+  g: 2
+  h: 3
+  i: 4
+  j: 5
+  k: 6
+parsed dimension sizes:
+  e: 6
+  f: 64
+  g: 6
+  h: 64
+  i: 24
+  j: 6
+  k: 64
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.0156914
+  gflops: 173.21
+einsum_ir:
+2 
+2 
+2 
+2 
+3 
+3 
+--------
+2 
+2 
+2 
+2 
+1 
+--------
+[BP::init] i_data_type = 2, backend = 2
+2 
+2 
+2 
+2 
+3 
+3 
+--------
+2 
+2 
+2 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 4
+o_dim_ids_nb[0] = 3
+o_dim_ids_kb[0] = 5
+o_dim_ids_kb[1] = 6
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffbb083000
+[DEBUG] GEMM shape: m=24 n=64 k=384 lda=24 ldb=384 ldc=24
+[DEBUG] dim_types_out: 2 2 2 2 1 
+m_num_loops: 3
+JIT compile err: 0
+  time (compile): 0.000504267
+  time (contract): 0.000251961
+  gflops: 10787
+-----------------------------------
+      max element torch :118.5
+        max element jit :118.5
+max difference :          0
+-----------------------------------
+Element-wise relative errors
+  Biggest relative error:0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "jki,efghjk->efghi" "6,64,6,64,24,6,64" FP32
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  j,k,i
+  e,f,g,h,j,k
+  e,f,g,h,i
+parsed dimension ids:
+  e: 0
+  f: 1
+  g: 2
+  h: 3
+  i: 4
+  j: 5
+  k: 6
+parsed dimension sizes:
+  e: 6
+  f: 64
+  g: 6
+  h: 64
+  i: 24
+  j: 6
+  k: 64
+dtype: FP32
+at::einsum:
+  time (contract): 0.0123815
+  gflops: 219.515
+einsum_ir:
+2 
+2 
+2 
+2 
+3 
+3 
+--------
+2 
+2 
+2 
+2 
+1 
+--------
+[BP::init] i_data_type = 0, backend = 2
+2 
+2 
+2 
+2 
+3 
+3 
+--------
+2 
+2 
+2 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 4
+o_dim_ids_nb[0] = 3
+o_dim_ids_kb[0] = 5
+o_dim_ids_kb[1] = 6
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff88549000
+[DEBUG] GEMM shape: m=24 n=64 k=384 lda=24 ldb=384 ldc=24
+[DEBUG] dim_types_out: 2 2 2 2 1 
+m_num_loops: 3
+JIT compile err: 0
+  time (compile): 0.000437678
+  time (contract): 0.00102427
+  gflops: 2653.5
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "jki,efghjk->efghi" "6,64,6,64,24,6,64" FP64
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  j,k,i
+  e,f,g,h,j,k
+  e,f,g,h,i
+parsed dimension ids:
+  e: 0
+  f: 1
+  g: 2
+  h: 3
+  i: 4
+  j: 5
+  k: 6
+parsed dimension sizes:
+  e: 6
+  f: 64
+  g: 6
+  h: 64
+  i: 24
+  j: 6
+  k: 64
+dtype: FP64
+at::einsum:
+  time (contract): 0.0842174
+  gflops: 32.2725
+einsum_ir:
+2 
+2 
+2 
+2 
+3 
+3 
+--------
+2 
+2 
+2 
+2 
+1 
+--------
+[BP::init] i_data_type = 1, backend = 2
+2 
+2 
+2 
+2 
+3 
+3 
+--------
+2 
+2 
+2 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 4
+o_dim_ids_nb[0] = 3
+o_dim_ids_kb[0] = 6
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffba21b000
+[DEBUG] GEMM shape: m=24 n=64 k=64 lda=24 ldb=384 ldc=24
+[DEBUG] dim_types_out: 2 2 2 2 1 
+m_num_loops: 4
+JIT compile err: 0
+  time (compile): 0.000423567
+  time (contract): 0.00160166
+  gflops: 1696.93
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Multi-Core Testing: abed,ce->abcd with dimensions: 96,84,24,84,96 ===
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "abed,ce->abcd" "96,84,24,84,96" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,b,e,d
+  c,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 24
+  d: 84
+  e: 96
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.00381599
+  gflops: 817.965
+einsum_ir:
+2 
+3 
+--------
+1 
+1 
+2 
+1 
+--------
+[BP::init] i_data_type = 2, backend = 2
+2 
+3 
+--------
+1 
+1 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 2
+o_dim_ids_kb[0] = 4
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff90bf9000
+[DEBUG] GEMM shape: m=84 n=24 k=96 lda=84 ldb=96 ldc=84
+[DEBUG] dim_types_out: 1 1 2 1 
+m_num_loops: 2
+JIT compile err: 0
+  time (compile): 0.000436366
+  time (contract): 0.000590317
+  gflops: 5287.58
+-----------------------------------
+      max element torch :35.5
+        max element jit :35.5
+max difference :          0
+-----------------------------------
+Element-wise relative errors
+  Biggest relative error:0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "abed,ce->abcd" "96,84,24,84,96" FP32
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,b,e,d
+  c,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 24
+  d: 84
+  e: 96
+dtype: FP32
+at::einsum:
+  time (contract): 0.00560515
+  gflops: 556.871
+einsum_ir:
+2 
+3 
+--------
+1 
+1 
+2 
+1 
+--------
+[BP::init] i_data_type = 0, backend = 2
+2 
+3 
+--------
+1 
+1 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 2
+o_dim_ids_kb[0] = 4
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffafef0000
+[DEBUG] GEMM shape: m=84 n=24 k=96 lda=84 ldb=96 ldc=84
+[DEBUG] dim_types_out: 1 1 2 1 
+m_num_loops: 2
+JIT compile err: 0
+  time (compile): 0.000457678
+  time (contract): 0.00131194
+  gflops: 2379.19
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "abed,ce->abcd" "96,84,24,84,96" FP64
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,b,e,d
+  c,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 24
+  d: 84
+  e: 96
+dtype: FP64
+at::einsum:
+  time (contract): 0.17381
+  gflops: 17.9584
+einsum_ir:
+2 
+3 
+--------
+1 
+1 
+2 
+1 
+--------
+[BP::init] i_data_type = 1, backend = 2
+2 
+3 
+--------
+1 
+1 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 2
+o_dim_ids_kb[0] = 4
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff9ef3a000
+[DEBUG] GEMM shape: m=84 n=24 k=96 lda=84 ldb=96 ldc=84
+[DEBUG] dim_types_out: 1 1 2 1 
+m_num_loops: 2
+JIT compile err: 0
+  time (compile): 0.000471181
+  time (contract): 0.00201822
+  gflops: 1546.59
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Multi-Core Testing: bcgf,adeg->abcdef with dimensions: 24,20,20,24,20,20,24 ===
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "bcgf,adeg->abcdef" "24,20,20,24,20,20,24" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  b,c,g,f
+  a,d,e,g
+  a,b,c,d,e,f
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+  g: 6
+parsed dimension sizes:
+  a: 24
+  b: 20
+  c: 20
+  d: 24
+  e: 20
+  f: 20
+  g: 24
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.00293561
+  gflops: 1506.91
+einsum_ir:
+2 
+2 
+2 
+3 
+--------
+2 
+1 
+1 
+2 
+2 
+1 
+--------
+[BP::init] i_data_type = 2, backend = 2
+2 
+2 
+2 
+3 
+--------
+2 
+1 
+1 
+2 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 5
+o_dim_ids_nb[0] = 4
+o_dim_ids_kb[0] = 6
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffb545f000
+[DEBUG] GEMM shape: m=20 n=20 k=24 lda=20 ldb=24 ldc=20
+[DEBUG] dim_types_out: 2 1 1 2 2 1 
+m_num_loops: 4
+JIT compile err: 0
+  time (compile): 0.000460973
+  time (contract): 0.00138093
+  gflops: 3203.42
+-----------------------------------
+      max element torch :12.25
+        max element jit :12.25
+max difference :          0
+-----------------------------------
+Element-wise relative errors
+  Biggest relative error:0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "bcgf,adeg->abcdef" "24,20,20,24,20,20,24" FP32
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  b,c,g,f
+  a,d,e,g
+  a,b,c,d,e,f
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+  g: 6
+parsed dimension sizes:
+  a: 24
+  b: 20
+  c: 20
+  d: 24
+  e: 20
+  f: 20
+  g: 24
+dtype: FP32
+at::einsum:
+  time (contract): 0.0246158
+  gflops: 179.709
+einsum_ir:
+2 
+2 
+2 
+3 
+--------
+2 
+1 
+1 
+2 
+2 
+1 
+--------
+[BP::init] i_data_type = 0, backend = 2
+2 
+2 
+2 
+3 
+--------
+2 
+1 
+1 
+2 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 5
+o_dim_ids_nb[0] = 4
+o_dim_ids_kb[0] = 6
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffbba64000
+[DEBUG] GEMM shape: m=20 n=20 k=24 lda=20 ldb=24 ldc=20
+[DEBUG] dim_types_out: 2 1 1 2 2 1 
+m_num_loops: 4
+JIT compile err: 0
+  time (compile): 0.000461421
+  time (contract): 0.00223141
+  gflops: 1982.46
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "bcgf,adeg->abcdef" "24,20,20,24,20,20,24" FP64
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  b,c,g,f
+  a,d,e,g
+  a,b,c,d,e,f
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+  g: 6
+parsed dimension sizes:
+  a: 24
+  b: 20
+  c: 20
+  d: 24
+  e: 20
+  f: 20
+  g: 24
+dtype: FP64
+at::einsum:
+  time (contract): 0.471152
+  gflops: 9.38906
+einsum_ir:
+2 
+2 
+2 
+3 
+--------
+2 
+1 
+1 
+2 
+2 
+1 
+--------
+[BP::init] i_data_type = 1, backend = 2
+2 
+2 
+2 
+3 
+--------
+2 
+1 
+1 
+2 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 5
+o_dim_ids_nb[0] = 4
+o_dim_ids_kb[0] = 6
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff83d4b000
+[DEBUG] GEMM shape: m=20 n=20 k=24 lda=20 ldb=24 ldc=20
+[DEBUG] dim_types_out: 2 1 1 2 2 1 
+m_num_loops: 4
+JIT compile err: 0
+  time (compile): 0.000407535
+  time (contract): 0.0044342
+  gflops: 997.627
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Multi-Core Testing: bdgf,aceg->abcdef with dimensions: 24,20,20,24,20,20,24 ===
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "bdgf,aceg->abcdef" "24,20,20,24,20,20,24" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  b,d,g,f
+  a,c,e,g
+  a,b,c,d,e,f
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+  g: 6
+parsed dimension sizes:
+  a: 24
+  b: 20
+  c: 20
+  d: 24
+  e: 20
+  f: 20
+  g: 24
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.00319794
+  gflops: 1383.29
+einsum_ir:
+2 
+2 
+2 
+3 
+--------
+2 
+1 
+2 
+1 
+2 
+1 
+--------
+[BP::init] i_data_type = 2, backend = 2
+2 
+2 
+2 
+3 
+--------
+2 
+1 
+2 
+1 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 5
+o_dim_ids_nb[0] = 4
+o_dim_ids_kb[0] = 6
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff84cac000
+[DEBUG] GEMM shape: m=20 n=20 k=24 lda=20 ldb=24 ldc=20
+[DEBUG] dim_types_out: 2 1 2 1 2 1 
+m_num_loops: 4
+JIT compile err: 0
+  time (compile): 0.000469229
+  time (contract): 0.00135895
+  gflops: 3255.21
+-----------------------------------
+      max element torch :12.8125
+        max element jit :12.8125
+max difference :          0
+-----------------------------------
+Element-wise relative errors
+  Biggest relative error:0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "bdgf,aceg->abcdef" "24,20,20,24,20,20,24" FP32
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  b,d,g,f
+  a,c,e,g
+  a,b,c,d,e,f
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+  g: 6
+parsed dimension sizes:
+  a: 24
+  b: 20
+  c: 20
+  d: 24
+  e: 20
+  f: 20
+  g: 24
+dtype: FP32
+at::einsum:
+  time (contract): 0.0108528
+  gflops: 407.607
+einsum_ir:
+2 
+2 
+2 
+3 
+--------
+2 
+1 
+2 
+1 
+2 
+1 
+--------
+[BP::init] i_data_type = 0, backend = 2
+2 
+2 
+2 
+3 
+--------
+2 
+1 
+2 
+1 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 5
+o_dim_ids_nb[0] = 4
+o_dim_ids_kb[0] = 6
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff93d61000
+[DEBUG] GEMM shape: m=20 n=20 k=24 lda=20 ldb=24 ldc=20
+[DEBUG] dim_types_out: 2 1 2 1 2 1 
+m_num_loops: 4
+JIT compile err: 0
+  time (compile): 0.000420719
+  time (contract): 0.00197485
+  gflops: 2240.01
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "bdgf,aceg->abcdef" "24,20,20,24,20,20,24" FP64
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  b,d,g,f
+  a,c,e,g
+  a,b,c,d,e,f
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+  g: 6
+parsed dimension sizes:
+  a: 24
+  b: 20
+  c: 20
+  d: 24
+  e: 20
+  f: 20
+  g: 24
+dtype: FP64
+at::einsum:
+  time (contract): 0.495159
+  gflops: 8.93385
+einsum_ir:
+2 
+2 
+2 
+3 
+--------
+2 
+1 
+2 
+1 
+2 
+1 
+--------
+[BP::init] i_data_type = 1, backend = 2
+2 
+2 
+2 
+3 
+--------
+2 
+1 
+2 
+1 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 5
+o_dim_ids_nb[0] = 4
+o_dim_ids_kb[0] = 6
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff89057000
+[DEBUG] GEMM shape: m=20 n=20 k=24 lda=20 ldb=24 ldc=20
+[DEBUG] dim_types_out: 2 1 2 1 2 1 
+m_num_loops: 4
+JIT compile err: 0
+  time (compile): 0.000402864
+  time (contract): 0.00374664
+  gflops: 1180.7
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Multi-Core Testing: acgf,bdeg->abcdef with dimensions: 24,20,20,24,20,20,24 ===
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "acgf,bdeg->abcdef" "24,20,20,24,20,20,24" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,c,g,f
+  b,d,e,g
+  a,b,c,d,e,f
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+  g: 6
+parsed dimension sizes:
+  a: 24
+  b: 20
+  c: 20
+  d: 24
+  e: 20
+  f: 20
+  g: 24
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.00324709
+  gflops: 1362.35
+einsum_ir:
+2 
+2 
+2 
+3 
+--------
+1 
+2 
+1 
+2 
+2 
+1 
+--------
+[BP::init] i_data_type = 2, backend = 2
+2 
+2 
+2 
+3 
+--------
+1 
+2 
+1 
+2 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 5
+o_dim_ids_nb[0] = 4
+o_dim_ids_kb[0] = 6
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffb071f000
+[DEBUG] GEMM shape: m=20 n=20 k=24 lda=20 ldb=24 ldc=20
+[DEBUG] dim_types_out: 1 2 1 2 2 1 
+m_num_loops: 4
+JIT compile err: 0
+  time (compile): 0.000484429
+  time (contract): 0.00143707
+  gflops: 3078.26
+-----------------------------------
+      max element torch :12.4375
+        max element jit :12.4375
+max difference :          0
+-----------------------------------
+Element-wise relative errors
+  Biggest relative error:0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "acgf,bdeg->abcdef" "24,20,20,24,20,20,24" FP32
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,c,g,f
+  b,d,e,g
+  a,b,c,d,e,f
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+  g: 6
+parsed dimension sizes:
+  a: 24
+  b: 20
+  c: 20
+  d: 24
+  e: 20
+  f: 20
+  g: 24
+dtype: FP32
+at::einsum:
+  time (contract): 0.013895
+  gflops: 318.365
+einsum_ir:
+2 
+2 
+2 
+3 
+--------
+1 
+2 
+1 
+2 
+2 
+1 
+--------
+[BP::init] i_data_type = 0, backend = 2
+2 
+2 
+2 
+3 
+--------
+1 
+2 
+1 
+2 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 5
+o_dim_ids_nb[0] = 4
+o_dim_ids_kb[0] = 6
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff978e8000
+[DEBUG] GEMM shape: m=20 n=20 k=24 lda=20 ldb=24 ldc=20
+[DEBUG] dim_types_out: 1 2 1 2 2 1 
+m_num_loops: 4
+JIT compile err: 0
+  time (compile): 0.000464461
+  time (contract): 0.00224043
+  gflops: 1974.48
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "acgf,bdeg->abcdef" "24,20,20,24,20,20,24" FP64
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,c,g,f
+  b,d,e,g
+  a,b,c,d,e,f
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+  g: 6
+parsed dimension sizes:
+  a: 24
+  b: 20
+  c: 20
+  d: 24
+  e: 20
+  f: 20
+  g: 24
+dtype: FP64
+at::einsum:
+  time (contract): 0.480217
+  gflops: 9.21183
+einsum_ir:
+2 
+2 
+2 
+3 
+--------
+1 
+2 
+1 
+2 
+2 
+1 
+--------
+[BP::init] i_data_type = 1, backend = 2
+2 
+2 
+2 
+3 
+--------
+1 
+2 
+1 
+2 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 5
+o_dim_ids_nb[0] = 4
+o_dim_ids_kb[0] = 6
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffabffd000
+[DEBUG] GEMM shape: m=20 n=20 k=24 lda=20 ldb=24 ldc=20
+[DEBUG] dim_types_out: 1 2 1 2 2 1 
+m_num_loops: 4
+JIT compile err: 0
+  time (compile): 0.000418511
+  time (contract): 0.00444414
+  gflops: 995.396
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Multi-Core Testing: abgf,cdeg->abcdef with dimensions: 24,20,20,24,20,20,24 ===
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "abgf,cdeg->abcdef" "24,20,20,24,20,20,24" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,b,g,f
+  c,d,e,g
+  a,b,c,d,e,f
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+  g: 6
+parsed dimension sizes:
+  a: 24
+  b: 20
+  c: 20
+  d: 24
+  e: 20
+  f: 20
+  g: 24
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.00317405
+  gflops: 1393.7
+einsum_ir:
+2 
+2 
+2 
+3 
+--------
+1 
+1 
+2 
+2 
+2 
+1 
+--------
+[BP::init] i_data_type = 2, backend = 2
+2 
+2 
+2 
+3 
+--------
+1 
+1 
+2 
+2 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 5
+o_dim_ids_nb[0] = 4
+o_dim_ids_kb[0] = 6
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff880a6000
+[DEBUG] GEMM shape: m=20 n=20 k=24 lda=20 ldb=24 ldc=20
+[DEBUG] dim_types_out: 1 1 2 2 2 1 
+m_num_loops: 4
+JIT compile err: 0
+  time (compile): 0.000482861
+  time (contract): 0.00136284
+  gflops: 3245.92
+-----------------------------------
+      max element torch :12.3125
+        max element jit :12.3125
+max difference :          0
+-----------------------------------
+Element-wise relative errors
+  Biggest relative error:0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "abgf,cdeg->abcdef" "24,20,20,24,20,20,24" FP32
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,b,g,f
+  c,d,e,g
+  a,b,c,d,e,f
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+  g: 6
+parsed dimension sizes:
+  a: 24
+  b: 20
+  c: 20
+  d: 24
+  e: 20
+  f: 20
+  g: 24
+dtype: FP32
+at::einsum:
+  time (contract): 0.0110341
+  gflops: 400.908
+einsum_ir:
+2 
+2 
+2 
+3 
+--------
+1 
+1 
+2 
+2 
+2 
+1 
+--------
+[BP::init] i_data_type = 0, backend = 2
+2 
+2 
+2 
+3 
+--------
+1 
+1 
+2 
+2 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 5
+o_dim_ids_nb[0] = 4
+o_dim_ids_kb[0] = 6
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff9866f000
+[DEBUG] GEMM shape: m=20 n=20 k=24 lda=20 ldb=24 ldc=20
+[DEBUG] dim_types_out: 1 1 2 2 2 1 
+m_num_loops: 4
+JIT compile err: 0
+  time (compile): 0.00042491
+  time (contract): 0.00226095
+  gflops: 1956.56
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "abgf,cdeg->abcdef" "24,20,20,24,20,20,24" FP64
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,b,g,f
+  c,d,e,g
+  a,b,c,d,e,f
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+  g: 6
+parsed dimension sizes:
+  a: 24
+  b: 20
+  c: 20
+  d: 24
+  e: 20
+  f: 20
+  g: 24
+dtype: FP64
+at::einsum:
+  time (contract): 0.494097
+  gflops: 8.95306
+einsum_ir:
+2 
+2 
+2 
+3 
+--------
+1 
+1 
+2 
+2 
+2 
+1 
+--------
+[BP::init] i_data_type = 1, backend = 2
+2 
+2 
+2 
+3 
+--------
+1 
+1 
+2 
+2 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 5
+o_dim_ids_nb[0] = 4
+o_dim_ids_kb[0] = 6
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff9a7e9000
+[DEBUG] GEMM shape: m=20 n=20 k=24 lda=20 ldb=24 ldc=20
+[DEBUG] dim_types_out: 1 1 2 2 2 1 
+m_num_loops: 4
+JIT compile err: 0
+  time (compile): 0.000412272
+  time (contract): 0.00445577
+  gflops: 992.797
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Multi-Core Testing: efhjki,gjk->efghi with dimensions: 6,64,24,4,94,6,64 ===
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "efhjki,gjk->efghi" "6,64,24,4,94,6,64" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  e,f,h,j,k,i
+  g,j,k
+  e,f,g,h,i
+parsed dimension ids:
+  e: 0
+  f: 1
+  g: 2
+  h: 3
+  i: 4
+  j: 5
+  k: 6
+parsed dimension sizes:
+  e: 6
+  f: 64
+  g: 24
+  h: 4
+  i: 94
+  j: 6
+  k: 64
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.00330068
+  gflops: 806.284
+einsum_ir:
+2 
+3 
+3 
+--------
+1 
+1 
+2 
+1 
+1 
+--------
+[BP::init] i_data_type = 2, backend = 2
+2 
+3 
+3 
+--------
+1 
+1 
+2 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 4
+o_dim_ids_nb[0] = 2
+o_dim_ids_kb[0] = 5
+o_dim_ids_kb[1] = 6
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffa67ad000
+[DEBUG] GEMM shape: m=94 n=24 k=384 lda=94 ldb=384 ldc=376
+[DEBUG] dim_types_out: 1 1 2 1 1 
+m_num_loops: 3
+JIT compile err: 0
+  time (compile): 0.000452845
+  time (contract): 0.000483332
+  gflops: 5506.12
+-----------------------------------
+      max element torch :117
+        max element jit :117
+max difference :          0
+-----------------------------------
+Element-wise relative errors
+  Biggest relative error:0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "efhjki,gjk->efghi" "6,64,24,4,94,6,64" FP32
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  e,f,h,j,k,i
+  g,j,k
+  e,f,g,h,i
+parsed dimension ids:
+  e: 0
+  f: 1
+  g: 2
+  h: 3
+  i: 4
+  j: 5
+  k: 6
+parsed dimension sizes:
+  e: 6
+  f: 64
+  g: 24
+  h: 4
+  i: 94
+  j: 6
+  k: 64
+dtype: FP32
+at::einsum:
+  time (contract): 0.00514952
+  gflops: 516.803
+einsum_ir:
+2 
+3 
+3 
+--------
+1 
+1 
+2 
+1 
+1 
+--------
+[BP::init] i_data_type = 0, backend = 2
+2 
+3 
+3 
+--------
+1 
+1 
+2 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 4
+o_dim_ids_nb[0] = 2
+o_dim_ids_kb[0] = 5
+o_dim_ids_kb[1] = 6
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff99b70000
+[DEBUG] GEMM shape: m=94 n=24 k=384 lda=94 ldb=384 ldc=376
+[DEBUG] dim_types_out: 1 1 2 1 1 
+m_num_loops: 3
+JIT compile err: 0
+  time (compile): 0.00043403
+  time (contract): 0.000927852
+  gflops: 2868.22
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "efhjki,gjk->efghi" "6,64,24,4,94,6,64" FP64
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  e,f,h,j,k,i
+  g,j,k
+  e,f,g,h,i
+parsed dimension ids:
+  e: 0
+  f: 1
+  g: 2
+  h: 3
+  i: 4
+  j: 5
+  k: 6
+parsed dimension sizes:
+  e: 6
+  f: 64
+  g: 24
+  h: 4
+  i: 94
+  j: 6
+  k: 64
+dtype: FP64
+at::einsum:
+  time (contract): 0.0971565
+  gflops: 27.3917
+einsum_ir:
+2 
+3 
+3 
+--------
+1 
+1 
+2 
+1 
+1 
+--------
+[BP::init] i_data_type = 1, backend = 2
+2 
+3 
+3 
+--------
+1 
+1 
+2 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 4
+o_dim_ids_nb[0] = 2
+o_dim_ids_kb[0] = 6
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff86e6f000
+[DEBUG] GEMM shape: m=94 n=24 k=64 lda=94 ldb=384 ldc=376
+[DEBUG] dim_types_out: 1 1 2 1 1 
+m_num_loops: 4
+JIT compile err: 0
+  time (compile): 0.000440942
+  time (contract): 0.00161581
+  gflops: 1647.03
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Multi-Core Testing: bced,ae->abcd with dimensions: 96,84,84,84,96 ===
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "bced,ae->abcd" "96,84,84,84,96" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  b,c,e,d
+  a,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 84
+  e: 96
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.00527224
+  gflops: 2072.12
+einsum_ir:
+2 
+3 
+--------
+2 
+1 
+1 
+1 
+--------
+[BP::init] i_data_type = 2, backend = 2
+2 
+3 
+--------
+2 
+1 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 0
+o_dim_ids_kb[0] = 4
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffa50dc000
+[DEBUG] GEMM shape: m=84 n=96 k=96 lda=84 ldb=96 ldc=592704
+[DEBUG] dim_types_out: 2 1 1 1 
+m_num_loops: 2
+JIT compile err: 0
+  time (compile): 0.000455149
+  time (contract): 0.00148829
+  gflops: 7340.47
+-----------------------------------
+      max element torch :34.5
+        max element jit :34.5
+max difference :          0
+-----------------------------------
+Element-wise relative errors
+  Biggest relative error:0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "bced,ae->abcd" "96,84,84,84,96" FP32
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  b,c,e,d
+  a,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 84
+  e: 96
+dtype: FP32
+at::einsum:
+  time (contract): 0.0068886
+  gflops: 1585.91
+einsum_ir:
+2 
+3 
+--------
+2 
+1 
+1 
+1 
+--------
+[BP::init] i_data_type = 0, backend = 2
+2 
+3 
+--------
+2 
+1 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 0
+o_dim_ids_kb[0] = 4
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff91097000
+[DEBUG] GEMM shape: m=84 n=96 k=96 lda=84 ldb=96 ldc=592704
+[DEBUG] dim_types_out: 2 1 1 1 
+m_num_loops: 2
+JIT compile err: 0
+  time (compile): 0.000450926
+  time (contract): 0.00313753
+  gflops: 3481.94
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "bced,ae->abcd" "96,84,84,84,96" FP64
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  b,c,e,d
+  a,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 84
+  e: 96
+dtype: FP64
+at::einsum:
+  time (contract): 0.485566
+  gflops: 22.4989
+einsum_ir:
+2 
+3 
+--------
+2 
+1 
+1 
+1 
+--------
+[BP::init] i_data_type = 1, backend = 2
+2 
+3 
+--------
+2 
+1 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 0
+o_dim_ids_kb[0] = 4
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffbf651000
+[DEBUG] GEMM shape: m=84 n=96 k=96 lda=84 ldb=96 ldc=592704
+[DEBUG] dim_types_out: 2 1 1 1 
+m_num_loops: 2
+JIT compile err: 0
+  time (compile): 0.000385009
+  time (contract): 0.00614086
+  gflops: 1779.02
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Multi-Core Testing: aced,be->abcd with dimensions: 96,84,84,84,96 ===
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "aced,be->abcd" "96,84,84,84,96" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,c,e,d
+  b,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 84
+  e: 96
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.00512994
+  gflops: 2129.6
+einsum_ir:
+2 
+3 
+--------
+1 
+2 
+1 
+1 
+--------
+[BP::init] i_data_type = 2, backend = 2
+2 
+3 
+--------
+1 
+2 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 4
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffac5a4000
+[DEBUG] GEMM shape: m=84 n=84 k=96 lda=84 ldb=96 ldc=7056
+[DEBUG] dim_types_out: 1 2 1 1 
+m_num_loops: 2
+JIT compile err: 0
+  time (compile): 0.000463629
+  time (contract): 0.00146942
+  gflops: 7434.74
+-----------------------------------
+      max element torch :35.25
+        max element jit :35.25
+max difference :          0
+-----------------------------------
+Element-wise relative errors
+  Biggest relative error:0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "aced,be->abcd" "96,84,84,84,96" FP32
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,c,e,d
+  b,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 84
+  e: 96
+dtype: FP32
+at::einsum:
+  time (contract): 0.0080127
+  gflops: 1363.42
+einsum_ir:
+2 
+3 
+--------
+1 
+2 
+1 
+1 
+--------
+[BP::init] i_data_type = 0, backend = 2
+2 
+3 
+--------
+1 
+2 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 4
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffb5818000
+[DEBUG] GEMM shape: m=84 n=84 k=96 lda=84 ldb=96 ldc=7056
+[DEBUG] dim_types_out: 1 2 1 1 
+m_num_loops: 2
+JIT compile err: 0
+  time (compile): 0.000468557
+  time (contract): 0.00308066
+  gflops: 3546.23
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "aced,be->abcd" "96,84,84,84,96" FP64
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,c,e,d
+  b,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 84
+  e: 96
+dtype: FP64
+at::einsum:
+  time (contract): 0.529916
+  gflops: 20.6159
+einsum_ir:
+2 
+3 
+--------
+1 
+2 
+1 
+1 
+--------
+[BP::init] i_data_type = 1, backend = 2
+2 
+3 
+--------
+1 
+2 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 4
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffa6ec3000
+[DEBUG] GEMM shape: m=84 n=84 k=96 lda=84 ldb=96 ldc=7056
+[DEBUG] dim_types_out: 1 2 1 1 
+m_num_loops: 2
+JIT compile err: 0
+  time (compile): 0.000395216
+  time (contract): 0.00618642
+  gflops: 1765.92
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Multi-Core Testing: abed,ce->abcd with dimensions: 96,84,84,84,96 ===
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "abed,ce->abcd" "96,84,84,84,96" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,b,e,d
+  c,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 84
+  e: 96
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.00543502
+  gflops: 2010.06
+einsum_ir:
+2 
+3 
+--------
+1 
+1 
+2 
+1 
+--------
+[BP::init] i_data_type = 2, backend = 2
+2 
+3 
+--------
+1 
+1 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 2
+o_dim_ids_kb[0] = 4
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff888ac000
+[DEBUG] GEMM shape: m=84 n=84 k=96 lda=84 ldb=96 ldc=84
+[DEBUG] dim_types_out: 1 1 2 1 
+m_num_loops: 2
+JIT compile err: 0
+  time (compile): 0.000453262
+  time (contract): 0.00144394
+  gflops: 7565.92
+-----------------------------------
+      max element torch :37
+        max element jit :37
+max difference :          0
+-----------------------------------
+Element-wise relative errors
+  Biggest relative error:0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "abed,ce->abcd" "96,84,84,84,96" FP32
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,b,e,d
+  c,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 84
+  e: 96
+dtype: FP32
+at::einsum:
+  time (contract): 0.00798091
+  gflops: 1368.86
+einsum_ir:
+2 
+3 
+--------
+1 
+1 
+2 
+1 
+--------
+[BP::init] i_data_type = 0, backend = 2
+2 
+3 
+--------
+1 
+1 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 2
+o_dim_ids_kb[0] = 4
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff8caa9000
+[DEBUG] GEMM shape: m=84 n=84 k=96 lda=84 ldb=96 ldc=84
+[DEBUG] dim_types_out: 1 1 2 1 
+m_num_loops: 2
+JIT compile err: 0
+  time (compile): 0.000389424
+  time (contract): 0.00330967
+  gflops: 3300.85
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "abed,ce->abcd" "96,84,84,84,96" FP64
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,b,e,d
+  c,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 84
+  e: 96
+dtype: FP64
+at::einsum:
+  time (contract): 0.523358
+  gflops: 20.8743
+einsum_ir:
+2 
+3 
+--------
+1 
+1 
+2 
+1 
+--------
+[BP::init] i_data_type = 1, backend = 2
+2 
+3 
+--------
+1 
+1 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 2
+o_dim_ids_kb[0] = 4
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff9e187000
+[DEBUG] GEMM shape: m=84 n=84 k=96 lda=84 ldb=96 ldc=84
+[DEBUG] dim_types_out: 1 1 2 1 
+m_num_loops: 2
+JIT compile err: 0
+  time (compile): 0.000418287
+  time (contract): 0.00573316
+  gflops: 1905.53
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Multi-Core Testing: aedc,ebd->abc with dimensions: 96,84,84,84,96 ===
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "aedc,ebd->abc" "96,84,84,84,96" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,e,d,c
+  e,b,d
+  a,b,c
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 84
+  e: 96
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.00418234
+  gflops: 2612.11
+einsum_ir:
+3 
+2 
+3 
+--------
+1 
+2 
+1 
+--------
+[BP::init] i_data_type = 2, backend = 2
+3 
+2 
+3 
+--------
+1 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 2
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 3
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffa0020000
+[DEBUG] GEMM shape: m=84 n=84 k=84 lda=84 ldb=84 ldc=84
+[DEBUG] dim_types_out: 1 2 1 
+m_num_loops: 3
+JIT compile err: 0
+  time (compile): 0.000478509
+  time (contract): 0.00170066
+  gflops: 6423.83
+-----------------------------------
+      max element torch :2112
+        max element jit :2128
+max difference :          104
+-----------------------------------
+Element-wise relative errors
+  Biggest relative error:0.0496183
+Torch value at max error:1992
+Kernel value at max error:2096
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "aedc,ebd->abc" "96,84,84,84,96" FP32
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,e,d,c
+  e,b,d
+  a,b,c
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 84
+  e: 96
+dtype: FP32
+at::einsum:
+  time (contract): 0.00822717
+  gflops: 1327.88
+einsum_ir:
+3 
+2 
+3 
+--------
+1 
+2 
+1 
+--------
+[BP::init] i_data_type = 0, backend = 2
+3 
+2 
+3 
+--------
+1 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 2
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 3
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff8bd8a000
+[DEBUG] GEMM shape: m=84 n=84 k=84 lda=84 ldb=84 ldc=84
+[DEBUG] dim_types_out: 1 2 1 
+m_num_loops: 3
+JIT compile err: 0
+  time (compile): 0.000475277
+  time (contract): 0.00358949
+  gflops: 3043.53
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "aedc,ebd->abc" "96,84,84,84,96" FP64
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,e,d,c
+  e,b,d
+  a,b,c
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 84
+  e: 96
+dtype: FP64
+at::einsum:
+  time (contract): 0.273978
+  gflops: 39.8744
+einsum_ir:
+3 
+2 
+3 
+--------
+1 
+2 
+1 
+--------
+[BP::init] i_data_type = 1, backend = 2
+3 
+2 
+3 
+--------
+1 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 2
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 3
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffb1ee7000
+[DEBUG] GEMM shape: m=84 n=84 k=84 lda=84 ldb=84 ldc=84
+[DEBUG] dim_types_out: 1 2 1 
+m_num_loops: 3
+JIT compile err: 0
+  time (compile): 0.000401999
+  time (contract): 0.00673331
+  gflops: 1622.49
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Multi-Core Testing: gkiljh,ekilfj->efgh with dimensions: 6,64,4,94,6,64,6,64 ===
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "gkiljh,ekilfj->efgh" "6,64,4,94,6,64,6,64" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  g,k,i,l,j,h
+  e,k,i,l,f,j
+  e,f,g,h
+parsed dimension ids:
+  e: 0
+  f: 1
+  g: 2
+  h: 3
+  i: 4
+  j: 5
+  k: 6
+  l: 7
+parsed dimension sizes:
+  e: 6
+  f: 64
+  g: 4
+  h: 94
+  i: 6
+  j: 64
+  k: 6
+  l: 64
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.0212609
+  gflops: 2002.77
+einsum_ir:
+2 
+3 
+3 
+3 
+2 
+3 
+--------
+2 
+2 
+1 
+1 
+--------
+[BP::init] i_data_type = 2, backend = 2
+2 
+3 
+3 
+3 
+2 
+3 
+--------
+2 
+2 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 5
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffae7b6000
+[DEBUG] GEMM shape: m=94 n=64 k=64 lda=94 ldb=64 ldc=376
+[DEBUG] dim_types_out: 2 2 1 1 
+m_num_loops: 6
+JIT compile err: 0
+  time (compile): 0.000468237
+  time (contract): 0.017632
+  gflops: 2414.95
+-----------------------------------
+      max element torch :32640
+        max element jit :8192
+max difference :          24448
+-----------------------------------
+Element-wise relative errors
+  Biggest relative error:0.74902
+Torch value at max error:32640
+Kernel value at max error:8192
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "gkiljh,ekilfj->efgh" "6,64,4,94,6,64,6,64" FP32
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  g,k,i,l,j,h
+  e,k,i,l,f,j
+  e,f,g,h
+parsed dimension ids:
+  e: 0
+  f: 1
+  g: 2
+  h: 3
+  i: 4
+  j: 5
+  k: 6
+  l: 7
+parsed dimension sizes:
+  e: 6
+  f: 64
+  g: 4
+  h: 94
+  i: 6
+  j: 64
+  k: 6
+  l: 64
+dtype: FP32
+at::einsum:
+  time (contract): 0.033104
+  gflops: 1286.27
+einsum_ir:
+2 
+3 
+3 
+3 
+2 
+3 
+--------
+2 
+2 
+1 
+1 
+--------
+[BP::init] i_data_type = 0, backend = 2
+2 
+3 
+3 
+3 
+2 
+3 
+--------
+2 
+2 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 5
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff898c5000
+[DEBUG] GEMM shape: m=94 n=64 k=64 lda=94 ldb=64 ldc=376
+[DEBUG] dim_types_out: 2 2 1 1 
+m_num_loops: 6
+JIT compile err: 0
+  time (compile): 0.000480397
+  time (contract): 0.029675
+  gflops: 1434.9
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "gkiljh,ekilfj->efgh" "6,64,4,94,6,64,6,64" FP64
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  g,k,i,l,j,h
+  e,k,i,l,f,j
+  e,f,g,h
+parsed dimension ids:
+  e: 0
+  f: 1
+  g: 2
+  h: 3
+  i: 4
+  j: 5
+  k: 6
+  l: 7
+parsed dimension sizes:
+  e: 6
+  f: 64
+  g: 4
+  h: 94
+  i: 6
+  j: 64
+  k: 6
+  l: 64
+dtype: FP64
+at::einsum:
+  time (contract): 0.968471
+  gflops: 43.9668
+einsum_ir:
+2 
+3 
+3 
+3 
+2 
+3 
+--------
+2 
+2 
+1 
+1 
+--------
+[BP::init] i_data_type = 1, backend = 2
+2 
+3 
+3 
+3 
+2 
+3 
+--------
+2 
+2 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 5
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff9f35a000
+[DEBUG] GEMM shape: m=94 n=64 k=64 lda=94 ldb=64 ldc=376
+[DEBUG] dim_types_out: 2 2 1 1 
+m_num_loops: 6
+JIT compile err: 0
+  time (compile): 0.000436462
+  time (contract): 0.0556464
+  gflops: 765.199
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Multi-Core Testing: gikljh,eiklfj->efgh with dimensions: 6,64,4,94,4,94,6,64 ===
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "gikljh,eiklfj->efgh" "6,64,4,94,4,94,6,64" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  g,i,k,l,j,h
+  e,i,k,l,f,j
+  e,f,g,h
+parsed dimension ids:
+  e: 0
+  f: 1
+  g: 2
+  h: 3
+  i: 4
+  j: 5
+  k: 6
+  l: 7
+parsed dimension sizes:
+  e: 6
+  f: 64
+  g: 4
+  h: 94
+  i: 4
+  j: 94
+  k: 6
+  l: 64
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.0210225
+  gflops: 1983.28
+einsum_ir:
+2 
+3 
+3 
+3 
+2 
+3 
+--------
+2 
+2 
+1 
+1 
+--------
+[BP::init] i_data_type = 2, backend = 2
+2 
+3 
+3 
+3 
+2 
+3 
+--------
+2 
+2 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 5
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff96c29000
+[DEBUG] GEMM shape: m=94 n=64 k=94 lda=94 ldb=94 ldc=376
+[DEBUG] dim_types_out: 2 2 1 1 
+m_num_loops: 6
+JIT compile err: 0
+  time (compile): 0.000402383
+  time (contract): 0.0203854
+  gflops: 2045.26
+-----------------------------------
+      max element torch :32000
+        max element jit :8384
+max difference :          23808
+-----------------------------------
+Element-wise relative errors
+  Biggest relative error:0.744
+Torch value at max error:32000
+Kernel value at max error:8192
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "gikljh,eiklfj->efgh" "6,64,4,94,4,94,6,64" FP32
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  g,i,k,l,j,h
+  e,i,k,l,f,j
+  e,f,g,h
+parsed dimension ids:
+  e: 0
+  f: 1
+  g: 2
+  h: 3
+  i: 4
+  j: 5
+  k: 6
+  l: 7
+parsed dimension sizes:
+  e: 6
+  f: 64
+  g: 4
+  h: 94
+  i: 4
+  j: 94
+  k: 6
+  l: 64
+dtype: FP32
+at::einsum:
+  time (contract): 0.0312277
+  gflops: 1335.15
+einsum_ir:
+2 
+3 
+3 
+3 
+2 
+3 
+--------
+2 
+2 
+1 
+1 
+--------
+[BP::init] i_data_type = 0, backend = 2
+2 
+3 
+3 
+3 
+2 
+3 
+--------
+2 
+2 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 5
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff8c6e4000
+[DEBUG] GEMM shape: m=94 n=64 k=94 lda=94 ldb=94 ldc=376
+[DEBUG] dim_types_out: 2 2 1 1 
+m_num_loops: 6
+JIT compile err: 0
+  time (compile): 0.000464749
+  time (contract): 0.0385288
+  gflops: 1082.14
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "gikljh,eiklfj->efgh" "6,64,4,94,4,94,6,64" FP64
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  g,i,k,l,j,h
+  e,i,k,l,f,j
+  e,f,g,h
+parsed dimension ids:
+  e: 0
+  f: 1
+  g: 2
+  h: 3
+  i: 4
+  j: 5
+  k: 6
+  l: 7
+parsed dimension sizes:
+  e: 6
+  f: 64
+  g: 4
+  h: 94
+  i: 4
+  j: 94
+  k: 6
+  l: 64
+dtype: FP64
+at::einsum:
+  time (contract): 0.944885
+  gflops: 44.1255
+einsum_ir:
+2 
+3 
+3 
+3 
+2 
+3 
+--------
+2 
+2 
+1 
+1 
+--------
+[BP::init] i_data_type = 1, backend = 2
+2 
+3 
+3 
+3 
+2 
+3 
+--------
+2 
+2 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 5
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff873a4000
+[DEBUG] GEMM shape: m=94 n=64 k=94 lda=94 ldb=94 ldc=376
+[DEBUG] dim_types_out: 2 2 1 1 
+m_num_loops: 6
+JIT compile err: 0
+  time (compile): 0.000512651
+  time (contract): 0.0506442
+  gflops: 823.263
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Multi-Core Testing: efiklj,ghkl->efghij with dimensions: 6,64,4,94,4,94,6,64 ===
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "efiklj,ghkl->efghij" "6,64,4,94,4,94,6,64" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  e,f,i,k,l,j
+  g,h,k,l
+  e,f,g,h,i,j
+parsed dimension ids:
+  e: 0
+  f: 1
+  g: 2
+  h: 3
+  i: 4
+  j: 5
+  k: 6
+  l: 7
+parsed dimension sizes:
+  e: 6
+  f: 64
+  g: 4
+  h: 94
+  i: 4
+  j: 94
+  k: 6
+  l: 64
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.00701009
+  gflops: 5947.64
+einsum_ir:
+2 
+2 
+3 
+3 
+--------
+1 
+1 
+2 
+2 
+1 
+1 
+--------
+[BP::init] i_data_type = 2, backend = 2
+2 
+2 
+3 
+3 
+--------
+1 
+1 
+2 
+2 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 5
+o_dim_ids_nb[0] = 3
+o_dim_ids_kb[0] = 6
+o_dim_ids_kb[1] = 7
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff97c8c000
+[DEBUG] GEMM shape: m=94 n=94 k=384 lda=94 ldb=384 ldc=376
+[DEBUG] dim_types_out: 1 1 2 2 1 1 
+m_num_loops: 4
+JIT compile err: 0
+  time (compile): 0.000415887
+  time (contract): 0.00431534
+  gflops: 9661.68
+-----------------------------------
+      max element torch :119
+        max element jit :119
+max difference :          0
+-----------------------------------
+Element-wise relative errors
+  Biggest relative error:0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "efiklj,ghkl->efghij" "6,64,4,94,4,94,6,64" FP32
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  e,f,i,k,l,j
+  g,h,k,l
+  e,f,g,h,i,j
+parsed dimension ids:
+  e: 0
+  f: 1
+  g: 2
+  h: 3
+  i: 4
+  j: 5
+  k: 6
+  l: 7
+parsed dimension sizes:
+  e: 6
+  f: 64
+  g: 4
+  h: 94
+  i: 4
+  j: 94
+  k: 6
+  l: 64
+dtype: FP32
+at::einsum:
+  time (contract): 0.0114153
+  gflops: 3652.42
+einsum_ir:
+2 
+2 
+3 
+3 
+--------
+1 
+1 
+2 
+2 
+1 
+1 
+--------
+[BP::init] i_data_type = 0, backend = 2
+2 
+2 
+3 
+3 
+--------
+1 
+1 
+2 
+2 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 5
+o_dim_ids_nb[0] = 3
+o_dim_ids_kb[0] = 6
+o_dim_ids_kb[1] = 7
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff80d0f000
+[DEBUG] GEMM shape: m=94 n=94 k=384 lda=94 ldb=384 ldc=376
+[DEBUG] dim_types_out: 1 1 2 2 1 1 
+m_num_loops: 4
+JIT compile err: 0
+  time (compile): 0.000482348
+  time (contract): 0.0110794
+  gflops: 3763.16
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "efiklj,ghkl->efghij" "6,64,4,94,4,94,6,64" FP64
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  e,f,i,k,l,j
+  g,h,k,l
+  e,f,g,h,i,j
+parsed dimension ids:
+  e: 0
+  f: 1
+  g: 2
+  h: 3
+  i: 4
+  j: 5
+  k: 6
+  l: 7
+parsed dimension sizes:
+  e: 6
+  f: 64
+  g: 4
+  h: 94
+  i: 4
+  j: 94
+  k: 6
+  l: 64
+dtype: FP64
+at::einsum:
+  time (contract): 1.09556
+  gflops: 38.0568
+einsum_ir:
+2 
+2 
+3 
+3 
+--------
+1 
+1 
+2 
+2 
+1 
+1 
+--------
+[BP::init] i_data_type = 1, backend = 2
+2 
+2 
+3 
+3 
+--------
+1 
+1 
+2 
+2 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 5
+o_dim_ids_nb[0] = 3
+o_dim_ids_kb[0] = 7
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffb4aba000
+[DEBUG] GEMM shape: m=94 n=94 k=64 lda=94 ldb=384 ldc=376
+[DEBUG] dim_types_out: 1 1 2 2 1 1 
+m_num_loops: 5
+JIT compile err: 0
+  time (compile): 0.000440078
+  time (contract): 0.0213128
+  gflops: 1956.26
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Multi-Core Testing: efiklj,ghkl->efghij with dimensions: 6,64,6,64,4,94,4,94 ===
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "efiklj,ghkl->efghij" "6,64,6,64,4,94,4,94" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  e,f,i,k,l,j
+  g,h,k,l
+  e,f,g,h,i,j
+parsed dimension ids:
+  e: 0
+  f: 1
+  g: 2
+  h: 3
+  i: 4
+  j: 5
+  k: 6
+  l: 7
+parsed dimension sizes:
+  e: 6
+  f: 64
+  g: 6
+  h: 64
+  i: 4
+  j: 94
+  k: 4
+  l: 94
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.00713905
+  gflops: 5840.2
+einsum_ir:
+2 
+2 
+3 
+3 
+--------
+1 
+1 
+2 
+2 
+1 
+1 
+--------
+[BP::init] i_data_type = 2, backend = 2
+2 
+2 
+3 
+3 
+--------
+1 
+1 
+2 
+2 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 5
+o_dim_ids_nb[0] = 3
+o_dim_ids_kb[0] = 6
+o_dim_ids_kb[1] = 7
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff81efd000
+[DEBUG] GEMM shape: m=94 n=64 k=376 lda=94 ldb=376 ldc=376
+[DEBUG] dim_types_out: 1 1 2 2 1 1 
+m_num_loops: 4
+JIT compile err: 0
+  time (compile): 0.000413359
+  time (contract): 0.00476606
+  gflops: 8748
+-----------------------------------
+      max element torch :117
+        max element jit :117
+max difference :          0
+-----------------------------------
+Element-wise relative errors
+  Biggest relative error:0
+Torch value at max error:0
+Kernel value at max error:0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "efiklj,ghkl->efghij" "6,64,6,64,4,94,4,94" FP32
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  e,f,i,k,l,j
+  g,h,k,l
+  e,f,g,h,i,j
+parsed dimension ids:
+  e: 0
+  f: 1
+  g: 2
+  h: 3
+  i: 4
+  j: 5
+  k: 6
+  l: 7
+parsed dimension sizes:
+  e: 6
+  f: 64
+  g: 6
+  h: 64
+  i: 4
+  j: 94
+  k: 4
+  l: 94
+dtype: FP32
+at::einsum:
+  time (contract): 0.0116026
+  gflops: 3593.46
+einsum_ir:
+2 
+2 
+3 
+3 
+--------
+1 
+1 
+2 
+2 
+1 
+1 
+--------
+[BP::init] i_data_type = 0, backend = 2
+2 
+2 
+3 
+3 
+--------
+1 
+1 
+2 
+2 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 5
+o_dim_ids_nb[0] = 3
+o_dim_ids_kb[0] = 6
+o_dim_ids_kb[1] = 7
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffacf58000
+[DEBUG] GEMM shape: m=94 n=64 k=376 lda=94 ldb=376 ldc=376
+[DEBUG] dim_types_out: 1 1 2 2 1 1 
+m_num_loops: 4
+JIT compile err: 0
+  time (compile): 0.000463917
+  time (contract): 0.0111837
+  gflops: 3728.07
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "efiklj,ghkl->efghij" "6,64,6,64,4,94,4,94" FP64
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  e,f,i,k,l,j
+  g,h,k,l
+  e,f,g,h,i,j
+parsed dimension ids:
+  e: 0
+  f: 1
+  g: 2
+  h: 3
+  i: 4
+  j: 5
+  k: 6
+  l: 7
+parsed dimension sizes:
+  e: 6
+  f: 64
+  g: 6
+  h: 64
+  i: 4
+  j: 94
+  k: 4
+  l: 94
+dtype: FP64
+at::einsum:
+  time (contract): 1.09292
+  gflops: 38.1488
+einsum_ir:
+2 
+2 
+3 
+3 
+--------
+1 
+1 
+2 
+2 
+1 
+1 
+--------
+[BP::init] i_data_type = 1, backend = 2
+2 
+2 
+3 
+3 
+--------
+1 
+1 
+2 
+2 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 5
+o_dim_ids_nb[0] = 3
+o_dim_ids_kb[0] = 7
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffac08d000
+[DEBUG] GEMM shape: m=94 n=64 k=94 lda=94 ldb=376 ldc=376
+[DEBUG] dim_types_out: 1 1 2 2 1 1 
+m_num_loops: 5
+JIT compile err: 0
+  time (compile): 0.000405295
+  time (contract): 0.0214361
+  gflops: 1945.02
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Multi-Core Testing: cefd,aebf->abcd with dimensions: 96,84,84,84,84,96 ===
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "cefd,aebf->abcd" "96,84,84,84,84,96" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  c,e,f,d
+  a,e,b,f
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 84
+  e: 84
+  f: 96
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.0657119
+  gflops: 13965.2
+einsum_ir:
+2 
+3 
+2 
+3 
+--------
+2 
+2 
+1 
+1 
+--------
+[BP::init] i_data_type = 2, backend = 2
+2 
+3 
+2 
+3 
+--------
+2 
+2 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 5
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff886d3000
+[DEBUG] GEMM shape: m=84 n=84 k=96 lda=84 ldb=96 ldc=7056
+[DEBUG] dim_types_out: 2 2 1 1 
+m_num_loops: 6
+JIT compile err: 0
+  time (compile): 0.000461133
+  time (contract): 0.0985742
+  gflops: 9309.5
+-----------------------------------
+      max element torch :2112
+        max element jit :2144
+max difference :          88
+-----------------------------------
+Element-wise relative errors
+  Biggest relative error:0.0433071
+Torch value at max error:1944
+Kernel value at max error:2032
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "cefd,aebf->abcd" "96,84,84,84,84,96" FP32
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  c,e,f,d
+  a,e,b,f
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 84
+  e: 84
+  f: 96
+dtype: FP32
+at::einsum:
+  time (contract): 0.214169
+  gflops: 4284.82
+einsum_ir:
+2 
+3 
+2 
+3 
+--------
+2 
+2 
+1 
+1 
+--------
+[BP::init] i_data_type = 0, backend = 2
+2 
+3 
+2 
+3 
+--------
+2 
+2 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 5
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffb3e07000
+[DEBUG] GEMM shape: m=84 n=84 k=96 lda=84 ldb=96 ldc=7056
+[DEBUG] dim_types_out: 2 2 1 1 
+m_num_loops: 6
+JIT compile err: 0
+  time (compile): 0.000450286
+  time (contract): 0.209109
+  gflops: 4388.51
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "cefd,aebf->abcd" "96,84,84,84,84,96" FP64
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  c,e,f,d
+  a,e,b,f
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 84
+  e: 84
+  f: 96
+dtype: FP64
+at::einsum:
+  time (contract): 19.086
+  gflops: 48.0811
+einsum_ir:
+2 
+3 
+2 
+3 
+--------
+2 
+2 
+1 
+1 
+--------
+[BP::init] i_data_type = 1, backend = 2
+2 
+3 
+2 
+3 
+--------
+2 
+2 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 5
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff8b1bb000
+[DEBUG] GEMM shape: m=84 n=84 k=96 lda=84 ldb=96 ldc=7056
+[DEBUG] dim_types_out: 2 2 1 1 
+m_num_loops: 6
+JIT compile err: 0
+  time (compile): 0.000419023
+  time (contract): 0.403086
+  gflops: 2276.63
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Multi-Core Testing: aefd,becf->abcd with dimensions: 96,84,84,84,96,96 ===
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "aefd,becf->abcd" "96,84,84,84,96,96" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,e,f,d
+  b,e,c,f
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 84
+  e: 96
+  f: 96
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.0674435
+  gflops: 15550.4
+einsum_ir:
+2 
+3 
+2 
+3 
+--------
+1 
+2 
+2 
+1 
+--------
+[BP::init] i_data_type = 2, backend = 2
+2 
+3 
+2 
+3 
+--------
+1 
+2 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 2
+o_dim_ids_kb[0] = 5
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffa390e000
+[DEBUG] GEMM shape: m=84 n=84 k=96 lda=84 ldb=96 ldc=84
+[DEBUG] dim_types_out: 1 2 2 1 
+m_num_loops: 6
+JIT compile err: 0
+  time (compile): 0.000474668
+  time (contract): 0.109445
+  gflops: 9582.63
+-----------------------------------
+      max element torch :2416
+        max element jit :2464
+max difference :          144
+-----------------------------------
+Element-wise relative errors
+  Biggest relative error:0.06
+Torch value at max error:2256
+Kernel value at max error:2400
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "aefd,becf->abcd" "96,84,84,84,96,96" FP32
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,e,f,d
+  b,e,c,f
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 84
+  e: 96
+  f: 96
+dtype: FP32
+at::einsum:
+  time (contract): 0.23833
+  gflops: 4400.51
+einsum_ir:
+2 
+3 
+2 
+3 
+--------
+1 
+2 
+2 
+1 
+--------
+[BP::init] i_data_type = 0, backend = 2
+2 
+3 
+2 
+3 
+--------
+1 
+2 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 2
+o_dim_ids_kb[0] = 5
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffa304e000
+[DEBUG] GEMM shape: m=84 n=84 k=96 lda=84 ldb=96 ldc=84
+[DEBUG] dim_types_out: 1 2 2 1 
+m_num_loops: 6
+JIT compile err: 0
+  time (compile): 0.000431567
+  time (contract): 0.238026
+  gflops: 4406.14
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "aefd,becf->abcd" "96,84,84,84,96,96" FP64
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,e,f,d
+  b,e,c,f
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 84
+  e: 96
+  f: 96
+dtype: FP64
+at::einsum:
+  time (contract): 21.3803
+  gflops: 49.0532
+einsum_ir:
+2 
+3 
+2 
+3 
+--------
+1 
+2 
+2 
+1 
+--------
+[BP::init] i_data_type = 1, backend = 2
+2 
+3 
+2 
+3 
+--------
+1 
+2 
+2 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 2
+o_dim_ids_kb[0] = 5
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffa9fe6000
+[DEBUG] GEMM shape: m=84 n=84 k=96 lda=84 ldb=96 ldc=84
+[DEBUG] dim_types_out: 1 2 2 1 
+m_num_loops: 6
+JIT compile err: 0
+  time (compile): 0.000413712
+  time (contract): 0.454366
+  gflops: 2308.21
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Multi-Core Testing: cfed,afbe->abcd with dimensions: 96,84,84,96,84,84 ===
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "cfed,afbe->abcd" "96,84,84,96,84,84" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  c,f,e,d
+  a,f,b,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 96
+  e: 84
+  f: 84
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.0640707
+  gflops: 14322.9
+einsum_ir:
+2 
+3 
+2 
+3 
+--------
+2 
+2 
+1 
+1 
+--------
+[BP::init] i_data_type = 2, backend = 2
+2 
+3 
+2 
+3 
+--------
+2 
+2 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 4
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffffb0195000
+[DEBUG] GEMM shape: m=96 n=84 k=84 lda=96 ldb=84 ldc=8064
+[DEBUG] dim_types_out: 2 2 1 1 
+m_num_loops: 6
+JIT compile err: 0
+  time (compile): 0.000462477
+  time (contract): 0.0791082
+  gflops: 11600.3
+-----------------------------------
+      max element torch :1856
+        max element jit :1904
+max difference :          104
+-----------------------------------
+Element-wise relative errors
+  Biggest relative error:0.0555556
+Torch value at max error:1768
+Kernel value at max error:1872
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "cfed,afbe->abcd" "96,84,84,96,84,84" FP32
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  c,f,e,d
+  a,f,b,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 96
+  e: 84
+  f: 84
+dtype: FP32
+at::einsum:
+  time (contract): 0.202344
+  gflops: 4535.24
+einsum_ir:
+2 
+3 
+2 
+3 
+--------
+2 
+2 
+1 
+1 
+--------
+[BP::init] i_data_type = 0, backend = 2
+2 
+3 
+2 
+3 
+--------
+2 
+2 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 4
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff97c5b000
+[DEBUG] GEMM shape: m=96 n=84 k=84 lda=96 ldb=84 ldc=8064
+[DEBUG] dim_types_out: 2 2 1 1 
+m_num_loops: 6
+JIT compile err: 0
+  time (compile): 0.000462381
+  time (contract): 0.191839
+  gflops: 4783.58
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running (72 threads): OMP_NUM_THREADS=72 /home/daniel/einsum_ir/build/bench_binary "cfed,afbe->abcd" "96,84,84,96,84,84" FP64
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  c,f,e,d
+  a,f,b,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 96
+  e: 84
+  f: 84
+dtype: FP64
+at::einsum:
+  time (contract): 18.8551
+  gflops: 48.67
+einsum_ir:
+2 
+3 
+2 
+3 
+--------
+2 
+2 
+1 
+1 
+--------
+[BP::init] i_data_type = 1, backend = 2
+2 
+3 
+2 
+3 
+--------
+2 
+2 
+1 
+1 
+--------
+o_dim_ids_mb[0] = 3
+o_dim_ids_nb[0] = 1
+o_dim_ids_kb[0] = 4
+[OK] BRGEMM kernel erfolgreich generiert.
+[DEBUG] Main GEMM ptr: 0xffff8491f000
+[DEBUG] GEMM shape: m=96 n=84 k=84 lda=96 ldb=84 ldc=8064
+[DEBUG] dim_types_out: 2 2 1 1 
+m_num_loops: 6
+JIT compile err: 0
+  time (compile): 0.000477036
+  time (contract): 0.388763
+  gflops: 2360.5
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+

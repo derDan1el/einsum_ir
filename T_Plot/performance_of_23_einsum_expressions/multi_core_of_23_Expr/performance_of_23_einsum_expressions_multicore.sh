@@ -1,22 +1,30 @@
 #!/bin/bash
 
-# performance_of_24_einsum_expressions.sh - Benchmarking Script für einsum_ir
+# performance_of_23_einsum_expressions_multicore.sh - Multi-Core Benchmarking Script für einsum_ir
+# Optimiert für NVIDIA Grace CPU mit 72 Arm Neoverse-V2 Kernen
 
 # Output files
-OUTPUT_CSV="benchmark_results.csv"
-FULL_LOG="expressions.log"
+OUTPUT_CSV="benchmark_results_multicore.csv"
+FULL_LOG="expressions_multicore.log"
 
 # Binary path
 BINARY="/home/daniel/einsum_ir/build/bench_binary"
+
+echo "=========================================="
+echo "NVIDIA Grace CPU Multi-Core Benchmark"
+echo "72 Arm Neoverse-V2 CPU Kerne"
+echo "Optimiert für führende Leistung pro Kern"
+echo "=========================================="
+echo ""
 
 # Check if binary exists, if not compile it
 if [ ! -f "$BINARY" ]; then
     echo "Binary $BINARY not found!"
     echo "Starting compilation..."
-    echo "Running: scons parallel=none libtorch=/home/daniel/venv_pytorch/lib/python3.9/site-packages/torch libxsmm=/home/daniel/einsum_ir/../libxsmm -j8"
+    echo "Running: scons libtorch=/home/daniel/venv_pytorch/lib/python3.9/site-packages/torch libxsmm=/home/daniel/einsum_ir/../libxsmm -j8"
     
     # Run compilation
-    scons parallel=none libtorch=/home/daniel/venv_pytorch/lib/python3.9/site-packages/torch libxsmm=/home/daniel/einsum_ir/../libxsmm -j8
+    scons libtorch=/home/daniel/venv_pytorch/lib/python3.9/site-packages/torch libxsmm=/home/daniel/einsum_ir/../libxsmm -j8
     
     # Check if compilation was successful
     if [ $? -eq 0 ]; then
@@ -33,13 +41,14 @@ if [ ! -f "$BINARY" ]; then
         exit 1
     fi
 else
-    echo "Binary $BINARY found, proceeding with benchmarks..."
+    echo "Binary $BINARY found, proceeding with multi-core benchmarks..."
     echo ""
 fi
 
 # Initialize files
 echo "Einsum,Dimensions,Dtype,Torch_GFLOPS,JIT_GFLOPS" > "$OUTPUT_CSV"
-echo "=== Benchmark Log Started: $(date) ===" > "$FULL_LOG"
+echo "=== Multi-Core Benchmark Log Started: $(date) ===" > "$FULL_LOG"
+echo "=== Using 72 CPU Threads (NVIDIA Grace CPU) ===" >> "$FULL_LOG"
 echo "" >> "$FULL_LOG"
 
 # Function to extract GFLOPS from output
@@ -61,12 +70,12 @@ run_benchmark() {
     local dimensions="$2"
     local dtype="$3"
     
-    # Build command
-    local cmd="OMP_NUM_THREADS=1 $BINARY \"$einsum\" \"$dimensions\" $dtype"
+    # Build command with 72 threads for NVIDIA Grace CPU
+    local cmd="OMP_NUM_THREADS=72 $BINARY \"$einsum\" \"$dimensions\" $dtype"
     
     # Show the actual command being executed
-    echo "Running: $cmd"
-    echo "Running: $cmd" >> "$FULL_LOG"
+    echo "Running (72 threads): $cmd"
+    echo "Running (72 threads): $cmd" >> "$FULL_LOG"
     echo "----------------------------------------" >> "$FULL_LOG"
     
     # Run the benchmark and capture all output
@@ -97,8 +106,8 @@ run_benchmark() {
     echo "\"$einsum\",\"$dimensions\",\"$dtype\",$torch_val,$jit_val" >> "$OUTPUT_CSV"
     
     # Print progress
-    echo "  Torch: $torch_val GFLOPS"
-    echo "  JIT:   $jit_val GFLOPS"
+    echo "  Torch (72 cores): $torch_val GFLOPS"
+    echo "  JIT (72 cores):   $jit_val GFLOPS"
     echo ""
 }
 
@@ -107,7 +116,7 @@ run_benchmark_all_dtypes() {
     local einsum="$1"
     local dimensions="$2"
     
-    echo "=== Testing: $einsum with dimensions: $dimensions ===" >> "$FULL_LOG"
+    echo "=== Multi-Core Testing: $einsum with dimensions: $dimensions ===" >> "$FULL_LOG"
     
     # Run for each data type
     run_benchmark "$einsum" "$dimensions" "BF16"
@@ -117,12 +126,12 @@ run_benchmark_all_dtypes() {
     echo "" >> "$FULL_LOG"
 }
 
-echo "Starting einsum_ir benchmark suite..."
+echo "Starting einsum_ir multi-core benchmark suite (72 threads)..."
 echo "Results will be written to: $OUTPUT_CSV"
 echo "Full logs will be written to: $FULL_LOG"
 echo ""
 
-# Run all benchmarks
+# Run all benchmarks with 72 threads
 run_benchmark_all_dtypes "abdfe,cf->abcde" "48,36,24,36,48,36"
 run_benchmark_all_dtypes "acdfe,bf->abcde" "48,24,36,36,48,36"
 run_benchmark_all_dtypes "abed,ce->abcd" "96,84,24,96,96"
@@ -143,20 +152,20 @@ run_benchmark_all_dtypes "gkiljh,ekilfj->efgh" "6,64,4,94,6,64,6,64"
 run_benchmark_all_dtypes "gikljh,eiklfj->efgh" "6,64,4,94,4,94,6,64"
 run_benchmark_all_dtypes "efiklj,ghkl->efghij" "6,64,4,94,4,94,6,64"
 run_benchmark_all_dtypes "efiklj,ghkl->efghij" "6,64,6,64,4,94,4,94"
-run_benchmark_all_dtypes "fihg,dieh->defg" "151,48,181,40,151,48"
 run_benchmark_all_dtypes "cefd,aebf->abcd" "96,84,84,84,84,96"
 run_benchmark_all_dtypes "aefd,becf->abcd" "96,84,84,84,96,96"
 run_benchmark_all_dtypes "cfed,afbe->abcd" "96,84,84,96,84,84"
 
-echo "Benchmark completed!"
+echo "Multi-Core Benchmark completed!"
 echo "Results saved to: $OUTPUT_CSV"
 echo "Full logs saved to: $FULL_LOG"
 echo ""
 
-echo "Summary:"
-echo "  Total expressions tested: 24"
+echo "Multi-Core Summary (72 threads):"
+echo "  Total expressions tested: 23"
 echo "  Data types tested: BF16, FP32, FP64"
-echo "  Total benchmark runs: 72"
+echo "  Total benchmark runs: 69"
+echo "  CPU: NVIDIA Grace with 72 Arm Neoverse-V2 cores"
 echo ""
 
 echo "You can view the results with:"

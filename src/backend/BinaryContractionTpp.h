@@ -74,6 +74,7 @@ class einsum_ir::backend::BinaryContractionTpp: public BinaryContraction {
     std::vector< int64_t > m_strides_out_bm;
     //! BN strides of the output tensor
     std::vector< int64_t > m_strides_out_bn;
+    //! Batch size for batch-reduce GEMM operations
 
     /**
      * Converts the given native datatype to a LIBXSMM datatype.
@@ -90,6 +91,7 @@ class einsum_ir::backend::BinaryContractionTpp: public BinaryContraction {
     bool is_k_product_within_limit();
 
   public:
+
     /**
      * Destructor
      **/

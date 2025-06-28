@@ -18,7 +18,8 @@ void einsum_ir::backend::ContractionLoopsTpp::init( std::map< int64_t, int64_t >
                                                     libxsmm_gemmfunction         const   i_xmm_kernel_main,
                                                     libxsmm_meltwfunction_unary  const   i_xmm_kernel_last_touch_unary,
                                                     libxsmm_meltwfunction_binary const   i_xmm_kernel_last_touch_binary,
-                                                    ContractionPackingTpp              * i_packing ) {
+                                                    ContractionPackingTpp              * i_packing,
+                                                    uint64_t                             i_batch_reduce_size) {
   ContractionLoops::init( i_sizes,
                           i_strides_left,
                           i_strides_right,
@@ -39,6 +40,7 @@ void einsum_ir::backend::ContractionLoopsTpp::init( std::map< int64_t, int64_t >
   m_xmm_kernel_main               = i_xmm_kernel_main;
   m_xmm_kernel_last_touch_unary   = i_xmm_kernel_last_touch_unary;
   m_xmm_kernel_last_touch_binary  = i_xmm_kernel_last_touch_binary;
+  m_batch_reduce_size             = i_batch_reduce_size;
 }
 
 void einsum_ir::backend::ContractionLoopsTpp::kernel_first_touch( void const * i_out_aux,
@@ -65,6 +67,8 @@ void einsum_ir::backend::ContractionLoopsTpp::kernel_main( void const * i_left,
   l_param.a.primary = (void *) i_left;
   l_param.b.primary = (void *) i_right;
   l_param.c.primary =          io_out;
+  l_param.op.tertiary = &m_batch_reduce_size;
+
 
   m_xmm_kernel_main( &l_param );
 }

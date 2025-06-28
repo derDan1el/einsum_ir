@@ -74,7 +74,7 @@ ax.set_ylabel('Speedup Factor (relative to own FP64)', fontsize=12, fontweight='
 ax.set_title(f'Data Type Speedup Comparison: PyTorch vs JIT\n({n_expressions} Expressions)', 
              fontsize=14, fontweight='bold', pad=20)
 
-# Set x-axis labels mit E1-E24
+# Set x-axis labels mit E1-E23
 ax.set_xticks(x)
 ax.set_xticklabels([f'E{i+1}' for i in range(n_expressions)], fontsize=10)
 
@@ -106,12 +106,12 @@ ax.legend(handles=patches, loc='upper left', fontsize=10, ncol=5)
 plt.tight_layout()
 
 # Save the plot
-plt.savefig('datatype_speedup_comparison_E1_E24.png', 
+plt.savefig('datatype_speedup_comparison_E1_E23.png', 
             dpi=300, bbox_inches='tight', facecolor='white')
 
 
 print(f"\nSpeedup plot saved with {n_expressions} expressions")
-print("- datatype_speedup_comparison_E1_E24.png")
-print("- datatype_speedup_comparison_E1_E24.pdf")
+print("- datatype_speedup_comparison_E1_E23.png")
+print("- datatype_speedup_comparison_E1_E23.pdf")
 
 plt.show()

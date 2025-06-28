@@ -28,8 +28,8 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
   std::chrono::steady_clock::time_point l_tp0, l_tp1;
   std::chrono::duration<double> l_dur;
   int64_t l_n_flops = 0;
-  int64_t l_repetitions = 300;
-  int64_t l_repetitions_warm_up = 10;
+  int64_t l_repetitions = 1;
+  int64_t l_repetitions_warm_up = 1;
   std::vector<int64_t> l_dim_ids_permute_left;
   std::vector<int64_t> l_dim_ids_permute_right;
   double l_time_compile = 0;
@@ -137,8 +137,8 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
                   &l_memory,
                   i_dtype_einsum_ir,
                   i_dtype_einsum_ir,
-                  l_dtype_comp,                // daniel : hier stand vorher auch i_dtype_einsum_ir nur muss bei BF16 in FP32 gerechnet werden siehe oben
-                  i_dtype_einsum_ir,           // daniel : der outputtensor ist auch fp32
+                  l_dtype_comp,      // daniel : hier stand vorher auch i_dtype_einsum_ir nur muss bei BF16 in FP32 gerechnet werden siehe oben
+                  i_dtype_einsum_ir, // daniel : der outputtensor ist auch fp32
                   i_dim_ids_in_left_vnni.size() == 0 ? 0 : 1,
                   einsum_ir::ZERO,             // daniel: first touch
                   einsum_ir::MADD,             // daniel: main kernel
@@ -533,19 +533,17 @@ int main(int i_argc,
     l_dim_ids_out.push_back(l_dim_id);
   }
 
-  
   std::vector<int64_t> l_dim_ids_in_left_vnni;
-  
+
   if (l_dtype_einsum_ir == einsum_ir::BF16)
   {
-    //einsum_ir::frontend::EinsumExpressionAscii::check_bf16_shape_constraints(l_dim_ids_in_left,
-    //                                                                         l_dim_ids_in_right,
-    //                                                                         l_dim_ids_out,
-    //                                                                         l_tensor_dim_names_left,
-    //                                                                         l_tensor_dim_names_right,
-    //                                                                         l_tensor_dim_names_out,
-    //                                                                         l_dim_sizes_map);
-
+    //  einsum_ir::frontend::EinsumExpressionAscii::check_bf16_shape_constraints(l_dim_ids_in_left,
+    //                                                                           l_dim_ids_in_right,
+    //                                                                           l_dim_ids_out,
+    //                                                                           l_tensor_dim_names_left,
+    //                                                                           l_tensor_dim_names_right,
+    //                                                                           l_tensor_dim_names_out,
+    //                                                                           l_dim_sizes_map);
 
     std::cout << "BF16 VNNI test:" << std::endl;
     // schaue ob die fastest dimension beim A Tensor eine k dimension ist mit dimension_size = 4

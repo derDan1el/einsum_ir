@@ -54,7 +54,7 @@ void einsum_ir::backend::BinaryContraction::dim_types( int64_t         i_num_dim
       o_dim_types_t2[l_pos_t2] = i_dim_type_t2_t1;
       l_dim_ids_t0.erase( l_iter_t1 );
     }
-    else {//daniel: wenn in allen drei tensoren die dimension vorkkommt,  std::vector< einsum_ir::dim_t > nimmt o_dim_types_t2 auf dh
+    else {//daniel: wenn in allen drei tensoren die dimension vorkomt,  std::vector< einsum_ir::dim_t > nimmt o_dim_types_t2 auf dh
        o_dim_types_t2[l_pos_t2] = i_dim_type_t2_t0_t1; //daniel: (zeile darüber) o_dim_types_t2 weist jeder dimensionsid einen dimensionstyp zu bsp hier in dem else zweig wird einsum_ir::C zugewiesen was bedeutet das es eine dim ist die in allen vorkommt und die erhalten bleibt
        l_dim_ids_t0.erase( l_iter_t0 ); //daniel : man entfernt die gefunde dimensionsid wenn vorhanden aus den beiden anderen tensoren in dem fall rechter und output tensor
        l_dim_ids_t1.erase( l_iter_t1 ); //[0] = C, [1] = C
@@ -88,9 +88,9 @@ void einsum_ir::backend::BinaryContraction::dim_types( int64_t                  
              einsum_ir::C,
              o_dim_types_left->data() ); //daniel: [0] = C, [1] = C, [2] = M, [3] = K
   //daniel::beginn
-  for( int64_t l_di = 0; l_di < i_num_dims_left; l_di++ ) {
+/*   for( int64_t l_di = 0; l_di < i_num_dims_left; l_di++ ) {
     std::cout << o_dim_types_left->at( l_di ) << " "<<std::endl; //daniel: [0] = C, [1] = C, [2] = M, [3] = K
-  }std::cout << "--------"<<std::endl;
+  }std::cout << "--------"<<std::endl; */
   //daniel ende
   dim_types( i_num_dims_left,
              i_num_dims_out,
@@ -103,11 +103,7 @@ void einsum_ir::backend::BinaryContraction::dim_types( int64_t                  
              einsum_ir::N,
              einsum_ir::C,
              o_dim_types_right->data() ); //daniel: [0] = C, [1] = K, [2] = N, [3] = C
-  //daniel::beginn
-  for( int64_t l_di = 0; l_di < i_num_dims_right; l_di++ ) {
-    std::cout << o_dim_types_right->at( l_di ) << " "<<std::endl; //daniel: [0] = C, [1] = C, [2] = M, [3] = K
-  } std::cout << "--------"<<std::endl;
-  //daniel ende
+
   
   dim_types( i_num_dims_left,
              i_num_dims_right,
@@ -121,11 +117,6 @@ void einsum_ir::backend::BinaryContraction::dim_types( int64_t                  
              einsum_ir::C,
              o_dim_types_out->data() ); // daniel: [0] = C, [1] = C, [2] = N
 
-  //daniel::beginn
-  for( int64_t l_di = 0; l_di < i_num_dims_out; l_di++ ) {
-    std::cout << o_dim_types_out->at( l_di ) << " "<<std::endl; //daniel: [0] = C, [1] = C, [2] = M, [3] = K
-  }std::cout << "--------"<<std::endl;
-  //daniel ende
 }
 //daniel :   filter_dim_ids( i_num_dims_out, einsum_ir::M, o_dim_types_out->data(), i_dim_ids_out, o_dim_ids_m->data() );
 int64_t einsum_ir::backend::BinaryContraction::filter_dim_ids( int64_t         i_num_dims_tensor,
@@ -236,6 +227,34 @@ void einsum_ir::backend::BinaryContraction::dim_types_ids( int64_t              
                   l_dim_types_right.data(),
                   i_dim_ids_right,
                   o_dim_ids_j->data() );
+
+  // Debug output: Display input parameters and output variables of dim_types_ids function
+  std::cout << "\n=== dim_types_ids function ===" << std::endl;
+  
+  std::cout << "\nInput parameters:" << std::endl;
+  std::cout << "i_num_dims_left:           " << i_num_dims_left << std::endl;
+  std::cout << "i_num_dims_right:          " << i_num_dims_right << std::endl;
+  std::cout << "i_num_dims_out:            " << i_num_dims_out << std::endl;
+  
+  std::cout << "\ni_dim_ids_left:            ";
+  for (int64_t i = 0; i < i_num_dims_left; i++) {
+    std::cout << "[" << i << "]=" << i_dim_ids_left[i] << " ";
+  }
+  std::cout << std::endl;
+  
+  std::cout << "i_dim_ids_right:           ";
+  for (int64_t i = 0; i < i_num_dims_right; i++) {
+    std::cout << "[" << i << "]=" << i_dim_ids_right[i] << " ";
+  }
+  std::cout << std::endl;
+  
+  std::cout << "i_dim_ids_out:             ";
+  for (int64_t i = 0; i < i_num_dims_out; i++) {
+    std::cout << "[" << i << "]=" << i_dim_ids_out[i] << " ";
+  }
+  std::cout << std::endl;
+  
+  std::cout << "===================================\n" << std::endl;
 }
 
 void einsum_ir::backend::BinaryContraction::strides( int64_t                              i_num_dims,
@@ -365,6 +384,55 @@ void einsum_ir::backend::BinaryContraction::init( int64_t                       
   m_ktype_last_touch  = i_ktype_last_touch;
 
   m_memory = i_memory;
+
+  // Debug output: Display all member variables set in init function
+  std::cout << "\n=== .init function in BinaryContraction ===" << std::endl;
+  std::cout << "m_num_dims_left:           " << m_num_dims_left << std::endl;
+  std::cout << "m_num_dims_right:          " << m_num_dims_right << std::endl;
+  std::cout << "m_num_dims_out:            " << m_num_dims_out << std::endl;
+  
+  std::cout << "\nDimension sizes maps:" << std::endl;
+  if (m_dim_sizes_inner) {
+    std::cout << "m_dim_sizes_inner:         ";
+    for (const auto& pair : *m_dim_sizes_inner) {
+      std::cout << "[" << pair.first << "]=" << pair.second << " ";
+    }
+    std::cout << std::endl;
+  }
+  
+  std::cout << "\nLoop order:" << std::endl;
+  if (m_loop_ids_ext) {
+    std::cout << "m_loop_ids_ext:            ";
+    for (size_t i = 0; i < m_loop_ids_ext->size(); i++) {
+      std::cout << "[" << i << "]=" << (*m_loop_ids_ext)[i] << " ";
+    }
+    std::cout << std::endl;
+  } else {
+    std::cout << "m_loop_ids_ext:            nullptr" << std::endl;
+  }
+  
+  std::cout << "\nDimension IDs:" << std::endl;
+  std::cout << "m_dim_ids_left:            ";
+  for (int64_t i = 0; i < m_num_dims_left; i++) {
+    std::cout << "[" << i << "]=" << m_dim_ids_left[i] << " ";
+  }
+  std::cout << std::endl;
+  
+  std::cout << "m_dim_ids_right:           ";
+  for (int64_t i = 0; i < m_num_dims_right; i++) {
+    std::cout << "[" << i << "]=" << m_dim_ids_right[i] << " ";
+  }
+  std::cout << std::endl;
+  
+  std::cout << "m_dim_ids_out:             ";
+  for (int64_t i = 0; i < m_num_dims_out; i++) {
+    std::cout << "[" << i << "]=" << m_dim_ids_out[i] << " ";
+  }
+  std::cout << std::endl;
+  
+  std::cout << "\nVNNI and kernel types:" << std::endl;
+  std::cout << "m_vnni_a:                  " << (m_vnni_a ? "true" : "false") << std::endl;
+  std::cout << "========================================\n" << std::endl;
 }
 
 einsum_ir::err_t einsum_ir::backend::BinaryContraction::compile_base() {
@@ -445,6 +513,99 @@ einsum_ir::err_t einsum_ir::backend::BinaryContraction::compile_base() {
     m_loop_ids_int.reserve(m_loop_ids_ext->size());
     m_loop_ids_int.insert(m_loop_ids_int.begin(), m_loop_ids_ext->begin(), m_loop_ids_ext->end());
   }
+
+  // Debug output: Display all variables set in compile_base function
+  std::cout << "\n=== compile_base function results ===" << std::endl;
+  
+  std::cout << "\nDimension IDs by type:" << std::endl;
+  std::cout << "m_dim_ids_c:               ";
+  for (size_t i = 0; i < m_dim_ids_c.size(); i++) {
+    std::cout << "[" << i << "]=" << m_dim_ids_c[i] << " ";
+  }
+  std::cout << std::endl;
+  
+  std::cout << "m_dim_ids_m:               ";
+  for (size_t i = 0; i < m_dim_ids_m.size(); i++) {
+    std::cout << "[" << i << "]=" << m_dim_ids_m[i] << " ";
+  }
+  std::cout << std::endl;
+  
+  std::cout << "m_dim_ids_n:               ";
+  for (size_t i = 0; i < m_dim_ids_n.size(); i++) {
+    std::cout << "[" << i << "]=" << m_dim_ids_n[i] << " ";
+  }
+  std::cout << std::endl;
+  
+  std::cout << "m_dim_ids_k:               ";
+  for (size_t i = 0; i < m_dim_ids_k.size(); i++) {
+    std::cout << "[" << i << "]=" << m_dim_ids_k[i] << " ";
+  }
+  std::cout << std::endl;
+  
+  std::cout << "m_dim_ids_i:               ";
+  for (size_t i = 0; i < m_dim_ids_i.size(); i++) {
+    std::cout << "[" << i << "]=" << m_dim_ids_i[i] << " ";
+  }
+  std::cout << std::endl;
+  
+  std::cout << "m_dim_ids_j:               ";
+  for (size_t i = 0; i < m_dim_ids_j.size(); i++) {
+    std::cout << "[" << i << "]=" << m_dim_ids_j[i] << " ";
+  }
+  std::cout << std::endl;
+  
+  std::cout << "\nDimension sizes by type:" << std::endl;
+  std::cout << "m_sizes_c:                 ";
+  for (size_t i = 0; i < m_sizes_c.size(); i++) {
+    std::cout << "[" << i << "]=" << m_sizes_c[i] << " ";
+  }
+  std::cout << std::endl;
+  
+  std::cout << "m_sizes_m:                 ";
+  for (size_t i = 0; i < m_sizes_m.size(); i++) {
+    std::cout << "[" << i << "]=" << m_sizes_m[i] << " ";
+  }
+  std::cout << std::endl;
+  
+  std::cout << "m_sizes_n:                 ";
+  for (size_t i = 0; i < m_sizes_n.size(); i++) {
+    std::cout << "[" << i << "]=" << m_sizes_n[i] << " ";
+  }
+  std::cout << std::endl;
+  
+  std::cout << "m_sizes_k:                 ";
+  for (size_t i = 0; i < m_sizes_k.size(); i++) {
+    std::cout << "[" << i << "]=" << m_sizes_k[i] << " ";
+  }
+  std::cout << std::endl;
+  
+  std::cout << "m_sizes_i:                 ";
+  for (size_t i = 0; i < m_sizes_i.size(); i++) {
+    std::cout << "[" << i << "]=" << m_sizes_i[i] << " ";
+  }
+  std::cout << std::endl;
+  
+  std::cout << "m_sizes_j:                 ";
+  for (size_t i = 0; i < m_sizes_j.size(); i++) {
+    std::cout << "[" << i << "]=" << m_sizes_j[i] << " ";
+  }
+  std::cout << std::endl;
+  
+  std::cout << "\nDimension types map:" << std::endl;
+  std::cout << "m_dim_types:               ";
+  for (const auto& pair : m_dim_types) {
+    std::cout << "[dim_id=" << pair.first << "]=" << static_cast<int>(pair.second) << " ";
+  }
+  std::cout << std::endl;
+  
+  std::cout << "\nInternal loop order:" << std::endl;
+  std::cout << "m_loop_ids_int:            ";
+  for (size_t i = 0; i < m_loop_ids_int.size(); i++) {
+    std::cout << "[" << i << "]=" << m_loop_ids_int[i] << " ";
+  }
+  std::cout << std::endl;
+  
+  std::cout << "=========================================\n" << std::endl;
 
   return einsum_ir::SUCCESS;
 }

@@ -40,7 +40,7 @@ bars2 = ax.bar(x + width/2, jit_gflops, width, label='JIT BF16',
 # Customize the plot
 ax.set_xlabel('Einsum Expressions', fontsize=12, fontweight='bold')
 ax.set_ylabel('Performance (GFLOPS)', fontsize=12, fontweight='bold')
-ax.set_title('PyTorch vs JIT Performance Comparison for BF16\n24 Einsum Expressions', 
+ax.set_title('PyTorch vs JIT Performance Comparison for BF16\n23 Einsum Expressions', 
              fontsize=14, fontweight='bold', pad=20)
 
 # Set x-axis labels (use expression numbers for readability)
@@ -87,16 +87,16 @@ ax.text(1.02, 0.5, f'Expression Mapping:\n{expression_mapping}',
 plt.subplots_adjust(right=0.75)
 
 # Save the plot
-plt.savefig('torch_and_jit_bf16_comparison_of_24_einsum_expressions.png', 
+plt.savefig('torch_and_jit_bf16_comparison_of_23_einsum_expressions.png', 
             dpi=300, bbox_inches='tight', facecolor='white')
 
 # Also save as PDF for better quality
-plt.savefig('torch_and_jit_bf16_comparison_of_24_einsum_expressions.pdf', 
+plt.savefig('torch_and_jit_bf16_comparison_of_23_einsum_expressions.pdf', 
             bbox_inches='tight', facecolor='white')
 
 print("Plot saved as:")
-print("- torch_and_jit_bf16_comparison_of_24_einsum_expressions.png")
-print("- torch_and_jit_bf16_comparison_of_24_einsum_expressions.pdf")
+print("- torch_and_jit_bf16_comparison_of_23_einsum_expressions.png")
+print("- torch_and_jit_bf16_comparison_of_23_einsum_expressions.pdf")
 
 # Show some statistics
 print(f"\nStatistics:")

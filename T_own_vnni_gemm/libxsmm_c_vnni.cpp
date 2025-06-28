@@ -70,8 +70,8 @@ int main() {
 }
 
 /**
- * g++ libxsmm_c_vnni.cpp     -std=c++17 -O0     -I/home/daniel/libxsmm/include     -L/home/daniel/libxsmm/lib -lxsmm     -o vnni
- *  export LD_LIBRARY_PATH=/home/daniel/libxsmm/lib:$LD_LIBRARY_PATH
+  g++ libxsmm_c_vnni.cpp     -std=c++17 -O0     -I/home/daniel/libxsmm/include     -L/home/daniel/libxsmm/lib -lxsmm     -o vnni
+  export LD_LIBRARY_PATH=/home/daniel/libxsmm/lib:$LD_LIBRARY_PATH
  * 
  * 
  */

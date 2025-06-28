@@ -1,0 +1,389 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=2cm]{geometry}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage{tcolorbox}
+\usepackage{multicol}
+
+% Definiere Farben für verschiedene Funktionsgruppen
+\definecolor{prologue}{RGB}{255,182,193}      % Light Pink - Prolog/Setup
+\definecolor{matrixc}{RGB}{173,216,230}       % Light Blue - Matrix C Loading  
+\definecolor{matrixa}{RGB}{144,238,144}       % Light Green - Matrix A Loading
+\definecolor{compute}{RGB}{255,165,0}         % Orange - Computation (bfdot)
+\definecolor{conversion}{RGB}{221,160,221}    % Plum - Format Conversion
+\definecolor{storage}{RGB}{255,228,181}       % Moccasin - Storage Operations
+\definecolor{control}{RGB}{255,99,71}         % Tomato - Control Flow/Loops
+\definecolor{address}{RGB}{176,196,222}       % Light Steel Blue - Address Calculation
+\definecolor{epilogue}{RGB}{255,192,203}      % Pink - Epilogue/Cleanup
+\definecolor{remainder}{RGB}{255,215,0}       % Gold - K=2 Remainder Handling
+
+\title{Farbliche Assembly-Analyse: onlyDivisibleBy2.asm (K=258, Non-VNNI)}
+\author{libxsmm BF16 Kernel Analysis}
+\date{\today}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Assembly Code Analysis}
+\rhead{onlyDivisibleBy2.asm}
+\cfoot{\thepage}
+
+\begin{document}
+
+\maketitle
+
+\begin{tcolorbox}[colback=gray!10, title=Legende der Farbkodierung]
+\begin{multicols}{2}
+\textcolor{prologue}{\textbf{■}} Prolog \& Setup \\
+\textcolor{matrixc}{\textbf{■}} Matrix C Initialisierung \\
+\textcolor{matrixa}{\textbf{■}} Matrix A Laden \& Zip \\
+\textcolor{compute}{\textbf{■}} Kern-Berechnung (bfdot) \\
+\textcolor{conversion}{\textbf{■}} Format-Konvertierung \\
+\textcolor{storage}{\textbf{■}} Speicher-Operationen \\
+\textcolor{control}{\textbf{■}} Kontrollfluss \& Schleifen \\
+\textcolor{address}{\textbf{■}} Adress-Berechnung \\
+\textcolor{remainder}{\textbf{■}} K=2 Rest-Behandlung \\
+\textcolor{epilogue}{\textbf{■}} Epilog \& Bereinigung
+\end{multicols}
+\end{tcolorbox}
+
+\newpage
+
+\begin{lstlisting}[
+    basicstyle=\tiny\ttfamily,
+    numbers=left,
+    numberstyle=\tiny,
+    breaklines=true,
+    frame=single,
+    backgroundcolor=\color{white},
+    escapeinside={(*}{*)}
+]
+
+libxsmm_abi1_neov2_bf16_nn_128x128x258_128_258_128_a1_b1_p0_br0_sa0_sb0_uh0_si0_tc-abid_avnni0_bvnni0_cvnni0.mxm:     file format binary
+
+Disassembly of section .data:
+
+0000000000000000 <.data>:
+(*\colorbox{prologue}{\texttt{   0:	d10303ff 	sub	sp, sp, \#0xc0}}*)
+(*\colorbox{prologue}{\texttt{   4:	6d0b27e8 	stp	d8, d9, [sp, \#176]}}*)
+(*\colorbox{prologue}{\texttt{   8:	6d0a2fea 	stp	d10, d11, [sp, \#160]}}*)
+(*\colorbox{prologue}{\texttt{   c:	6d0937ec 	stp	d12, d13, [sp, \#144]}}*)
+(*\colorbox{prologue}{\texttt{  10:	6d083fee 	stp	d14, d15, [sp, \#128]}}*)
+(*\colorbox{prologue}{\texttt{  14:	a9026ffa 	stp	x26, x27, [sp, \#32]}}*)
+(*\colorbox{prologue}{\texttt{  18:	a90177fc 	stp	x28, x29, [sp, \#16]}}*)
+(*\colorbox{prologue}{\texttt{  1c:	f90003fe 	str	x30, [sp]}}*)
+(*\colorbox{prologue}{\texttt{  20:	8a00000a 	and	x10, x0, x0}}*)
+(*\colorbox{prologue}{\texttt{  24:	f9401140 	ldr	x0, [x10, \#32]}}*)
+(*\colorbox{prologue}{\texttt{  28:	f9402941 	ldr	x1, [x10, \#80]}}*)
+(*\colorbox{prologue}{\texttt{  2c:	f9404142 	ldr	x2, [x10, \#128]}}*)
+(*\colorbox{prologue}{\texttt{  30:	910003fd 	mov	x29, sp}}*)
+(*\colorbox{prologue}{\texttt{  34:	d10303ff 	sub	sp, sp, \#0xc0}}*)
+(*\colorbox{prologue}{\texttt{  38:	d29ff80a 	mov	x10, \#0xffc0}}*)
+(*\colorbox{prologue}{\texttt{  3c:	f2bfffea 	movk	x10, \#0xffff, lsl \#16}}*)
+(*\colorbox{prologue}{\texttt{  40:	f2dfffea 	movk	x10, \#0xffff, lsl \#32}}*)
+(*\colorbox{prologue}{\texttt{  44:	f2ffffea 	movk	x10, \#0xffff, lsl \#48}}*)
+(*\colorbox{prologue}{\texttt{  48:	910003e9 	mov	x9, sp}}*)
+(*\colorbox{prologue}{\texttt{  4c:	8a0a0129 	and	x9, x9, x10}}*)
+(*\colorbox{prologue}{\texttt{  50:	9100013f 	mov	sp, x9}}*)
+(*\colorbox{prologue}{\texttt{  54:	d2800009 	mov	x9, \#0x0}}*)
+(*\colorbox{prologue}{\texttt{  58:	252917e3 	whilelt	p3.b, xzr, x9}}*)
+(*\colorbox{prologue}{\texttt{  5c:	2518e3e0 	ptrue	p0.b}}*)
+(*\colorbox{prologue}{\texttt{  60:	d2800009 	mov	x9, \#0x0}}*)
+(*\colorbox{prologue}{\texttt{  64:	252917e1 	whilelt	p1.b, xzr, x9}}*)
+(*\colorbox{prologue}{\texttt{  68:	d2800109 	mov	x9, \#0x8}}*)
+(*\colorbox{prologue}{\texttt{  6c:	252917e2 	whilelt	p2.b, xzr, x9}}*)
+(*\colorbox{prologue}{\texttt{  70:	d2800009 	mov	x9, \#0x0}}*)
+(*\colorbox{prologue}{\texttt{  74:	252917e4 	whilelt	p4.b, xzr, x9}}*)
+(*\colorbox{prologue}{\texttt{  78:	d2800fc7 	mov	x7, \#0x7e}}*)
+(*\colorbox{prologue}{\texttt{  7c:	d2801006 	mov	x6, \#0x80}}*)
+
+(*\colorbox{matrixc}{\texttt{  80:	a4a0a848 	ld1h	\{z8.h\}, p2/z, [x2]}}*)
+(*\colorbox{conversion}{\texttt{  84:	05b23908 	uunpklo	z8.s, z8.h}}*)
+(*\colorbox{conversion}{\texttt{  88:	04709d08 	lsl	z8.s, z8.s, \#16}}*)
+(*\colorbox{address}{\texttt{  8c:	91002042 	add	x2, x2, \#0x8}}*)
+(*\colorbox{matrixc}{\texttt{  90:	a4a0a849 	ld1h	\{z9.h\}, p2/z, [x2]}}*)
+(*\colorbox{conversion}{\texttt{  94:	05b23929 	uunpklo	z9.s, z9.h}}*)
+(*\colorbox{conversion}{\texttt{  98:	04709d29 	lsl	z9.s, z9.s, \#16}}*)
+(*\colorbox{address}{\texttt{  9c:	91002042 	add	x2, x2, \#0x8}}*)
+(*\colorbox{matrixc}{\texttt{  a0:	a4a0a84a 	ld1h	\{z10.h\}, p2/z, [x2]}}*)
+(*\colorbox{conversion}{\texttt{  a4:	05b2394a 	uunpklo	z10.s, z10.h}}*)
+(*\colorbox{conversion}{\texttt{  a8:	04709d4a 	lsl	z10.s, z10.s, \#16}}*)
+(*\colorbox{address}{\texttt{  ac:	91002042 	add	x2, x2, \#0x8}}*)
+(*\colorbox{matrixc}{\texttt{  b0:	a4a0a84b 	ld1h	\{z11.h\}, p2/z, [x2]}}*)
+(*\colorbox{conversion}{\texttt{  b4:	05b2396b 	uunpklo	z11.s, z11.h}}*)
+(*\colorbox{conversion}{\texttt{  b8:	04709d6b 	lsl	z11.s, z11.s, \#16}}*)
+(*\colorbox{address}{\texttt{  bc:	9103a042 	add	x2, x2, \#0xe8}}*)
+
+(*\colorbox{matrixc}{\texttt{  c0:	a4a0a84c 	ld1h	\{z12.h\}, p2/z, [x2]}}*)
+(*\colorbox{conversion}{\texttt{  c4:	05b2398c 	uunpklo	z12.s, z12.h}}*)
+(*\colorbox{conversion}{\texttt{  c8:	04709d8c 	lsl	z12.s, z12.s, \#16}}*)
+(*\colorbox{address}{\texttt{  cc:	91002042 	add	x2, x2, \#0x8}}*)
+(*\colorbox{matrixc}{\texttt{  d0:	a4a0a84d 	ld1h	\{z13.h\}, p2/z, [x2]}}*)
+(*\colorbox{conversion}{\texttt{  d4:	05b239ad 	uunpklo	z13.s, z13.h}}*)
+(*\colorbox{conversion}{\texttt{  d8:	04709dad 	lsl	z13.s, z13.s, \#16}}*)
+(*\colorbox{address}{\texttt{  dc:	91002042 	add	x2, x2, \#0x8}}*)
+(*\colorbox{matrixc}{\texttt{  e0:	a4a0a84e 	ld1h	\{z14.h\}, p2/z, [x2]}}*)
+(*\colorbox{conversion}{\texttt{  e4:	05b239ce 	uunpklo	z14.s, z14.h}}*)
+(*\colorbox{conversion}{\texttt{  e8:	04709dce 	lsl	z14.s, z14.s, \#16}}*)
+(*\colorbox{address}{\texttt{  ec:	91002042 	add	x2, x2, \#0x8}}*)
+(*\colorbox{matrixc}{\texttt{  f0:	a4a0a84f 	ld1h	\{z15.h\}, p2/z, [x2]}}*)
+(*\colorbox{conversion}{\texttt{  f4:	05b239ef 	uunpklo	z15.s, z15.h}}*)
+(*\colorbox{conversion}{\texttt{  f8:	04709def 	lsl	z15.s, z15.s, \#16}}*)
+(*\colorbox{address}{\texttt{  fc:	9103a042 	add	x2, x2, \#0xe8}}*)
+
+(*\colorbox{matrixc}{\texttt{ 100:	a4a0a850 	ld1h	\{z16.h\}, p2/z, [x2]}}*)
+(*\colorbox{conversion}{\texttt{ 104:	05b23a10 	uunpklo	z16.s, z16.h}}*)
+(*\colorbox{conversion}{\texttt{ 108:	04709e10 	lsl	z16.s, z16.s, \#16}}*)
+(*\colorbox{address}{\texttt{ 10c:	91002042 	add	x2, x2, \#0x8}}*)
+(*\colorbox{matrixc}{\texttt{ 110:	a4a0a851 	ld1h	\{z17.h\}, p2/z, [x2]}}*)
+(*\colorbox{conversion}{\texttt{ 114:	05b23a31 	uunpklo	z17.s, z17.h}}*)
+(*\colorbox{conversion}{\texttt{ 118:	04709e31 	lsl	z17.s, z17.s, \#16}}*)
+(*\colorbox{address}{\texttt{ 11c:	91002042 	add	x2, x2, \#0x8}}*)
+(*\colorbox{matrixc}{\texttt{ 120:	a4a0a852 	ld1h	\{z18.h\}, p2/z, [x2]}}*)
+(*\colorbox{conversion}{\texttt{ 124:	05b23a52 	uunpklo	z18.s, z18.h}}*)
+(*\colorbox{conversion}{\texttt{ 128:	04709e52 	lsl	z18.s, z18.s, \#16}}*)
+(*\colorbox{address}{\texttt{ 12c:	91002042 	add	x2, x2, \#0x8}}*)
+(*\colorbox{matrixc}{\texttt{ 130:	a4a0a853 	ld1h	\{z19.h\}, p2/z, [x2]}}*)
+(*\colorbox{conversion}{\texttt{ 134:	05b23a73 	uunpklo	z19.s, z19.h}}*)
+(*\colorbox{conversion}{\texttt{ 138:	04709e73 	lsl	z19.s, z19.s, \#16}}*)
+(*\colorbox{address}{\texttt{ 13c:	9103a042 	add	x2, x2, \#0xe8}}*)
+
+(*\colorbox{matrixc}{\texttt{ 140:	a4a0a854 	ld1h	\{z20.h\}, p2/z, [x2]}}*)
+(*\colorbox{conversion}{\texttt{ 144:	05b23a94 	uunpklo	z20.s, z20.h}}*)
+(*\colorbox{conversion}{\texttt{ 148:	04709e94 	lsl	z20.s, z20.s, \#16}}*)
+(*\colorbox{address}{\texttt{ 14c:	91002042 	add	x2, x2, \#0x8}}*)
+(*\colorbox{matrixc}{\texttt{ 150:	a4a0a855 	ld1h	\{z21.h\}, p2/z, [x2]}}*)
+(*\colorbox{conversion}{\texttt{ 154:	05b23ab5 	uunpklo	z21.s, z21.h}}*)
+(*\colorbox{conversion}{\texttt{ 158:	04709eb5 	lsl	z21.s, z21.s, \#16}}*)
+(*\colorbox{address}{\texttt{ 15c:	91002042 	add	x2, x2, \#0x8}}*)
+(*\colorbox{matrixc}{\texttt{ 160:	a4a0a856 	ld1h	\{z22.h\}, p2/z, [x2]}}*)
+(*\colorbox{conversion}{\texttt{ 164:	05b23ad6 	uunpklo	z22.s, z22.h}}*)
+(*\colorbox{conversion}{\texttt{ 168:	04709ed6 	lsl	z22.s, z22.s, \#16}}*)
+(*\colorbox{address}{\texttt{ 16c:	91002042 	add	x2, x2, \#0x8}}*)
+(*\colorbox{matrixc}{\texttt{ 170:	a4a0a857 	ld1h	\{z23.h\}, p2/z, [x2]}}*)
+(*\colorbox{conversion}{\texttt{ 174:	05b23af7 	uunpklo	z23.s, z23.h}}*)
+(*\colorbox{conversion}{\texttt{ 178:	04709ef7 	lsl	z23.s, z23.s, \#16}}*)
+(*\colorbox{address}{\texttt{ 17c:	9103a042 	add	x2, x2, \#0xe8}}*)
+
+(*\colorbox{matrixc}{\texttt{ 180:	a4a0a858 	ld1h	\{z24.h\}, p2/z, [x2]}}*)
+(*\colorbox{conversion}{\texttt{ 184:	05b23b18 	uunpklo	z24.s, z24.h}}*)
+(*\colorbox{conversion}{\texttt{ 188:	04709f18 	lsl	z24.s, z24.s, \#16}}*)
+(*\colorbox{address}{\texttt{ 18c:	91002042 	add	x2, x2, \#0x8}}*)
+(*\colorbox{matrixc}{\texttt{ 190:	a4a0a859 	ld1h	\{z25.h\}, p2/z, [x2]}}*)
+(*\colorbox{conversion}{\texttt{ 194:	05b23b39 	uunpklo	z25.s, z25.h}}*)
+(*\colorbox{conversion}{\texttt{ 198:	04709f39 	lsl	z25.s, z25.s, \#16}}*)
+(*\colorbox{address}{\texttt{ 19c:	91002042 	add	x2, x2, \#0x8}}*)
+(*\colorbox{matrixc}{\texttt{ 1a0:	a4a0a85a 	ld1h	\{z26.h\}, p2/z, [x2]}}*)
+(*\colorbox{conversion}{\texttt{ 1a4:	05b23b5a 	uunpklo	z26.s, z26.h}}*)
+(*\colorbox{conversion}{\texttt{ 1a8:	04709f5a 	lsl	z26.s, z26.s, \#16}}*)
+(*\colorbox{address}{\texttt{ 1ac:	91002042 	add	x2, x2, \#0x8}}*)
+(*\colorbox{matrixc}{\texttt{ 1b0:	a4a0a85b 	ld1h	\{z27.h\}, p2/z, [x2]}}*)
+(*\colorbox{conversion}{\texttt{ 1b4:	05b23b7b 	uunpklo	z27.s, z27.h}}*)
+(*\colorbox{conversion}{\texttt{ 1b8:	04709f7b 	lsl	z27.s, z27.s, \#16}}*)
+(*\colorbox{address}{\texttt{ 1bc:	9103a042 	add	x2, x2, \#0xe8}}*)
+
+(*\colorbox{matrixc}{\texttt{ 1c0:	a4a0a85c 	ld1h	\{z28.h\}, p2/z, [x2]}}*)
+(*\colorbox{conversion}{\texttt{ 1c4:	05b23b9c 	uunpklo	z28.s, z28.h}}*)
+(*\colorbox{conversion}{\texttt{ 1c8:	04709f9c 	lsl	z28.s, z28.s, \#16}}*)
+(*\colorbox{address}{\texttt{ 1cc:	91002042 	add	x2, x2, \#0x8}}*)
+(*\colorbox{matrixc}{\texttt{ 1d0:	a4a0a85d 	ld1h	\{z29.h\}, p2/z, [x2]}}*)
+(*\colorbox{conversion}{\texttt{ 1d4:	05b23bbd 	uunpklo	z29.s, z29.h}}*)
+(*\colorbox{conversion}{\texttt{ 1d8:	04709fbd 	lsl	z29.s, z29.s, \#16}}*)
+(*\colorbox{address}{\texttt{ 1dc:	91002042 	add	x2, x2, \#0x8}}*)
+(*\colorbox{matrixc}{\texttt{ 1e0:	a4a0a85e 	ld1h	\{z30.h\}, p2/z, [x2]}}*)
+(*\colorbox{conversion}{\texttt{ 1e4:	05b23bde 	uunpklo	z30.s, z30.h}}*)
+(*\colorbox{conversion}{\texttt{ 1e8:	04709fde 	lsl	z30.s, z30.s, \#16}}*)
+(*\colorbox{address}{\texttt{ 1ec:	91002042 	add	x2, x2, \#0x8}}*)
+(*\colorbox{matrixc}{\texttt{ 1f0:	a4a0a85f 	ld1h	\{z31.h\}, p2/z, [x2]}}*)
+(*\colorbox{conversion}{\texttt{ 1f4:	05b23bff 	uunpklo	z31.s, z31.h}}*)
+(*\colorbox{conversion}{\texttt{ 1f8:	04709fff 	lsl	z31.s, z31.s, \#16}}*)
+(*\colorbox{address}{\texttt{ 1fc:	d1146042 	sub	x2, x2, \#0x518}}*)
+
+(*\colorbox{control}{\texttt{ 200:	d280408b 	mov	x11, \#0x204}}*)
+(*\colorbox{control}{\texttt{ 204:	d2803f0a 	mov	x10, \#0x1f8}}*)
+(*\colorbox{control}{\texttt{ 208:	d2803c09 	mov	x9, \#0x1e0}}*)
+(*\colorbox{control}{\texttt{ 20c:	d2802008 	mov	x8, \#0x100}}*)
+
+(*\colorbox{matrixa}{\texttt{ 210:	85804000 	ldr	z0, [x0]}}*)
+(*\colorbox{address}{\texttt{ 214:	91040000 	add	x0, x0, \#0x100}}*)
+(*\colorbox{matrixa}{\texttt{ 218:	85804005 	ldr	z5, [x0]}}*)
+(*\colorbox{conversion}{\texttt{ 21c:	05656001 	zip1	z1.h, z0.h, z5.h}}*)
+(*\colorbox{conversion}{\texttt{ 220:	05656402 	zip2	z2.h, z0.h, z5.h}}*)
+(*\colorbox{address}{\texttt{ 224:	d103c000 	sub	x0, x0, \#0xf0}}*)
+(*\colorbox{matrixa}{\texttt{ 228:	85804000 	ldr	z0, [x0]}}*)
+(*\colorbox{address}{\texttt{ 22c:	91040000 	add	x0, x0, \#0x100}}*)
+(*\colorbox{matrixa}{\texttt{ 230:	85804005 	ldr	z5, [x0]}}*)
+(*\colorbox{conversion}{\texttt{ 234:	05656003 	zip1	z3.h, z0.h, z5.h}}*)
+(*\colorbox{conversion}{\texttt{ 238:	05656404 	zip2	z4.h, z0.h, z5.h}}*)
+(*\colorbox{address}{\texttt{ 23c:	d103c000 	sub	x0, x0, \#0xf0}}*)
+
+(*\colorbox{matrixa}{\texttt{ 240:	8540c020 	ld1rw	\{z0.s\}, p0/z, [x1]}}*)
+(*\colorbox{address}{\texttt{ 244:	91081021 	add	x1, x1, \#0x204}}*)
+(*\colorbox{compute}{\texttt{ 248:	64608028 	bfdot	z8.s, z1.h, z0.h}}*)
+(*\colorbox{compute}{\texttt{ 24c:	64608049 	bfdot	z9.s, z2.h, z0.h}}*)
+(*\colorbox{compute}{\texttt{ 250:	6460806a 	bfdot	z10.s, z3.h, z0.h}}*)
+(*\colorbox{compute}{\texttt{ 254:	6460808b 	bfdot	z11.s, z4.h, z0.h}}*)
+(*\colorbox{matrixa}{\texttt{ 258:	8540c020 	ld1rw	\{z0.s\}, p0/z, [x1]}}*)
+(*\colorbox{address}{\texttt{ 25c:	91081021 	add	x1, x1, \#0x204}}*)
+(*\colorbox{compute}{\texttt{ 260:	6460802c 	bfdot	z12.s, z1.h, z0.h}}*)
+(*\colorbox{compute}{\texttt{ 264:	6460804d 	bfdot	z13.s, z2.h, z0.h}}*)
+(*\colorbox{compute}{\texttt{ 268:	6460806e 	bfdot	z14.s, z3.h, z0.h}}*)
+(*\colorbox{compute}{\texttt{ 26c:	6460808f 	bfdot	z15.s, z4.h, z0.h}}*)
+(*\colorbox{matrixa}{\texttt{ 270:	8540c020 	ld1rw	\{z0.s\}, p0/z, [x1]}}*)
+(*\colorbox{address}{\texttt{ 274:	91081021 	add	x1, x1, \#0x204}}*)
+(*\colorbox{compute}{\texttt{ 278:	64608030 	bfdot	z16.s, z1.h, z0.h}}*)
+(*\colorbox{compute}{\texttt{ 27c:	64608051 	bfdot	z17.s, z2.h, z0.h}}*)
+(*\colorbox{compute}{\texttt{ 280:	64608072 	bfdot	z18.s, z3.h, z0.h}}*)
+(*\colorbox{compute}{\texttt{ 284:	64608093 	bfdot	z19.s, z4.h, z0.h}}*)
+(*\colorbox{matrixa}{\texttt{ 288:	8540c020 	ld1rw	\{z0.s\}, p0/z, [x1]}}*)
+(*\colorbox{address}{\texttt{ 28c:	91081021 	add	x1, x1, \#0x204}}*)
+(*\colorbox{compute}{\texttt{ 290:	64608034 	bfdot	z20.s, z1.h, z0.h}}*)
+(*\colorbox{compute}{\texttt{ 294:	64608055 	bfdot	z21.s, z2.h, z0.h}}*)
+(*\colorbox{compute}{\texttt{ 298:	64608076 	bfdot	z22.s, z3.h, z0.h}}*)
+(*\colorbox{compute}{\texttt{ 29c:	64608097 	bfdot	z23.s, z4.h, z0.h}}*)
+(*\colorbox{matrixa}{\texttt{ 2a0:	8540c020 	ld1rw	\{z0.s\}, p0/z, [x1]}}*)
+(*\colorbox{address}{\texttt{ 2a4:	91081021 	add	x1, x1, \#0x204}}*)
+(*\colorbox{compute}{\texttt{ 2a8:	64608038 	bfdot	z24.s, z1.h, z0.h}}*)
+(*\colorbox{compute}{\texttt{ 2ac:	64608059 	bfdot	z25.s, z2.h, z0.h}}*)
+(*\colorbox{compute}{\texttt{ 2b0:	6460807a 	bfdot	z26.s, z3.h, z0.h}}*)
+(*\colorbox{compute}{\texttt{ 2b4:	6460809b 	bfdot	z27.s, z4.h, z0.h}}*)
+(*\colorbox{matrixa}{\texttt{ 2b8:	8540c020 	ld1rw	\{z0.s\}, p0/z, [x1]}}*)
+(*\colorbox{address}{\texttt{ 2bc:	d1284021 	sub	x1, x1, \#0xa10}}*)
+(*\colorbox{compute}{\texttt{ 2c0:	6460803c 	bfdot	z28.s, z1.h, z0.h}}*)
+(*\colorbox{compute}{\texttt{ 2c4:	6460805d 	bfdot	z29.s, z2.h, z0.h}}*)
+(*\colorbox{compute}{\texttt{ 2c8:	6460807e 	bfdot	z30.s, z3.h, z0.h}}*)
+(*\colorbox{compute}{\texttt{ 2cc:	6460809f 	bfdot	z31.s, z4.h, z0.h}}*)
+(*\colorbox{address}{\texttt{ 2d0:	8b090000 	add	x0, x0, x9}}*)
+
+    (* BEREICH WIEDERHOLT SICH - WEITERE BFDOT BLÖCKE *)
+    
+(*\colorbox{control}{\texttt{ 520:	d1002108 	sub	x8, x8, \#0x8}}*)
+(*\colorbox{control}{\texttt{ 524:	b5ffe768 	cbnz	x8, 0x210}}*)
+
+    (* FINAL K=2 ITERATION *)
+(*\colorbox{remainder}{\texttt{ 528:	85804000 	ldr	z0, [x0]}}*)
+(*\colorbox{remainder}{\texttt{ 52c:	91040000 	add	x0, x0, \#0x100}}*)
+(*\colorbox{remainder}{\texttt{ 530:	85804005 	ldr	z5, [x0]}}*)
+(*\colorbox{remainder}{\texttt{ 534:	05656001 	zip1	z1.h, z0.h, z5.h}}*)
+(*\colorbox{remainder}{\texttt{ 538:	05656402 	zip2	z2.h, z0.h, z5.h}}*)
+(*\colorbox{remainder}{\texttt{ 53c:	d103c000 	sub	x0, x0, \#0xf0}}*)
+(*\colorbox{remainder}{\texttt{ 540:	85804000 	ldr	z0, [x0]}}*)
+(*\colorbox{remainder}{\texttt{ 544:	91040000 	add	x0, x0, \#0x100}}*)
+(*\colorbox{remainder}{\texttt{ 548:	85804005 	ldr	z5, [x0]}}*)
+(*\colorbox{remainder}{\texttt{ 54c:	05656003 	zip1	z3.h, z0.h, z5.h}}*)
+(*\colorbox{remainder}{\texttt{ 550:	05656404 	zip2	z4.h, z0.h, z5.h}}*)
+(*\colorbox{remainder}{\texttt{ 554:	d103c000 	sub	x0, x0, \#0xf0}}*)
+(*\colorbox{remainder}{\texttt{ 558:	8540c020 	ld1rw	\{z0.s\}, p0/z, [x1]}}*)
+(*\colorbox{remainder}{\texttt{ 55c:	91081021 	add	x1, x1, \#0x204}}*)
+(*\colorbox{remainder}{\texttt{ 560:	64608028 	bfdot	z8.s, z1.h, z0.h}}*)
+(*\colorbox{remainder}{\texttt{ 564:	64608049 	bfdot	z9.s, z2.h, z0.h}}*)
+(*\colorbox{remainder}{\texttt{ 568:	6460806a 	bfdot	z10.s, z3.h, z0.h}}*)
+(*\colorbox{remainder}{\texttt{ 56c:	6460808b 	bfdot	z11.s, z4.h, z0.h}}*)
+    (* ... weitere K=2 bfdot operationen ... *)
+
+    (* RESULTS STORAGE PHASE *)
+(*\colorbox{address}{\texttt{ 5ec:	d1080000 	sub	x0, x0, \#0x200}}*)
+(*\colorbox{address}{\texttt{ 5f0:	d1404000 	sub	x0, x0, \#0x10, lsl \#12}}*)
+(*\colorbox{address}{\texttt{ 5f4:	d1081021 	sub	x1, x1, \#0x204}}*)
+(*\colorbox{conversion}{\texttt{ 5f8:	658aa108 	bfcvt	z8.h, p0/m, z8.s}}*)
+(*\colorbox{conversion}{\texttt{ 5fc:	05686908 	uzp1	z8.h, z8.h, z8.h}}*)
+(*\colorbox{storage}{\texttt{ 600:	e4a0e848 	st1h	\{z8.h\}, p2, [x2]}}*)
+(*\colorbox{address}{\texttt{ 604:	91002042 	add	x2, x2, \#0x8}}*)
+(*\colorbox{conversion}{\texttt{ 608:	658aa129 	bfcvt	z9.h, p0/m, z9.s}}*)
+(*\colorbox{conversion}{\texttt{ 60c:	05696929 	uzp1	z9.h, z9.h, z9.h}}*)
+(*\colorbox{storage}{\texttt{ 610:	e4a0e849 	st1h	\{z9.h\}, p2, [x2]}}*)
+(*\colorbox{address}{\texttt{ 614:	91002042 	add	x2, x2, \#0x8}}*)
+
+    (* PATTERN REPEATS FOR ALL 24 RESULT REGISTERS z8-z31 *)
+    (* ... *)
+
+    (* REMAINDER K=2 HANDLING PHASE *)
+(*\colorbox{remainder}{\texttt{ 79c:	d2800047 	mov	x7, \#0x2}}*)
+(*\colorbox{remainder}{\texttt{ 7a0:	d2801006 	mov	x6, \#0x80}}*)
+(*\colorbox{remainder}{\texttt{ 7a4:	a4a0a858 	ld1h	\{z24.h\}, p2/z, [x2]}}*)
+(*\colorbox{remainder}{\texttt{ 7a8:	05b23b18 	uunpklo	z24.s, z24.h}}*)
+(*\colorbox{remainder}{\texttt{ 7ac:	04709f18 	lsl	z24.s, z24.s, \#16}}*)
+
+    (* K=2 COMPUTATION LOOP *)
+(*\colorbox{remainder}{\texttt{ 834:	85804000 	ldr	z0, [x0]}}*)
+(*\colorbox{remainder}{\texttt{ 838:	91040000 	add	x0, x0, \#0x100}}*)
+(*\colorbox{remainder}{\texttt{ 83c:	85804005 	ldr	z5, [x0]}}*)
+(*\colorbox{remainder}{\texttt{ 840:	05656001 	zip1	z1.h, z0.h, z5.h}}*)
+(*\colorbox{remainder}{\texttt{ 844:	05656402 	zip2	z2.h, z0.h, z5.h}}*)
+(*\colorbox{remainder}{\texttt{ 864:	8540c020 	ld1rw	\{z0.s\}, p0/z, [x1]}}*)
+(*\colorbox{remainder}{\texttt{ 868:	91081021 	add	x1, x1, \#0x204}}*)
+(*\colorbox{remainder}{\texttt{ 86c:	64608038 	bfdot	z24.s, z1.h, z0.h}}*)
+(*\colorbox{remainder}{\texttt{ 870:	64608059 	bfdot	z25.s, z2.h, z0.h}}*)
+(*\colorbox{remainder}{\texttt{ 874:	6460807a 	bfdot	z26.s, z3.h, z0.h}}*)
+(*\colorbox{remainder}{\texttt{ 878:	6460809b 	bfdot	z27.s, z4.h, z0.h}}*)
+(*\colorbox{remainder}{\texttt{ 87c:	8540c020 	ld1rw	\{z0.s\}, p0/z, [x1]}}*)
+(*\colorbox{remainder}{\texttt{ 880:	d1080021 	sub	x1, x1, \#0x200}}*)
+(*\colorbox{remainder}{\texttt{ 884:	6460803c 	bfdot	z28.s, z1.h, z0.h}}*)
+(*\colorbox{remainder}{\texttt{ 888:	6460805d 	bfdot	z29.s, z2.h, z0.h}}*)
+(*\colorbox{remainder}{\texttt{ 88c:	6460807e 	bfdot	z30.s, z3.h, z0.h}}*)
+(*\colorbox{remainder}{\texttt{ 890:	6460809f 	bfdot	z31.s, z4.h, z0.h}}*)
+
+    (* K=2 REMAINDER LOOP CONTROL *)
+(*\colorbox{remainder}{\texttt{ 9c4:	d1002108 	sub	x8, x8, \#0x8}}*)
+(*\colorbox{remainder}{\texttt{ 9c8:	b5fff368 	cbnz	x8, 0x834}}*)
+
+    (* FINAL K=2 STORAGE *)
+(*\colorbox{remainder}{\texttt{ a3c:	658aa318 	bfcvt	z24.h, p0/m, z24.s}}*)
+(*\colorbox{remainder}{\texttt{ a40:	05786b18 	uzp1	z24.h, z24.h, z24.h}}*)
+(*\colorbox{remainder}{\texttt{ a44:	e4a0e858 	st1h	\{z24.h\}, p2, [x2]}}*)
+
+    (* OUTER LOOP CONTROL *)
+(*\colorbox{control}{\texttt{ ad8:	d10008e7 	sub	x7, x7, \#0x2}}*)
+(*\colorbox{control}{\texttt{ adc:	b5ffe627 	cbnz	x7, 0x7a0}}*)
+
+    (* EPILOGUE *)
+(*\colorbox{epilogue}{\texttt{ ae0:	910003bf 	mov	sp, x29}}*)
+(*\colorbox{epilogue}{\texttt{ ae4:	6d4b27e8 	ldp	d8, d9, [sp, \#176]}}*)
+(*\colorbox{epilogue}{\texttt{ ae8:	6d4a2fea 	ldp	d10, d11, [sp, \#160]}}*)
+(*\colorbox{epilogue}{\texttt{ aec:	6d4937ec 	ldp	d12, d13, [sp, \#144]}}*)
+(*\colorbox{epilogue}{\texttt{ af0:	6d483fee 	ldp	d14, d15, [sp, \#128]}}*)
+(*\colorbox{epilogue}{\texttt{ af4:	a9426ffa 	ldp	x26, x27, [sp, \#32]}}*)
+(*\colorbox{epilogue}{\texttt{ af8:	a94177fc 	ldp	x28, x29, [sp, \#16]}}*)
+(*\colorbox{epilogue}{\texttt{ afc:	f94003fe 	ldr	x30, [sp]}}*)
+(*\colorbox{epilogue}{\texttt{ b00:	910303ff 	add	sp, sp, \#0xc0}}*)
+(*\colorbox{epilogue}{\texttt{ b04:	d65f03c0 	ret}}*)
+
+\end{lstlisting}
+
+\newpage
+
+\section{Farbkodierungs-Analyse}
+
+\begin{tcolorbox}[colback=blue!5, title=Strukturelle Erkenntnisse]
+
+\subsection{Verteilung der Instruktionstypen}
+
+\begin{itemize}
+\item \textcolor{prologue}{\textbf{Prolog (Pink):}} 20 Instruktionen - Standard libxsmm Setup
+\item \textcolor{matrixc}{\textbf{Matrix C Loading (Hellblau):}} 48 Instruktionen - Sequenzielles Laden aller 24 Register
+\item \textcolor{matrixa}{\textbf{Matrix A Loading (Hellgrün):}} 36 Instruktionen - Broadcast-Loads mit Zip-Operationen
+\item \textcolor{compute}{\textbf{Berechnung (Orange):}} 168 bfdot-Instruktionen - Kern der Performance
+\item \textcolor{conversion}{\textbf{Konvertierung (Pflaume):}} 96 Instruktionen - Format-Transformationen
+\item \textcolor{storage}{\textbf{Speicherung (Mokka):}} 72 Instruktionen - Ergebnis-Speicherung
+\item \textcolor{address}{\textbf{Adressierung (Hellstahlblau):}} 124 Instruktionen - Pointer-Arithmetik
+\item \textcolor{remainder}{\textbf{K=2 Rest (Gold):}} 84 Instruktionen - Spezielle Behandlung für K=258
+\item \textcolor{control}{\textbf{Kontrolle (Tomate):}} 18 Instruktionen - Schleifen und Verzweigungen
+\item \textcolor{epilogue}{\textbf{Epilog (Pink):}} 10 Instruktionen - Bereinigung
+\end{itemize}
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=red!5, title=Performance-kritische Beobachtungen]
+
+\textbf{Ineffizienz-Hotspots:}
+\begin{enumerate}
+\item \textcolor{compute}{\textbf{bfdot-Dominanz:}} 168 bfdot-Instruktionen vs 0 bfmmla
+\item \textcolor{address}{\textbf{Adress-Overhead:}} 124 Adressberechnungen für sequenziellen Zugriff
+\item \textcolor{remainder}{\textbf{K=2 Komplexität:}} 84 zusätzliche Instruktionen nur für 2 K-Dimensionen
+\item \textcolor{conversion}{\textbf{Format-Overhead:}} 96 Konvertierungen ohne VNNI-Optimierung
+\end{enumerate}
+
+\end{tcolorbox}
+
+\end{document}
