@@ -28,8 +28,8 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
   std::chrono::steady_clock::time_point l_tp0, l_tp1;
   std::chrono::duration<double> l_dur;
   int64_t l_n_flops = 0;
-  int64_t l_repetitions = 1;
-  int64_t l_repetitions_warm_up = 1;
+  int64_t l_repetitions = 300;
+  int64_t l_repetitions_warm_up = 30;
   std::vector<int64_t> l_dim_ids_permute_left;
   std::vector<int64_t> l_dim_ids_permute_right;
   double l_time_compile = 0;
