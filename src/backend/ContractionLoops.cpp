@@ -1,7 +1,7 @@
 #include "ContractionLoops.h"
 #include <algorithm>
 
-#include <iostream> //daniel: remove this
+//#include <iostream> //daniel: remove this
 #ifdef _OPENMP
 #include <omp.h>
 #endif
@@ -49,7 +49,7 @@ void einsum_ir::backend::ContractionLoops::init(std::map<int64_t, int64_t> const
   m_compiled = false;
 
   // Debug output: Display all member variables set in ContractionLoops::init function
-  std::cout << "\n=== ContractionLoops::init function ===" << std::endl;
+/*   std::cout << "\n=== ContractionLoops::init function ===" << std::endl;
 
   // Print sizes
   std::cout << "m_sizes:                   ";
@@ -173,7 +173,7 @@ void einsum_ir::backend::ContractionLoops::init(std::map<int64_t, int64_t> const
   std::cout << "m_compiled:                " << (m_compiled ? "true" : "false") << std::endl;
 
   std::cout << "=== END ContractionLoops::init ===\n"
-            << std::endl;
+            << std::endl; */
 }
 
 einsum_ir::err_t einsum_ir::backend::ContractionLoops::compile()
@@ -211,7 +211,7 @@ einsum_ir::err_t einsum_ir::backend::ContractionLoops::compile()
     m_cpx_stride_out_bytes = 0;
   }
   m_num_loops = m_loop_ids->size();
-  std::cout << "m_num_loops: " << m_num_loops << std::endl;
+  //std::cout << "m_num_loops: " << m_num_loops << std::endl;
 
   // setup packing loop execution
   m_id_loop_packing_left = m_num_loops;
@@ -286,7 +286,7 @@ einsum_ir::err_t einsum_ir::backend::ContractionLoops::compile()
   m_compiled = true;
 
   // Debug output: Display all member variables set in ContractionLoops::compile function
-  std::cout << "\n=== ContractionLoops::compile function ===" << std::endl;
+  /* std::cout << "\n=== ContractionLoops::compile function ===" << std::endl;
 
   // Print loop counts and packing loop IDs
   std::cout << "m_num_loops:               " << m_num_loops << std::endl;
@@ -360,7 +360,7 @@ einsum_ir::err_t einsum_ir::backend::ContractionLoops::compile()
   std::cout << "m_compiled:                " << (m_compiled ? "true" : "false") << std::endl;
 
   std::cout << "=== END ContractionLoops::compile ===\n"
-            << std::endl;
+            << std::endl; */
 
   return err_t::SUCCESS;
 }

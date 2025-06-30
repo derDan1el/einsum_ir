@@ -3,8 +3,8 @@
 #include "ContractionPackingTpp.h"
 
 #include <algorithm>
-#include <iostream> //das und iostream entfernen
-#include <iomanip>
+//#include <iostream> //das und iostream entfernen
+//#include <iomanip>
 
 libxsmm_datatype einsum_ir::backend::BinaryContractionTpp::dtype_to_libxsmm(data_t i_dtype)
 {
@@ -73,43 +73,43 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
   }
 
   // DEBUG: Print K dimension information after blocking
-  std::cout << "\n=== DEBUG K Dimensions After Blocking ===" << std::endl;
-  std::cout << "m_dim_ids_k (all K dimensions): ";
+  /* //std::cout << "\n=== DEBUG K Dimensions After Blocking ===" << std::endl;
+  //std::cout << "m_dim_ids_k (all K dimensions): ";
   for (size_t i = 0; i < m_dim_ids_k.size(); i++)
   {
-    std::cout << "[" << i << "]=" << m_dim_ids_k[i] << " ";
+    //std::cout << "[" << i << "]=" << m_dim_ids_k[i] << " ";
   }
-  std::cout << std::endl;
+  //std::cout << std::endl;
 
-  std::cout << "l_dim_ids_kb (blocked K dimensions): ";
+  //std::cout << "l_dim_ids_kb (blocked K dimensions): ";
   for (size_t i = 0; i < l_dim_ids_kb.size(); i++)
   {
-    std::cout << "[" << i << "]=" << l_dim_ids_kb[i] << " ";
+    //std::cout << "[" << i << "]=" << l_dim_ids_kb[i] << " ";
   }
-  std::cout << std::endl;
+  //std::cout << std::endl;
 
-  std::cout << "l_dim_ids_cb (blocked C dimensions): ";
+  //std::cout << "l_dim_ids_cb (blocked C dimensions): ";
   for (size_t i = 0; i < l_dim_ids_cb.size(); i++)
   {
-    std::cout << "[" << i << "]=" << l_dim_ids_cb[i] << " ";
+    //std::cout << "[" << i << "]=" << l_dim_ids_cb[i] << " ";
   }
-  std::cout << std::endl;
+  //std::cout << std::endl;
 
-  std::cout << "l_dim_ids_mb (blocked M dimensions): ";
+  //std::cout << "l_dim_ids_mb (blocked M dimensions): ";
   for (size_t i = 0; i < l_dim_ids_mb.size(); i++)
   {
-    std::cout << "[" << i << "]=" << l_dim_ids_mb[i] << " ";
+    //std::cout << "[" << i << "]=" << l_dim_ids_mb[i] << " ";
   }
-  std::cout << std::endl;
+  //std::cout << std::endl;
 
-  std::cout << "l_dim_ids_nb (blocked N dimensions): ";
+  //std::cout << "l_dim_ids_nb (blocked N dimensions): ";
   for (size_t i = 0; i < l_dim_ids_nb.size(); i++)
   {
-    std::cout << "[" << i << "]=" << l_dim_ids_nb[i] << " ";
+    //std::cout << "[" << i << "]=" << l_dim_ids_nb[i] << " ";
   }
-  std::cout << std::endl;
-  std::cout << "=== END DEBUG K Dimensions ===\n"
-            << std::endl;
+  //std::cout << std::endl;
+  //std::cout << "=== END DEBUG K Dimensions ===\n"
+            << std::endl; */
 
   // derive strides
   std::map<int64_t, int64_t> l_strides_left;
@@ -148,41 +148,41 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
   l_dim_sizes.insert(m_dim_sizes_inner->begin(), m_dim_sizes_inner->end());
 
   // DEBUG: Print stride calculations and dimension sizes
-  std::cout << "\n=== DEBUG Stride Calculation ===" << std::endl;
+  /* //std::cout << "\n=== DEBUG Stride Calculation ===" << std::endl;
   // Print computed strides
-  std::cout << "\nComputed strides:" << std::endl;
-  std::cout << "l_strides_left: ";
+  //std::cout << "\nComputed strides:" << std::endl;
+  //std::cout << "l_strides_left: ";
   for (const auto &pair : l_strides_left)
   {
-    std::cout << "[" << pair.first << "]=" << pair.second << " ";
+    //std::cout << "[" << pair.first << "]=" << pair.second << " ";
   }
-  std::cout << std::endl;
+  //std::cout << std::endl;
 
-  std::cout << "l_strides_right: ";
+  //std::cout << "l_strides_right: ";
   for (const auto &pair : l_strides_right)
   {
-    std::cout << "[" << pair.first << "]=" << pair.second << " ";
+    //std::cout << "[" << pair.first << "]=" << pair.second << " ";
   }
-  std::cout << std::endl;
+  //std::cout << std::endl;
 
-  std::cout << "l_strides_out: ";
+  //std::cout << "l_strides_out: ";
   for (const auto &pair : l_strides_out)
   {
-    std::cout << "[" << pair.first << "]=" << pair.second << " ";
+    //std::cout << "[" << pair.first << "]=" << pair.second << " ";
   }
-  std::cout << std::endl;
+  //std::cout << std::endl;
 
   // Print l_dim_sizes (copied from m_dim_sizes_inner)
-  std::cout << "\nDimension sizes (l_dim_sizes from m_dim_sizes_inner):" << std::endl;
-  std::cout << "l_dim_sizes: ";
+  //std::cout << "\nDimension sizes (l_dim_sizes from m_dim_sizes_inner):" << std::endl;
+  //std::cout << "l_dim_sizes: ";
   for (const auto &pair : l_dim_sizes)
   {
-    std::cout << "[" << pair.first << "]=" << pair.second << " ";
+    //std::cout << "[" << pair.first << "]=" << pair.second << " ";
   }
-  std::cout << std::endl;
+  //std::cout << std::endl;
 
-  std::cout << "=== END DEBUG Stride Calculations ===\n"
-            << std::endl;
+  //std::cout << "=== END DEBUG Stride Calculations ===\n"
+            << std::endl; */
   uint64_t l_batch_reduce_size = 1;
   if (m_loop_ids_ext == nullptr)
   {
@@ -256,7 +256,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
     }
     std::vector<int64_t> l_batch_reduce_k_dims;
 
-    std::cout << "\n=== DEBUG Batch-Reduce K Detection ===" << std::endl;
+    ////std::cout << "\n=== DEBUG Batch-Reduce K Detection ===" << std::endl;
 
     while (!l_strides_left_non_blocked.empty() && !l_strides_right_non_blocked.empty())
     {
@@ -280,13 +280,13 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
       int64_t min_left_dim = min_left_it->first;
       int64_t min_right_dim = min_right_it->first;
 
-      std::cout << "Min stride left: dim_id=" << min_left_dim << " stride=" << min_left_it->second << std::endl;
-      std::cout << "Min stride right: dim_id=" << min_right_dim << " stride=" << min_right_it->second << std::endl;
-
+/*       //std::cout << "Min stride left: dim_id=" << min_left_dim << " stride=" << min_left_it->second << std::endl;
+      //std::cout << "Min stride right: dim_id=" << min_right_dim << " stride=" << min_right_it->second << std::endl;
+ */
       // Prüfe ob es die gleiche dim id ist
       if (min_left_dim != min_right_dim)
       {
-        std::cout << "Different dimensions with min strides - stopping batch detection" << std::endl;
+        //std::cout << "Different dimensions with min strides - stopping batch detection" << std::endl;
         break;
       }
 
@@ -297,7 +297,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
 
       if (!is_k_dimension)
       {
-        std::cout << "Dimension " << min_left_dim << " is not a K-dimension - stopping batch detection" << std::endl;
+        ////std::cout << "Dimension " << min_left_dim << " is not a K-dimension - stopping batch detection" << std::endl;
         break;
       }
 
@@ -305,9 +305,9 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
       l_batch_reduce_k_dims.push_back(min_left_dim);
       l_batch_reduce_size *= l_dim_sizes.at(min_left_dim);
 
-      std::cout << "Found batch-reduce K dimension: " << min_left_dim
+/*       //std::cout << "Found batch-reduce K dimension: " << min_left_dim
                 << " (size=" << l_dim_sizes.at(min_left_dim) << ")" << std::endl;
-
+ */
       //Dimension aus beiden Stride-Maps entfernen
       l_strides_left_non_blocked.erase(min_left_it);
       l_strides_right_non_blocked.erase(min_right_it);
@@ -322,15 +322,15 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
       }
     }
 
-    std::cout << "Total batch-reduce K dimensions found: " << l_batch_reduce_k_dims.size() << std::endl;
-    std::cout << "Total batch size: " << l_batch_reduce_size << std::endl;
-    std::cout << "=== END DEBUG Batch-Reduce K Detection ===\n"
-              << std::endl;
+/*     //std::cout << "Total batch-reduce K dimensions found: " << l_batch_reduce_k_dims.size() << std::endl;
+    //std::cout << "Total batch size: " << l_batch_reduce_size << std::endl;
+    //std::cout << "=== END DEBUG Batch-Reduce K Detection ===\n"
+              << std::endl; */
 
     for (const auto &batch_dim : l_batch_reduce_k_dims)
     {
       l_dim_ids_kb.push_back(batch_dim);
-      std::cout << "[DEBUG] Temporarily blocking batch-reduce K dim " << batch_dim << std::endl;
+      ////std::cout << "[DEBUG] Temporarily blocking batch-reduce K dim " << batch_dim << std::endl;
     }
     l_bin_prim.compileLoopOrder(m_dim_types,
                                 l_dim_sizes,
@@ -348,80 +348,79 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
                                 m_loop_ids_int);
 
     // NACH compileLoopOrder: Batch-reduce K-Dimensionen wieder aus blocked-Liste entfernen
-    std::cout << "\n[DEBUG] Removing batch-reduce K dimensions from blocked list after compileLoopOrder" << std::endl;
+    ////std::cout << "\n[DEBUG] Removing batch-reduce K dimensions from blocked list after compileLoopOrder" << std::endl;
     for (const auto &batch_dim : l_batch_reduce_k_dims)
     {
       auto it = std::find(l_dim_ids_kb.begin(), l_dim_ids_kb.end(), batch_dim);
       if (it != l_dim_ids_kb.end())
       {
         l_dim_ids_kb.erase(it);
-        std::cout << "[DEBUG] Removed batch-reduce K dim " << batch_dim << " from blocked list" << std::endl;
+        ////std::cout << "[DEBUG] Removed batch-reduce K dim " << batch_dim << " from blocked list" << std::endl;
       }
     }
 
     // DEBUG: Print m_loop_ids_int after compileLoopOrder
-    std::cout << "\n=== DEBUG compileLoopOrder Results ===" << std::endl;
-    std::cout << "m_loop_ids_int content (" << m_loop_ids_int.size() << " elements): ";
+    ////std::cout << "\n=== DEBUG compileLoopOrder Results ===" << std::endl;
+    ////std::cout << "m_loop_ids_int content (" << m_loop_ids_int.size() << " elements): ";
     for (size_t i = 0; i < m_loop_ids_int.size(); i++)
     {
-      std::cout << "[" << i << "]=" << m_loop_ids_int[i] << " ";
+      ////std::cout << "[" << i << "]=" << m_loop_ids_int[i] << " ";
     }
-    std::cout << std::endl;
+    ////std::cout << std::endl;
 
     // Print dimension types for each loop ID
-    std::cout << "Dimension types for each loop ID:" << std::endl;
+    ////std::cout << "Dimension types for each loop ID:" << std::endl;
     for (size_t i = 0; i < m_loop_ids_int.size(); i++)
     {
       int64_t dim_id = m_loop_ids_int[i];
       auto type_it = m_dim_types.find(dim_id);
       if (type_it != m_dim_types.end())
       {
-        std::cout << "  dim_id[" << dim_id << "] -> type=" << static_cast<int>(type_it->second);
+        //std::cout << "  dim_id[" << dim_id << "] -> type=" << static_cast<int>(type_it->second);
         // Print human-readable type names
         switch (type_it->second)
         {
         case dim_t::C:
-          std::cout << " (C/batch)";
+          //std::cout << " (C/batch)";
           break;
         case dim_t::M:
-          std::cout << " (M)";
+          //std::cout << " (M)";
           break;
         case dim_t::N:
-          std::cout << " (N)";
+          //std::cout << " (N)";
           break;
         case dim_t::K:
-          std::cout << " (K)";
+          //std::cout << " (K)";
           break;
         default:
-          std::cout << " (unknown)";
+          //std::cout << " (unknown)";
           break;
         }
-        std::cout << std::endl;
+        //std::cout << std::endl;
       }
       else
       {
-        std::cout << "  dim_id[" << dim_id << "] -> type=NOT_FOUND" << std::endl;
+        //std::cout << "  dim_id[" << dim_id << "] -> type=NOT_FOUND" << std::endl;
       }
     }
 
     // Print dimension sizes for each loop ID
-    std::cout << "Dimension sizes for each loop ID:" << std::endl;
+    //std::cout << "Dimension sizes for each loop ID:" << std::endl;
     for (size_t i = 0; i < m_loop_ids_int.size(); i++)
     {
       int64_t dim_id = m_loop_ids_int[i];
       auto size_it = l_dim_sizes.find(dim_id);
       if (size_it != l_dim_sizes.end())
       {
-        std::cout << "  dim_id[" << dim_id << "] -> size=" << size_it->second << std::endl;
+        //std::cout << "  dim_id[" << dim_id << "] -> size=" << size_it->second << std::endl;
       }
       else
       {
-        std::cout << "  dim_id[" << dim_id << "] -> size=NOT_FOUND" << std::endl;
+        //std::cout << "  dim_id[" << dim_id << "] -> size=NOT_FOUND" << std::endl;
       }
     }
 
-    std::cout << "=== END DEBUG compileLoopOrder Results ===\n"
-              << std::endl;
+    //std::cout << "=== END DEBUG compileLoopOrder Results ===\n"<< std::endl;
   }
   else
   {
@@ -605,7 +604,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
     // daniel: beginn
     if (m_xmm_kernel_first_touch_unary == nullptr) // TODO: hier kommt er bei BF17 rein aber nicht bei FP32
     {
-      std::cout << "[DEBUG] m_xmm_kernel_first_touch_unary is nullptr" << std::endl;
+      //std::cout << "[DEBUG] m_xmm_kernel_first_touch_unary is nullptr" << std::endl;
     }
     // daniel ende
   }
@@ -688,7 +687,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
 
   if (l_batch_reduce_size > 1)
   {
-    std::cout << "[DEBUG] Configuring BRGEMM with batch_reduce_size = " << l_batch_reduce_size << std::endl;
+    //std::cout << "[DEBUG] Configuring BRGEMM with batch_reduce_size = " << l_batch_reduce_size << std::endl;
     l_brconfig.br_type = LIBXSMM_GEMM_BATCH_REDUCE_STRIDE;
     // Set stride hints for batch reduction
     l_brconfig.br_stride_a_hint = l_lda * l_k * ce_n_bytes(m_dtype_left);
@@ -697,7 +696,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
   }
   else
   {
-    std::cout << "[DEBUG] Using standard GEMM (no batch-reduce)" << std::endl;
+    //std::cout << "[DEBUG] Using standard GEMM (no batch-reduce)" << std::endl;
     l_brconfig.br_type = LIBXSMM_GEMM_BATCH_REDUCE_NONE;
     l_brconfig.br_stride_a_hint = 0;
     l_brconfig.br_stride_b_hint = 0;
@@ -711,14 +710,14 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
                                                      l_prefetch_flags_brgemm,
                                                      l_brconfig);
     // daniel : check if kernel is nullptr
-    if (m_xmm_kernel_main.gemm == NULL)
+/*     if (m_xmm_kernel_main.gemm == NULL)
     {
       std::cerr << "[ERROR] BRGEMM dispatch failed!" << std::endl;
     }
     else
     {
-      std::cout << "[OK] BRGEMM kernel erfolgreich generiert." << std::endl;
-    }
+      //std::cout << "[OK] BRGEMM kernel erfolgreich generiert." << std::endl;
+    } */
     // daniel : ende
   }
   else
@@ -730,22 +729,22 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
   }
 
   // daniel start ─────────────────────────────────────────────────────────
-  std::cout << "[DEBUG] Main GEMM ptr: "
-            << (void *)m_xmm_kernel_main.gemm << std::endl;
-  std::cout << "[DEBUG] GEMM shape: m=" << l_shape_brgemm.m
-            << " n=" << l_shape_brgemm.n
-            << " k=" << l_shape_brgemm.k
-            << " lda=" << l_shape_brgemm.lda
-            << " ldb=" << l_shape_brgemm.ldb
-            << " ldc=" << l_shape_brgemm.ldc
-            << " br_stride_a_hint=" << l_brconfig.br_stride_a_hint
-            << " br_stride_b_hint=" << l_brconfig.br_stride_b_hint
-            << " l_batch_reduce_size=" << l_batch_reduce_size
-            << std::endl;
-  std::cout << "[DEBUG] dim_types_out: ";
+  //std::cout << "[DEBUG] Main GEMM ptr: "
+  //         << (void *)m_xmm_kernel_main.gemm << std::endl;
+  //std::cout << "[DEBUG] GEMM shape: m=" << l_shape_brgemm.m
+  //          << " n=" << l_shape_brgemm.n
+  //          << " k=" << l_shape_brgemm.k
+  //          << " lda=" << l_shape_brgemm.lda
+  //          << " ldb=" << l_shape_brgemm.ldb
+  //          << " ldc=" << l_shape_brgemm.ldc
+  //          << " br_stride_a_hint=" << l_brconfig.br_stride_a_hint
+  //          << " br_stride_b_hint=" << l_brconfig.br_stride_b_hint
+  //          << " l_batch_reduce_size=" << l_batch_reduce_size
+  //          << std::endl;
+  //std::cout << "[DEBUG] dim_types_out: ";
   for (auto t : m_dim_types_out)
-    std::cout << int(t) << " ";
-  std::cout << std::endl;
+    //std::cout << int(t) << " ";
+  //std::cout << std::endl;
   // daniel ende debug check ────────────────────────────────────────
 
   // check for existing kernels

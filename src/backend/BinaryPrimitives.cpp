@@ -3,7 +3,7 @@
 
 #include <algorithm>
 #include <math.h>
-#include <iostream>
+//#include <iostream>
 
 void einsum_ir::backend::BinaryPrimitives::init(int64_t i_size_cb_min,
                                                 int64_t i_size_cb_max,
@@ -24,7 +24,7 @@ void einsum_ir::backend::BinaryPrimitives::init(int64_t i_size_cb_min,
   m_size_kb_max = i_size_kb_max;
 
   // Debug output: Display all member variables set in BinaryPrimitives init function
-  std::cout << "\n=== BinaryPrimitives.init function ===" << std::endl;
+/*   std::cout << "\n=== BinaryPrimitives.init function ===" << std::endl;
   std::cout << "m_size_cb_min:             " << m_size_cb_min << std::endl;
   std::cout << "m_size_cb_max:             " << m_size_cb_max << std::endl;
   std::cout << "m_size_mb_min:             " << m_size_mb_min << std::endl;
@@ -34,7 +34,7 @@ void einsum_ir::backend::BinaryPrimitives::init(int64_t i_size_cb_min,
   std::cout << "m_size_kb_min:             " << m_size_kb_min << std::endl;
   std::cout << "m_size_kb_max:             " << m_size_kb_max << std::endl;
   std::cout << "==========================================\n"
-            << std::endl;
+            << std::endl; */
 }
 
 einsum_ir::err_t einsum_ir::backend::BinaryPrimitives::init(data_t i_data_type,
@@ -511,15 +511,15 @@ einsum_ir::err_t einsum_ir::backend::BinaryPrimitives::blocking_left_kb_x_mb_cb_
   std::reverse(o_dim_ids_kb->begin(), o_dim_ids_kb->end());
 
   // DEBUG: Print all parameters and computed values for blocking_left_kb_x_mb_cb_right_nb_x_kb_cb_out_nb_x_mb_cb
-  std::cout << "\n=== DEBUG blocking_left_kb_x_mb_cb_right_nb_x_kb_cb_out_nb_x_mb_cb ===\n";
+  //std::cout << "\n=== DEBUG blocking_left_kb_x_mb_cb_right_nb_x_kb_cb_out_nb_x_mb_cb ===\n";
 
   // Print computed sizes
-  std::cout << "Computed sizes:\n";
+/*   std::cout << "Computed sizes:\n";
   std::cout << "  l_size_cb=" << l_size_cb << ", l_size_mb=" << l_size_mb << "\n";
-  std::cout << "  l_size_nb=" << l_size_nb << ", l_size_kb=" << l_size_kb << "\n";
+  std::cout << "  l_size_nb=" << l_size_nb << ", l_size_kb=" << l_size_kb << "\n"; */
 
   // Print output vectors
-  std::cout << "Output vectors:\n";
+  /* std::cout << "Output vectors:\n";
   std::cout << "  o_dim_ids_cb=[";
   for (size_t i = 0; i < o_dim_ids_cb->size(); ++i)
   {
@@ -545,7 +545,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryPrimitives::blocking_left_kb_x_mb_cb_
   }
   std::cout << "] (size=" << o_dim_ids_kb->size() << ")\n";
   std::cout << "=== END DEBUG blocking_left_kb_x_mb_cb_right_nb_x_kb_cb_out_nb_x_mb_cb ===\n\n";
-
+ */
   return err_t::SUCCESS;
 }
 
@@ -939,7 +939,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryPrimitives::blocking(primblo_t i_prim
   std::map<int64_t, int64_t> const *l_strides_ptr_out = (i_strides_out != nullptr) ? i_strides_out : &l_strides_out;
 
   // Debug output: Display all variables set in blocking function
-  std::cout << "\n=== BinaryPrimitives.blocking function ===" << std::endl;
+  /* std::cout << "\n=== BinaryPrimitives.blocking function ===" << std::endl;
 
   std::cout << "\nStride maps:" << std::endl;
   std::cout << "l_strides_left:            ";
@@ -962,8 +962,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryPrimitives::blocking(primblo_t i_prim
     std::cout << "[dim_id=" << pair.first << "]=" << pair.second << " ";
   }
   std::cout << std::endl;
-  std::cout << "============================================\n"
-            << std::endl;
+  std::cout << "============================================\n"<< std::endl; */
 
   // derive blocking
   if (i_primitive_blocking == primblo_t::LEFT_KB_X_MB_CB_RIGHT_NB_X_KB_CB_OUT_NB_X_MB_CB)
@@ -2273,7 +2272,7 @@ void einsum_ir::backend::BinaryPrimitives::compileLoopOrder(std::map<int64_t, di
 
   std::reverse(o_loop_order.begin(), o_loop_order.end());
   // Debug output: Display all variables set/modified in compileLoopOrder function
-  std::cout << "\n=== DEBUG compileLoopOrder function ===" << std::endl;
+  /* std::cout << "\n=== DEBUG compileLoopOrder function ===" << std::endl;
 
   // Print non-blocked dimension IDs
   std::cout << "l_dim_ids_bc:              ";
@@ -2350,7 +2349,7 @@ void einsum_ir::backend::BinaryPrimitives::compileLoopOrder(std::map<int64_t, di
   }
   std::cout << std::endl;
 
-  std::cout << "=== END DEBUG compileLoopOrder ===\n" << std::endl;
+  std::cout << "=== END DEBUG compileLoopOrder ===\n" << std::endl; */
 }
 
 int64_t einsum_ir::backend::BinaryPrimitives::splitDimension(int64_t i_dim_size,
