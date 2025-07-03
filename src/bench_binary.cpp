@@ -7,8 +7,6 @@
 #ifdef _OPENMP
 #include <omp.h>
 #endif
-#include <cstdlib>             //daniel kann entfernt werden wenn nicht gebraucht
-#include <c10/util/TypeList.h> // für c10::toString //wegmachen wenn nicht gebraucht
 #include <ATen/ATen.h>
 #include "backend/BinaryContractionTpp.h"
 #include "backend/EinsumNode.h"
@@ -28,8 +26,8 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
   std::chrono::steady_clock::time_point l_tp0, l_tp1;
   std::chrono::duration<double> l_dur;
   int64_t l_n_flops = 0;
-  int64_t l_repetitions = 300;
-  int64_t l_repetitions_warm_up = 30;
+  int64_t l_repetitions = 1;
+  int64_t l_repetitions_warm_up = 1;
   std::vector<int64_t> l_dim_ids_permute_left;
   std::vector<int64_t> l_dim_ids_permute_right;
   double l_time_compile = 0;
@@ -37,9 +35,9 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
   double l_gflops = 0;
 
   // create vectors of sizes and einsum string
-  std::vector<int64_t> l_sizes_left;  // daniel: [0] =32,[1] =8,[2] =4
-  std::vector<int64_t> l_sizes_right; // daniel: [0] =32,[1] =4,[2] =2, [3] =8
-  std::vector<int64_t> l_sizes_out;   // daniel: [0] =32,[1] =8,[2] =2
+  std::vector<int64_t> l_sizes_left;
+  std::vector<int64_t> l_sizes_right;
+  std::vector<int64_t> l_sizes_out;
   for (std::size_t l_di = 0; l_di < i_dim_ids_in_left.size(); l_di++)
   {
     l_sizes_left.push_back(i_dim_sizes_map[i_dim_ids_in_left[l_di]]);
@@ -61,9 +59,9 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
     l_n_flops *= l_dim_size;
   }
 
-  at::Tensor l_ten_left = at::rand(at::IntArrayRef(l_sizes_left.data(), l_sizes_left.size()), i_dtype_at); // daniel: zufällige Werte [0,1]
+  at::Tensor l_ten_left = at::rand(at::IntArrayRef(l_sizes_left.data(), l_sizes_left.size()), i_dtype_at);
   at::Tensor l_ten_right = at::rand(at::IntArrayRef(l_sizes_right.data(), l_sizes_right.size()), i_dtype_at);
-  at::Tensor l_ten_out = at::rand(at::IntArrayRef(l_sizes_out.data(), l_sizes_out.size()), i_dtype_at);
+  at::Tensor l_ten_out = at::ones(at::IntArrayRef(l_sizes_out.data(), l_sizes_out.size()), i_dtype_at);
   std::cout << "at::einsum:" << std::endl;
 
   at::Tensor l_ten_out_torch;
@@ -91,24 +89,6 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
   l_time = l_dur.count() / l_repetitions;
   l_gflops = 1.0E-9 * l_n_flops / l_time;
 
-  /*────────────────────── Hiermit kann man Input / Output von torch printen ────────────────────────────────────
-    std::cout << "Input Left  (dtype=" << c10::toString(l_ten_left.dtype()) << "):\n"
-              << l_ten_left << "\n\n";
-    std::cout << "Input Right (dtype=" << c10::toString(l_ten_right.dtype()) << "):\n"
-              << l_ten_right << "\n\n";
-
-    std::cout << "Torch-Output VOR Cast (dtype="
-              << c10::toString(l_ten_out_torch.dtype()) << "):\n"
-              << l_ten_out_torch << std::endl;
-
-    if (l_ten_out_torch.dtype() == at::kBFloat16)
-    {
-      l_ten_out_torch = l_ten_out_torch.to(at::kFloat);
-    }
-    std::cout << "Torch-Output NACH Cast (dtype="
-              << c10::toString(l_ten_out_torch.dtype()) << "):\n"
-              << l_ten_out_torch << std::endl;
-  ──────────────────────────────────────────────────────────*/
   std::cout << "  time (contract): " << l_time << std::endl;
   std::cout << "  gflops: " << l_gflops << std::endl;
 
@@ -137,18 +117,15 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
                   &l_memory,
                   i_dtype_einsum_ir,
                   i_dtype_einsum_ir,
-                  l_dtype_comp,      // daniel : hier stand vorher auch i_dtype_einsum_ir nur muss bei BF16 in FP32 gerechnet werden siehe oben
-                  i_dtype_einsum_ir, // daniel : der outputtensor ist auch fp32
+                  l_dtype_comp,
+                  i_dtype_einsum_ir,
                   i_dim_ids_in_left_vnni.size() == 0 ? 0 : 1,
                   einsum_ir::ZERO,             // daniel: first touch
                   einsum_ir::MADD,             // daniel: main kernel
                   einsum_ir::UNDEFINED_KTYPE); // daniel: last touch
 
   l_tp0 = std::chrono::steady_clock::now();
-  auto comp_err = l_bin_cont.compile(); // daniel :  l_bin_cont.compile(); stand schon so vorher da aber ich fügte auto comp_err hinzu um zu debuggen
-  // daniel :checke ob kernel kompiliert wurde
-  std::cout << "JIT compile err: " << static_cast<int>(comp_err) << std::endl;
-  // daniel :ende
+  l_bin_cont.compile();
 
   l_memory.alloc_all_memory();
   l_tp1 = std::chrono::steady_clock::now();
