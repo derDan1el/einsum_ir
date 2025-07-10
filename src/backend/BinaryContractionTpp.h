@@ -88,27 +88,41 @@ private:
   static libxsmm_datatype dtype_to_libxsmm(data_t i_dtype);
 
   /**
-   * @brief Detects batch-reduce K dimensions based on stride analysis
+   *  Detects the batch-reduce K dimensions for the given contraction.
    *
-   * @param l_dim_ids_kb blocked K dimensions (will be modified)
-   * @param l_strides_left stride map for left tensor
-   * @param l_strides_right stride map for right tensor
-   * @param l_dim_sizes dimension sizes map
-   * @return uint64_t total batch reduce size
+   * @param o_batch_reduce_size product of the sizes of the batch-reduce k dimensions.
+   * @param o_stride_hint_a stride hint for the left tensor.
+   * @param o_stride_hint_b stride hint for the right tensor.
+   * @param o_dim_ids_kb blocked k dimension ids.
+   * @param i_dim_ids_cb  blocked c dimension ids.
+   * @param i_dim_ids_mb  blocked m dimension ids.
+   * @param i_dim_ids_nb  blocked n dimension ids.
+   * @param i_m_dim_ids_k m dimension ids for k.
+   * @param i_m_dim_ids_m m dimension ids for m.
+   * @param i_m_dim_ids_n m dimension ids for n.
+   * @param o_batch_reduce_k_dims output found batch-reduce k dimension ids.
+   * @param i_strides_left strides of the left tensor.
+   * @param i_strides_right strides of the right tensor.
+   * @param i_dim_sizes dimension sizes.
+   *
+   *
+   * @return product of the sizes of the batch-reduce k dimensions.
    */
-  static uint64_t detect_batch_reduce_k_dimensions(
-    std::vector<int64_t>& io_dim_ids_kb,
-    std::vector<int64_t>& i_dim_ids_cb,
-    std::vector<int64_t>& i_dim_ids_mb,
-    std::vector<int64_t>& i_dim_ids_nb, 
-    std::vector<int64_t>& i_m_dim_ids_k,
-    std::vector<int64_t>& i_m_dim_ids_c,
-    std::vector<int64_t>& i_m_dim_ids_m,
-    std::vector<int64_t>& i_m_dim_ids_n,
-    std::vector<int64_t>& io_batch_reduce_k_dims,
-    const std::map<int64_t, int64_t>& i_strides_left,
-    const std::map<int64_t, int64_t>& i_strides_right,
-    const std::map<int64_t, int64_t>& i_dim_sizes);
+  static void detect_batch_reduce_k_dimensions(
+      int64_t &o_batch_reduce_size,
+      int64_t &o_stride_hint_a,
+      int64_t &o_stride_hint_b,
+      std::vector<int64_t> &o_dim_ids_kb,
+      std::vector<int64_t> &i_dim_ids_cb,
+      std::vector<int64_t> &i_dim_ids_mb,
+      std::vector<int64_t> &i_dim_ids_nb,
+      std::vector<int64_t> &i_m_dim_ids_k,
+      std::vector<int64_t> &i_m_dim_ids_m,
+      std::vector<int64_t> &i_m_dim_ids_n,
+      std::vector<int64_t> &o_batch_reduce_k_dims,
+      const std::map<int64_t, int64_t> &i_strides_left,
+      const std::map<int64_t, int64_t> &i_strides_right,
+      const std::map<int64_t, int64_t> &i_dim_sizes);
 
 public:
   /**

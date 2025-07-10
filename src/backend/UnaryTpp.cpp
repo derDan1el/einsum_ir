@@ -7,6 +7,9 @@ libxsmm_datatype einsum_ir::backend::UnaryTpp::dtype_to_libxsmm( data_t i_dtype 
   else if( i_dtype == FP64 ) {
     return libxsmm_datatype::LIBXSMM_DATATYPE_F64;
   }
+  else if( i_dtype == BF16 ) {
+    return libxsmm_datatype::LIBXSMM_DATATYPE_BF16;
+  }
 
   return libxsmm_datatype::LIBXSMM_DATATYPE_UNSUPPORTED;
 }
