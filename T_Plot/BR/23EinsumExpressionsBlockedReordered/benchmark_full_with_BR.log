@@ -1,0 +1,1419 @@
+=== Benchmark Log Started: Fri Jul 11 08:39:18 PM CEST 2025 ===
+
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "abdfe,cf->abcde" "48,36,24,36,48,36" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,b,d,f,e
+  c,f
+  a,b,c,d,e
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+parsed dimension sizes:
+  a: 48
+  b: 36
+  c: 24
+  d: 36
+  e: 48
+  f: 36
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.0959867
+  gflops: 53.7552
+einsum_ir:
+[DEBUG] Main GEMM ptr: 0xffff97dce000
+[DEBUG] GEMM shape: 
+m=48 
+n=24 
+k=36 
+lda=48 
+ldb=36 
+ldc=1728 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+o_batch_reduce_size=1
+[DEBUG] Loop order: 0 1 3 
+  time (compile): 0.000367921
+  time (contract): 0.0521352
+  gflops: 98.9692
+-----------------------------------
+max element torch :        16
+max element jit :          16
+max difference :           0
+-----------------------------------
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "acdfe,bf->abcde" "48,24,36,36,48,36" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,c,d,f,e
+  b,f
+  a,b,c,d,e
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+parsed dimension sizes:
+  a: 48
+  b: 24
+  c: 36
+  d: 36
+  e: 48
+  f: 36
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.0961318
+  gflops: 53.674
+einsum_ir:
+[DEBUG] Main GEMM ptr: 0xffffa045e000
+[DEBUG] GEMM shape: 
+m=48 
+n=24 
+k=36 
+lda=48 
+ldb=36 
+ldc=62208 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+o_batch_reduce_size=1
+[DEBUG] Loop order: 0 2 3 
+  time (compile): 0.000404624
+  time (contract): 0.0500241
+  gflops: 103.146
+-----------------------------------
+max element torch :   15.5625
+max element jit :     15.5625
+max difference :           0
+-----------------------------------
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "abed,ce->abcd" "96,84,24,96,96" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,b,e,d
+  c,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 24
+  d: 96
+  e: 96
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.0610857
+  gflops: 58.3975
+einsum_ir:
+[DEBUG] Main GEMM ptr: 0xffffb1162000
+[DEBUG] GEMM shape: 
+m=96 
+n=24 
+k=96 
+lda=96 
+ldb=96 
+ldc=96 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+o_batch_reduce_size=1
+[DEBUG] Loop order: 0 1 
+  time (compile): 0.000444429
+  time (contract): 0.0251692
+  gflops: 141.731
+-----------------------------------
+max element torch :     34.25
+max element jit :       34.25
+max difference :           0
+-----------------------------------
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "abcfe,df->abcde" "48,36,36,24,48,48" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,b,c,f,e
+  d,f
+  a,b,c,d,e
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+parsed dimension sizes:
+  a: 48
+  b: 36
+  c: 36
+  d: 24
+  e: 48
+  f: 48
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.124104
+  gflops: 55.4348
+einsum_ir:
+[DEBUG] Main GEMM ptr: 0xffff7f70f000
+[DEBUG] GEMM shape: 
+m=48 
+n=24 
+k=48 
+lda=48 
+ldb=48 
+ldc=48 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+o_batch_reduce_size=1
+[DEBUG] Loop order: 0 1 2 
+  time (compile): 0.00040232
+  time (contract): 0.0638585
+  gflops: 107.734
+-----------------------------------
+max element torch :     21.25
+max element jit :       21.25
+max difference :           0
+-----------------------------------
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "aced,be->abcd" "96,24,84,96,84" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,c,e,d
+  b,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 24
+  c: 84
+  d: 96
+  e: 84
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.0544698
+  gflops: 57.3043
+einsum_ir:
+[DEBUG] Main GEMM ptr: 0xffffb2275000
+[DEBUG] GEMM shape: 
+m=96 
+n=24 
+k=84 
+lda=96 
+ldb=84 
+ldc=8064 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+o_batch_reduce_size=1
+[DEBUG] Loop order: 0 2 
+  time (compile): 0.000410351
+  time (contract): 0.0232729
+  gflops: 134.12
+-----------------------------------
+max element torch :     32.25
+max element jit :       32.25
+max difference :           0
+-----------------------------------
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "jki,efghjk->efghi" "6,64,6,64,24,6,64" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  j,k,i
+  e,f,g,h,j,k
+  e,f,g,h,i
+parsed dimension ids:
+  e: 0
+  f: 1
+  g: 2
+  h: 3
+  i: 4
+  j: 5
+  k: 6
+parsed dimension sizes:
+  e: 6
+  f: 64
+  g: 6
+  h: 64
+  i: 24
+  j: 6
+  k: 64
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.164447
+  gflops: 16.5276
+einsum_ir:
+[DEBUG] Main GEMM ptr: 0xffff961ef000
+[DEBUG] GEMM shape: 
+m=24 
+n=64 
+k=384 
+lda=24 
+ldb=384 
+ldc=24 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+o_batch_reduce_size=1
+[DEBUG] Loop order: 0 1 2 
+  time (compile): 0.000416079
+  time (contract): 0.0163305
+  gflops: 166.431
+-----------------------------------
+max element torch :       116
+max element jit :         116
+max difference :           0
+-----------------------------------
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "abed,ce->abcd" "96,84,24,84,96" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,b,e,d
+  c,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 24
+  d: 84
+  e: 96
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.0532278
+  gflops: 58.6413
+einsum_ir:
+[DEBUG] Main GEMM ptr: 0xffff8a387000
+[DEBUG] GEMM shape: 
+m=84 
+n=24 
+k=96 
+lda=84 
+ldb=96 
+ldc=84 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+o_batch_reduce_size=1
+[DEBUG] Loop order: 0 1 
+  time (compile): 0.000361329
+  time (contract): 0.0371298
+  gflops: 84.0658
+-----------------------------------
+max element torch :     34.25
+max element jit :       34.25
+max difference :           0
+-----------------------------------
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "bcgf,adeg->abcdef" "24,20,20,24,20,20,24" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  b,c,g,f
+  a,d,e,g
+  a,b,c,d,e,f
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+  g: 6
+parsed dimension sizes:
+  a: 24
+  b: 20
+  c: 20
+  d: 24
+  e: 20
+  f: 20
+  g: 24
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.0351575
+  gflops: 125.825
+einsum_ir:
+[DEBUG] Main GEMM ptr: 0xffff97253000
+[DEBUG] GEMM shape: 
+m=20 
+n=20 
+k=24 
+lda=20 
+ldb=24 
+ldc=20 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+o_batch_reduce_size=1
+[DEBUG] Loop order: 0 1 3 2 
+  time (compile): 0.000393744
+  time (contract): 0.0853767
+  gflops: 51.8137
+-----------------------------------
+max element torch :   12.4375
+max element jit :     12.4375
+max difference :           0
+-----------------------------------
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "bdgf,aceg->abcdef" "24,20,20,24,20,20,24" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  b,d,g,f
+  a,c,e,g
+  a,b,c,d,e,f
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+  g: 6
+parsed dimension sizes:
+  a: 24
+  b: 20
+  c: 20
+  d: 24
+  e: 20
+  f: 20
+  g: 24
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.0354039
+  gflops: 124.949
+einsum_ir:
+[DEBUG] Main GEMM ptr: 0xffff91315000
+[DEBUG] GEMM shape: 
+m=20 
+n=20 
+k=24 
+lda=20 
+ldb=24 
+ldc=20 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+o_batch_reduce_size=1
+[DEBUG] Loop order: 0 1 2 3 
+  time (compile): 0.000376496
+  time (contract): 0.0825329
+  gflops: 53.599
+-----------------------------------
+max element torch :     12.75
+max element jit :       12.75
+max difference :           0
+-----------------------------------
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "acgf,bdeg->abcdef" "24,20,20,24,20,20,24" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,c,g,f
+  b,d,e,g
+  a,b,c,d,e,f
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+  g: 6
+parsed dimension sizes:
+  a: 24
+  b: 20
+  c: 20
+  d: 24
+  e: 20
+  f: 20
+  g: 24
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.0360043
+  gflops: 122.865
+einsum_ir:
+[DEBUG] Main GEMM ptr: 0xffff9d879000
+[DEBUG] GEMM shape: 
+m=20 
+n=20 
+k=24 
+lda=20 
+ldb=24 
+ldc=20 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+o_batch_reduce_size=1
+[DEBUG] Loop order: 1 0 3 2 
+  time (compile): 0.00039352
+  time (contract): 0.0845039
+  gflops: 52.3488
+-----------------------------------
+max element torch :   12.8125
+max element jit :     12.8125
+max difference :           0
+-----------------------------------
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "abgf,cdeg->abcdef" "24,20,20,24,20,20,24" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,b,g,f
+  c,d,e,g
+  a,b,c,d,e,f
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+  g: 6
+parsed dimension sizes:
+  a: 24
+  b: 20
+  c: 20
+  d: 24
+  e: 20
+  f: 20
+  g: 24
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.0356213
+  gflops: 124.186
+einsum_ir:
+[DEBUG] Main GEMM ptr: 0xffffa7245000
+[DEBUG] GEMM shape: 
+m=20 
+n=20 
+k=24 
+lda=20 
+ldb=24 
+ldc=20 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+o_batch_reduce_size=1
+[DEBUG] Loop order: 2 0 3 1 
+  time (compile): 0.000390096
+  time (contract): 0.0848314
+  gflops: 52.1468
+-----------------------------------
+max element torch :   12.6875
+max element jit :     12.6875
+max difference :           0
+-----------------------------------
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "efhjki,gjk->efghi" "6,64,24,4,94,6,64" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  e,f,h,j,k,i
+  g,j,k
+  e,f,g,h,i
+parsed dimension ids:
+  e: 0
+  f: 1
+  g: 2
+  h: 3
+  i: 4
+  j: 5
+  k: 6
+parsed dimension sizes:
+  e: 6
+  f: 64
+  g: 24
+  h: 4
+  i: 94
+  j: 6
+  k: 64
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.0460486
+  gflops: 57.793
+einsum_ir:
+[DEBUG] Main GEMM ptr: 0xffff94659000
+[DEBUG] GEMM shape: 
+m=94 
+n=24 
+k=384 
+lda=94 
+ldb=384 
+ldc=376 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+o_batch_reduce_size=1
+[DEBUG] Loop order: 0 1 3 
+  time (compile): 0.000378833
+  time (contract): 0.0291767
+  gflops: 91.2128
+-----------------------------------
+max element torch :     115.5
+max element jit :       115.5
+max difference :           0
+-----------------------------------
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "bced,ae->abcd" "96,84,84,84,96" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  b,c,e,d
+  a,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 84
+  e: 96
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.082998
+  gflops: 131.626
+einsum_ir:
+[DEBUG] Main GEMM ptr: 0xffff851ee000
+[DEBUG] GEMM shape: 
+m=84 
+n=96 
+k=96 
+lda=84 
+ldb=96 
+ldc=592704 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+o_batch_reduce_size=1
+[DEBUG] Loop order: 1 2 
+  time (compile): 0.000412943
+  time (contract): 0.075986
+  gflops: 143.773
+-----------------------------------
+max element torch :     35.25
+max element jit :       35.25
+max difference :           0
+-----------------------------------
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "aced,be->abcd" "96,84,84,84,96" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,c,e,d
+  b,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 84
+  e: 96
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.0875539
+  gflops: 124.777
+einsum_ir:
+[DEBUG] Main GEMM ptr: 0xffff95d7f000
+[DEBUG] GEMM shape: 
+m=84 
+n=84 
+k=96 
+lda=84 
+ldb=96 
+ldc=7056 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+o_batch_reduce_size=1
+[DEBUG] Loop order: 0 2 
+  time (compile): 0.000404239
+  time (contract): 0.0779697
+  gflops: 140.115
+-----------------------------------
+max element torch :      38.5
+max element jit :        38.5
+max difference :           0
+-----------------------------------
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "abed,ce->abcd" "96,84,84,84,96" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,b,e,d
+  c,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 84
+  e: 96
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.0875217
+  gflops: 124.823
+einsum_ir:
+[DEBUG] Main GEMM ptr: 0xffff86bc3000
+[DEBUG] GEMM shape: 
+m=84 
+n=84 
+k=96 
+lda=84 
+ldb=96 
+ldc=84 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+o_batch_reduce_size=1
+[DEBUG] Loop order: 0 1 
+  time (compile): 0.000397551
+  time (contract): 0.0798403
+  gflops: 136.832
+-----------------------------------
+max element torch :      34.5
+max element jit :        34.5
+max difference :           0
+-----------------------------------
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "aedc,ebd->abc" "96,84,84,84,96" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,e,d,c
+  e,b,d
+  a,b,c
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 84
+  e: 96
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.10799
+  gflops: 101.164
+einsum_ir:
+[DEBUG] Main GEMM ptr: 0xffff8bb40000
+[DEBUG] GEMM shape: 
+m=84 
+n=84 
+k=84 
+lda=84 
+ldb=84 
+ldc=84 
+br_stride_a_hint=14112 
+br_stride_b_hint=14112 
+o_batch_reduce_size=96
+[DEBUG] Loop order: 0 
+  time (compile): 0.000396144
+  time (contract): 0.10345
+  gflops: 105.604
+-----------------------------------
+max element torch :      2096
+max element jit :        2096
+max difference :          32
+-----------------------------------
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0.0153846
+Torch value at max error: 2080
+Kernel value at max error: 2048
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "gkiljh,ekilfj->efgh" "6,64,4,94,6,64,6,64" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  g,k,i,l,j,h
+  e,k,i,l,f,j
+  e,f,g,h
+parsed dimension ids:
+  e: 0
+  f: 1
+  g: 2
+  h: 3
+  i: 4
+  j: 5
+  k: 6
+  l: 7
+parsed dimension sizes:
+  e: 6
+  f: 64
+  g: 4
+  h: 94
+  i: 6
+  j: 64
+  k: 6
+  l: 64
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.393367
+  gflops: 108.246
+einsum_ir:
+[DEBUG] Main GEMM ptr: 0xffff85ed9000
+[DEBUG] GEMM shape: 
+m=94 
+n=64 
+k=64 
+lda=94 
+ldb=64 
+ldc=376 
+br_stride_a_hint=12032 
+br_stride_b_hint=8192 
+o_batch_reduce_size=384
+[DEBUG] Loop order: 0 2 6 
+  time (compile): 0.000399024
+  time (contract): 0.412608
+  gflops: 103.199
+-----------------------------------
+max element torch :     32640
+max element jit :       37120
+max difference :        4864
+-----------------------------------
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0.131944
+Torch value at max error: 32000
+Kernel value at max error: 36864
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "gikljh,eiklfj->efgh" "6,64,4,94,4,94,6,64" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  g,i,k,l,j,h
+  e,i,k,l,f,j
+  e,f,g,h
+parsed dimension ids:
+  e: 0
+  f: 1
+  g: 2
+  h: 3
+  i: 4
+  j: 5
+  k: 6
+  l: 7
+parsed dimension sizes:
+  e: 6
+  f: 64
+  g: 4
+  h: 94
+  i: 4
+  j: 94
+  k: 6
+  l: 64
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.390309
+  gflops: 106.822
+einsum_ir:
+[DEBUG] Main GEMM ptr: 0xffff809a5000
+[DEBUG] GEMM shape: 
+m=94 
+n=64 
+k=94 
+lda=94 
+ldb=94 
+ldc=376 
+br_stride_a_hint=17672 
+br_stride_b_hint=12032 
+o_batch_reduce_size=384
+[DEBUG] Loop order: 0 2 4 
+  time (compile): 0.000364849
+  time (contract): 0.717178
+  gflops: 58.1355
+-----------------------------------
+max element torch :     32128
+max element jit :       36096
+max difference :        4864
+-----------------------------------
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0.134752
+Torch value at max error: 31232
+Kernel value at max error: 36096
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "efiklj,ghkl->efghij" "6,64,4,94,4,94,6,64" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  e,f,i,k,l,j
+  g,h,k,l
+  e,f,g,h,i,j
+parsed dimension ids:
+  e: 0
+  f: 1
+  g: 2
+  h: 3
+  i: 4
+  j: 5
+  k: 6
+  l: 7
+parsed dimension sizes:
+  e: 6
+  f: 64
+  g: 4
+  h: 94
+  i: 4
+  j: 94
+  k: 6
+  l: 64
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.183707
+  gflops: 226.957
+einsum_ir:
+[DEBUG] Main GEMM ptr: 0xffff85f56000
+[DEBUG] GEMM shape: 
+m=94 
+n=94 
+k=384 
+lda=94 
+ldb=384 
+ldc=376 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+o_batch_reduce_size=1
+[DEBUG] Loop order: 0 1 2 4 
+  time (compile): 0.00038888
+  time (contract): 0.255497
+  gflops: 163.186
+-----------------------------------
+max element torch :       118
+max element jit :         118
+max difference :           0
+-----------------------------------
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "efiklj,ghkl->efghij" "6,64,6,64,4,94,4,94" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  e,f,i,k,l,j
+  g,h,k,l
+  e,f,g,h,i,j
+parsed dimension ids:
+  e: 0
+  f: 1
+  g: 2
+  h: 3
+  i: 4
+  j: 5
+  k: 6
+  l: 7
+parsed dimension sizes:
+  e: 6
+  f: 64
+  g: 6
+  h: 64
+  i: 4
+  j: 94
+  k: 4
+  l: 94
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 0.179755
+  gflops: 231.946
+einsum_ir:
+[DEBUG] Main GEMM ptr: 0xffff953a7000
+[DEBUG] GEMM shape: 
+m=94 
+n=64 
+k=376 
+lda=94 
+ldb=376 
+ldc=376 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+o_batch_reduce_size=1
+[DEBUG] Loop order: 0 1 2 4 
+  time (compile): 0.000330419
+  time (contract): 0.287237
+  gflops: 145.154
+-----------------------------------
+max element torch :       117
+max element jit :         117
+max difference :           0
+-----------------------------------
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "cefd,aebf->abcd" "96,84,84,84,84,96" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  c,e,f,d
+  a,e,b,f
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 84
+  e: 84
+  f: 96
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 3.15654
+  gflops: 290.722
+einsum_ir:
+[DEBUG] Main GEMM ptr: 0xffffa51ba000
+[DEBUG] GEMM shape: 
+m=84 
+n=84 
+k=96 
+lda=84 
+ldb=96 
+ldc=7056 
+br_stride_a_hint=16128 
+br_stride_b_hint=16128 
+o_batch_reduce_size=84
+[DEBUG] Loop order: 100001 100000 0 2 
+  time (compile): 0.000395088
+  time (contract): 8.5738
+  gflops: 107.033
+-----------------------------------
+max element torch :      2112
+max element jit :        2112
+max difference :          32
+-----------------------------------
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0.0155039
+Torch value at max error: 2064
+Kernel value at max error: 2032
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "aefd,becf->abcd" "96,84,84,84,96,96" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  a,e,f,d
+  b,e,c,f
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 84
+  e: 96
+  f: 96
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 3.51512
+  gflops: 298.361
+einsum_ir:
+[DEBUG] Main GEMM ptr: 0xffff80017000
+[DEBUG] GEMM shape: 
+m=84 
+n=84 
+k=96 
+lda=84 
+ldb=96 
+ldc=84 
+br_stride_a_hint=16128 
+br_stride_b_hint=16128 
+o_batch_reduce_size=96
+[DEBUG] Loop order: 100001 100000 1 0 
+  time (compile): 0.000425902
+  time (contract): 9.58987
+  gflops: 109.363
+-----------------------------------
+max element torch :      2416
+max element jit :        2400
+max difference :          32
+-----------------------------------
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0.0144928
+Torch value at max error: 2176
+Kernel value at max error: 2208
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "cfed,afbe->abcd" "96,84,84,96,84,84" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  c,f,e,d
+  a,f,b,e
+  a,b,c,d
+parsed dimension ids:
+  a: 0
+  b: 1
+  c: 2
+  d: 3
+  e: 4
+  f: 5
+parsed dimension sizes:
+  a: 96
+  b: 84
+  c: 84
+  d: 96
+  e: 84
+  f: 84
+dtype: BF16
+BF16 VNNI test:
+at::einsum:
+  time (contract): 3.15361
+  gflops: 290.992
+einsum_ir:
+[DEBUG] Main GEMM ptr: 0xffff8ab86000
+[DEBUG] GEMM shape: 
+m=96 
+n=84 
+k=84 
+lda=96 
+ldb=84 
+ldc=8064 
+br_stride_a_hint=16128 
+br_stride_b_hint=14112 
+o_batch_reduce_size=84
+[DEBUG] Loop order: 100001 100000 0 2 
+  time (compile): 0.000419375
+  time (contract): 7.36975
+  gflops: 124.519
+-----------------------------------
+max element torch :      1848
+max element jit :        1848
+max difference :          24
+-----------------------------------
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0.014218
+Torch value at max error: 1664
+Kernel value at max error: 1688
+
+error:einsum_ir solution is not close to aten!
+
+acceptable relative error :                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+

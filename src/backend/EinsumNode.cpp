@@ -299,7 +299,8 @@ einsum_ir::err_t einsum_ir::backend::EinsumNode::compile_recursive() {
                   m_children[1]->m_dtype,
                   m_dtype,
                   m_dtype,
-                  false, //TODO:VNNI False temporarily 
+                  false, //TODO:VNNI False temporarily
+                  false,
                   m_ktype_first_touch,
                   m_ktype_main,
                   m_ktype_last_touch );

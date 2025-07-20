@@ -3,7 +3,6 @@
 
 #include <algorithm>
 #include <math.h>
-//#include <iostream>
 
 void einsum_ir::backend::BinaryPrimitives::init(int64_t i_size_cb_min,
                                                 int64_t i_size_cb_max,
@@ -22,19 +21,6 @@ void einsum_ir::backend::BinaryPrimitives::init(int64_t i_size_cb_min,
   m_size_nb_max = i_size_nb_max;
   m_size_kb_min = i_size_kb_min;
   m_size_kb_max = i_size_kb_max;
-
-  // Debug output: Display all member variables set in BinaryPrimitives init function
-/*   std::cout << "\n=== BinaryPrimitives.init function ===" << std::endl;
-  std::cout << "m_size_cb_min:             " << m_size_cb_min << std::endl;
-  std::cout << "m_size_cb_max:             " << m_size_cb_max << std::endl;
-  std::cout << "m_size_mb_min:             " << m_size_mb_min << std::endl;
-  std::cout << "m_size_mb_max:             " << m_size_mb_max << std::endl;
-  std::cout << "m_size_nb_min:             " << m_size_nb_min << std::endl;
-  std::cout << "m_size_nb_max:             " << m_size_nb_max << std::endl;
-  std::cout << "m_size_kb_min:             " << m_size_kb_min << std::endl;
-  std::cout << "m_size_kb_max:             " << m_size_kb_max << std::endl;
-  std::cout << "==========================================\n"
-            << std::endl; */
 }
 
 einsum_ir::err_t einsum_ir::backend::BinaryPrimitives::init(data_t i_data_type,
@@ -233,9 +219,6 @@ einsum_ir::err_t einsum_ir::backend::BinaryPrimitives::blocking_left_kb_x_mb_cb_
                                &l_dim_types_left,
                                &l_dim_types_right,
                                &l_dim_types_out);
-
-  // Vector l_dim_types_left hat 3 Einträge:003 |Vector l_dim_types_right hat 4 Einträge:0320Vector l_dim_types_out hat 3 Einträge:002
-  // C = 0, // left, right, out M = 1, // left, out N = 2, // right, out K = 3, // left, right I = 4, // left J = 5, // right
 
   int64_t l_di_left = i_num_dims_left - 1;
   int64_t l_di_right = i_num_dims_right - 1;
@@ -510,42 +493,6 @@ einsum_ir::err_t einsum_ir::backend::BinaryPrimitives::blocking_left_kb_x_mb_cb_
   std::reverse(o_dim_ids_nb->begin(), o_dim_ids_nb->end());
   std::reverse(o_dim_ids_kb->begin(), o_dim_ids_kb->end());
 
-  // DEBUG: Print all parameters and computed values for blocking_left_kb_x_mb_cb_right_nb_x_kb_cb_out_nb_x_mb_cb
-  //std::cout << "\n=== DEBUG blocking_left_kb_x_mb_cb_right_nb_x_kb_cb_out_nb_x_mb_cb ===\n";
-
-  // Print computed sizes
-/*   std::cout << "Computed sizes:\n";
-  std::cout << "  l_size_cb=" << l_size_cb << ", l_size_mb=" << l_size_mb << "\n";
-  std::cout << "  l_size_nb=" << l_size_nb << ", l_size_kb=" << l_size_kb << "\n"; */
-
-  // Print output vectors
-  /* std::cout << "Output vectors:\n";
-  std::cout << "  o_dim_ids_cb=[";
-  for (size_t i = 0; i < o_dim_ids_cb->size(); ++i)
-  {
-    std::cout << (*o_dim_ids_cb)[i] << (i < o_dim_ids_cb->size() - 1 ? "," : "");
-  }
-  std::cout << "] (size=" << o_dim_ids_cb->size() << ")\n";
-  std::cout << "  o_dim_ids_mb=[";
-  for (size_t i = 0; i < o_dim_ids_mb->size(); ++i)
-  {
-    std::cout << (*o_dim_ids_mb)[i] << (i < o_dim_ids_mb->size() - 1 ? "," : "");
-  }
-  std::cout << "] (size=" << o_dim_ids_mb->size() << ")\n";
-  std::cout << "  o_dim_ids_nb=[";
-  for (size_t i = 0; i < o_dim_ids_nb->size(); ++i)
-  {
-    std::cout << (*o_dim_ids_nb)[i] << (i < o_dim_ids_nb->size() - 1 ? "," : "");
-  }
-  std::cout << "] (size=" << o_dim_ids_nb->size() << ")\n";
-  std::cout << "  o_dim_ids_kb=[";
-  for (size_t i = 0; i < o_dim_ids_kb->size(); ++i)
-  {
-    std::cout << (*o_dim_ids_kb)[i] << (i < o_dim_ids_kb->size() - 1 ? "," : "");
-  }
-  std::cout << "] (size=" << o_dim_ids_kb->size() << ")\n";
-  std::cout << "=== END DEBUG blocking_left_kb_x_mb_cb_right_nb_x_kb_cb_out_nb_x_mb_cb ===\n\n";
- */
   return err_t::SUCCESS;
 }
 
@@ -938,35 +885,9 @@ einsum_ir::err_t einsum_ir::backend::BinaryPrimitives::blocking(primblo_t i_prim
   std::map<int64_t, int64_t> const *l_strides_ptr_right = (i_strides_right != nullptr) ? i_strides_right : &l_strides_right;
   std::map<int64_t, int64_t> const *l_strides_ptr_out = (i_strides_out != nullptr) ? i_strides_out : &l_strides_out;
 
-  // Debug output: Display all variables set in blocking function
-  /* std::cout << "\n=== BinaryPrimitives.blocking function ===" << std::endl;
-
-  std::cout << "\nStride maps:" << std::endl;
-  std::cout << "l_strides_left:            ";
-  for (const auto &pair : l_strides_left)
-  {
-    std::cout << "[dim_id=" << pair.first << "]=" << pair.second << " ";
-  }
-  std::cout << std::endl;
-
-  std::cout << "l_strides_right:           ";
-  for (const auto &pair : l_strides_right)
-  {
-    std::cout << "[dim_id=" << pair.first << "]=" << pair.second << " ";
-  }
-  std::cout << std::endl;
-
-  std::cout << "l_strides_out:             ";
-  for (const auto &pair : l_strides_out)
-  {
-    std::cout << "[dim_id=" << pair.first << "]=" << pair.second << " ";
-  }
-  std::cout << std::endl;
-  std::cout << "============================================\n"<< std::endl; */
-
   // derive blocking
   if (i_primitive_blocking == primblo_t::LEFT_KB_X_MB_CB_RIGHT_NB_X_KB_CB_OUT_NB_X_MB_CB)
-  { // daniel : setzt blocking größen o_dim_ids_mb[0] = 3 ,o_dim_ids_nb[0] = 4,o_dim_ids_kb[0] = 2
+  {
     l_err = blocking_left_kb_x_mb_cb_right_nb_x_kb_cb_out_nb_x_mb_cb(m_size_mb_min,
                                                                      m_size_mb_max,
                                                                      m_size_nb_min,
@@ -2271,85 +2192,6 @@ void einsum_ir::backend::BinaryPrimitives::compileLoopOrder(std::map<int64_t, di
   }
 
   std::reverse(o_loop_order.begin(), o_loop_order.end());
-  // Debug output: Display all variables set/modified in compileLoopOrder function
-  /* std::cout << "\n=== DEBUG compileLoopOrder function ===" << std::endl;
-
-  // Print non-blocked dimension IDs
-  std::cout << "l_dim_ids_bc:              ";
-  for (size_t i = 0; i < l_dim_ids_bc.size(); ++i)
-  {
-    std::cout << "[" << i << "]=" << l_dim_ids_bc[i] << " ";
-  }
-  std::cout << std::endl;
-
-  std::cout << "l_dim_ids_bm:              ";
-  for (size_t i = 0; i < l_dim_ids_bm.size(); ++i)
-  {
-    std::cout << "[" << i << "]=" << l_dim_ids_bm[i] << " ";
-  }
-  std::cout << std::endl;
-
-  std::cout << "l_dim_ids_bn:              ";
-  for (size_t i = 0; i < l_dim_ids_bn.size(); ++i)
-  {
-    std::cout << "[" << i << "]=" << l_dim_ids_bn[i] << " ";
-  }
-  std::cout << std::endl;
-
-  std::cout << "l_dim_ids_bk:              ";
-  for (size_t i = 0; i < l_dim_ids_bk.size(); ++i)
-  {
-    std::cout << "[" << i << "]=" << l_dim_ids_bk[i] << " ";
-  }
-  std::cout << std::endl;
-
-  // Print modified dimension types
-  std::cout << "io_dim_types:              ";
-  for (const auto &pair : io_dim_types)
-  {
-    std::cout << "[dim_id=" << pair.first << "]=" << static_cast<int>(pair.second) << " ";
-  }
-  std::cout << std::endl;
-
-  // Print modified dimension sizes
-  std::cout << "io_dim_sizes:              ";
-  for (const auto &pair : io_dim_sizes)
-  {
-    std::cout << "[dim_id=" << pair.first << "]=" << pair.second << " ";
-  }
-  std::cout << std::endl;
-
-  // Print modified stride maps
-  std::cout << "io_strides_left:           ";
-  for (const auto &pair : io_strides_left)
-  {
-    std::cout << "[dim_id=" << pair.first << "]=" << pair.second << " ";
-  }
-  std::cout << std::endl;
-
-  std::cout << "io_strides_right:          ";
-  for (const auto &pair : io_strides_right)
-  {
-    std::cout << "[dim_id=" << pair.first << "]=" << pair.second << " ";
-  }
-  std::cout << std::endl;
-
-  std::cout << "io_strides_out:            ";
-  for (const auto &pair : io_strides_out)
-  {
-    std::cout << "[dim_id=" << pair.first << "]=" << pair.second << " ";
-  }
-  std::cout << std::endl;
-
-  // Print final loop order
-  std::cout << "o_loop_order:              ";
-  for (size_t i = 0; i < o_loop_order.size(); ++i)
-  {
-    std::cout << "[" << i << "]=" << o_loop_order[i] << " ";
-  }
-  std::cout << std::endl;
-
-  std::cout << "=== END DEBUG compileLoopOrder ===\n" << std::endl; */
 }
 
 int64_t einsum_ir::backend::BinaryPrimitives::splitDimension(int64_t i_dim_size,

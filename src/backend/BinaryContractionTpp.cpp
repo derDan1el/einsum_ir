@@ -3,9 +3,7 @@
 #include "ContractionPackingTpp.h"
 
 #include <algorithm>
-#include <iostream> //das und iostream entfernen
-// #include <iomanip>
-
+#include <iostream>
 libxsmm_datatype einsum_ir::backend::BinaryContractionTpp::dtype_to_libxsmm(data_t i_dtype)
 {
   if (i_dtype == BF16)
@@ -51,7 +49,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
   std::vector<int64_t> l_dim_ids_nb;
   std::vector<int64_t> l_dim_ids_kb;
 
-  l_err = l_bin_prim.blocking(primblo_t::LEFT_KB_X_MB_CB_RIGHT_NB_X_KB_CB_OUT_NB_X_MB_CB, // // daniel : setzt blocking größen o_dim_ids_mb[0] = 3 ,o_dim_ids_nb[0] = 4,o_dim_ids_kb[0] = 2
+  l_err = l_bin_prim.blocking(primblo_t::LEFT_KB_X_MB_CB_RIGHT_NB_X_KB_CB_OUT_NB_X_MB_CB,
                               m_num_dims_left,
                               m_num_dims_right,
                               m_num_dims_out,
@@ -114,21 +112,23 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
   std::vector<int64_t> l_batch_reduce_k_dims;
   if (m_loop_ids_ext == nullptr)
   {
-    detect_batch_reduce_k_dimensions(l_batch_reduce_size,
-                                     l_stride_hint_a,
-                                     l_stride_hint_b,
-                                     l_dim_ids_kb,
-                                     l_dim_ids_cb,
-                                     l_dim_ids_mb,
-                                     l_dim_ids_nb,
-                                     m_dim_ids_k,
-                                     m_dim_ids_m,
-                                     m_dim_ids_n,
-                                     l_batch_reduce_k_dims,
-                                     l_strides_left,
-                                     l_strides_right,
-                                     l_dim_sizes);
-
+    if (m_dtype_left == BF16)
+    {
+      detect_batch_reduce_k_dimensions(l_batch_reduce_size,
+                                       l_stride_hint_a,
+                                       l_stride_hint_b,
+                                       l_dim_ids_kb,
+                                       l_dim_ids_cb,
+                                       l_dim_ids_mb,
+                                       l_dim_ids_nb,
+                                       m_dim_ids_k,
+                                       m_dim_ids_m,
+                                       m_dim_ids_n,
+                                       l_batch_reduce_k_dims,
+                                       l_strides_left,
+                                       l_strides_right,
+                                       l_dim_sizes);
+    }
     l_bin_prim.compileLoopOrder(m_dim_types,
                                 l_dim_sizes,
                                 l_strides_left,
@@ -150,7 +150,6 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
       auto it = std::find(l_dim_ids_kb.begin(), l_dim_ids_kb.end(), batch_dim);
       if (it != l_dim_ids_kb.end())
       {
-        std::cout<< "Removing batch dimension " << batch_dim << " from k-blocked dimensions." << std::endl;
         l_dim_ids_kb.erase(it);
       }
     }
@@ -226,7 +225,8 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
   // libxsmm data types
   libxsmm_datatype l_xmm_dtype_left = dtype_to_libxsmm(m_dtype_left);
   libxsmm_datatype l_xmm_dtype_right = dtype_to_libxsmm(m_dtype_right);
-  libxsmm_datatype l_xmm_dtype_comp = dtype_to_libxsmm(m_dtype_comp);
+  libxsmm_datatype l_xmm_dtype_comp = m_dtype_right == BF16 ? libxsmm_datatype::LIBXSMM_DATATYPE_F32 : dtype_to_libxsmm(m_dtype_right);
+  //libxsmm_datatype l_xmm_dtype_comp = dtype_to_libxsmm(m_dtype_comp);
   libxsmm_datatype l_xmm_dtype_out = dtype_to_libxsmm(m_dtype_out);
 
   if (l_xmm_dtype_left == libxsmm_datatype::LIBXSMM_DATATYPE_UNSUPPORTED || l_xmm_dtype_right == libxsmm_datatype::LIBXSMM_DATATYPE_UNSUPPORTED || l_xmm_dtype_comp == libxsmm_datatype::LIBXSMM_DATATYPE_UNSUPPORTED || l_xmm_dtype_out == libxsmm_datatype::LIBXSMM_DATATYPE_UNSUPPORTED)
@@ -267,11 +267,17 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
 
   // set leading dimensions
   l_lda = l_dim_ids_kb.size() > 0 ? l_strides_left.at(l_dim_ids_kb.back()) : l_m * l_r;
-  l_ldb = l_dim_ids_nb.size() > 0 ? l_strides_right.at(l_dim_ids_nb.back()) : l_k * l_r;
   l_ldc = l_dim_ids_nb.size() > 0 ? l_strides_out.at(l_dim_ids_nb.back()) : l_m * l_r;
+  if (m_vnni_b)
+  {
+    l_ldb = l_n * l_r; //Todo packing?
+  }
+  else
+  {
+    l_ldb = l_dim_ids_nb.size() > 0 ? l_strides_right.at(l_dim_ids_nb.back()) : l_k * l_r;
+  }
 
   // first-touch and last-touch shape
-
   libxsmm_meltw_unary_shape l_shape_single_touch = libxsmm_create_meltw_unary_shape(l_m * l_r,
                                                                                     l_n,
                                                                                     l_ldc,
@@ -335,12 +341,6 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
     m_xmm_kernel_first_touch_unary = libxsmm_dispatch_meltw_unary(LIBXSMM_MELTW_TYPE_UNARY_XOR, // daniel : XOred wird jedes element mit sich selbst -> matrix wird genullt
                                                                   l_shape_single_touch,         // daniel : hier wird etwas übergeben was es niht gibt bei BF16
                                                                   LIBXSMM_MELTW_FLAG_UNARY_NONE);
-    // daniel: beginn
-    if (m_xmm_kernel_first_touch_unary == nullptr) // TODO: hier kommt er bei BF17 rein aber nicht bei FP32
-    {
-      // std::cout << "[DEBUG] m_xmm_kernel_first_touch_unary is nullptr" << std::endl;
-    }
-    // daniel ende
   }
   else if (m_ktype_first_touch == COPY)
   {
@@ -396,8 +396,16 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
 
   // create main kernel
   libxsmm_gemm_shape l_shape_brgemm;
-  libxsmm_bitfield l_flags_brgemm = LIBXSMM_GEMM_FLAGS('N', 'N'); // daniel: 'N' = no transpose
-  // l_flags_brgemm |= LIBXSMM_GEMM_FLAG_BETA_0;
+
+  libxsmm_bitfield l_flags_brgemm;
+  if (m_vnni_b)
+  {
+    l_flags_brgemm = LIBXSMM_GEMM_FLAGS('N', 'Y') | LIBXSMM_GEMM_FLAG_VNNI_B;
+  }
+  else
+  {
+    l_flags_brgemm = LIBXSMM_GEMM_FLAGS('N', 'N');
+  }
 
   if (m_vnni_a)
   {
@@ -450,9 +458,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
   }
 
   // daniel start ─────────────────────────────────────────────────────────
-  std::cout << "[DEBUG] Main GEMM ptr: "
-            << (void *)m_xmm_kernel_main.gemm << std::endl;
-  std::cout << "[DEBUG] GEMM shape: \nm=" << l_shape_brgemm.m
+  std::cout << " gemm shape: \nm=" << l_shape_brgemm.m
             << " \nn=" << l_shape_brgemm.n
             << " \nk=" << l_shape_brgemm.k
             << " \nlda=" << l_shape_brgemm.lda
@@ -460,17 +466,8 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
             << " \nldc=" << l_shape_brgemm.ldc
             << " \nbr_stride_a_hint=" << l_brconfig.br_stride_a_hint
             << " \nbr_stride_b_hint=" << l_brconfig.br_stride_b_hint
-            << " \no_batch_reduce_size=" << l_batch_reduce_size
+            << " \nbatch_reduce_size=" << l_batch_reduce_size
             << std::endl;
-  
-  //printe die loop Order:
-  std::cout << "[DEBUG] Loop order: ";
-  for (const auto &loop_id : m_loop_ids_int)
-  {
-    std::cout << loop_id << " ";
-  }
-  std::cout << std::endl;
-  // daniel ende debug check ────────────────────────────────────────
 
   // check for existing kernels
   if (m_xmm_kernel_first_touch_unary == nullptr)
@@ -602,11 +599,11 @@ void einsum_ir::backend::BinaryContractionTpp::detect_batch_reduce_k_dimensions(
       l_non_blocked_dims_strides_right.emplace_back(k_dim, i_strides_right.at(k_dim));
     }
   }
-  //wenn keine ungeblockten k-dims vorhanden sind dann kann man auch keine br-dims finden
-  if(l_non_blocked_dims_strides_right.size() == 0){
+  // wenn keine ungeblockten k-dims vorhanden sind dann kann man auch keine br-dims finden
+  if (l_non_blocked_dims_strides_right.size() == 0)
+  {
     return;
   }
-
   // M-Dimensionen: nichtblocked m dims = alle m- blocked m
   for (const auto &m_dim : i_m_dim_ids_m)
   {
@@ -623,7 +620,6 @@ void einsum_ir::backend::BinaryContractionTpp::detect_batch_reduce_k_dimensions(
       l_non_blocked_dims_strides_right.emplace_back(n_dim, i_strides_right.at(n_dim));
     }
   }
-  
 
   // sortiere nach der größe der strides von klein nach groß
   std::sort(l_non_blocked_dims_strides_left.begin(), l_non_blocked_dims_strides_left.end(),
@@ -637,11 +633,11 @@ void einsum_ir::backend::BinaryContractionTpp::detect_batch_reduce_k_dimensions(
             {
               return std::get<1>(a) < std::get<1>(b);
             });
- 
-  //vectorzugriff sicher, aufgrund vorheriger if anweisung
+
+  // vectorzugriff sicher, aufgrund vorheriger if anweisung
   l_previous_stride_a = std::get<1>(l_non_blocked_dims_strides_left[0]);
   l_previous_stride_b = std::get<1>(l_non_blocked_dims_strides_right[0]);
-  //br k dims finden 
+  // br k dims finden
   for (uint64_t l_i = 0; l_i < l_non_blocked_dims_strides_left.size(); l_i++)
   {
     auto [dim_id_left, stride_left] = l_non_blocked_dims_strides_left[l_i];
@@ -655,6 +651,12 @@ void einsum_ir::backend::BinaryContractionTpp::detect_batch_reduce_k_dimensions(
       l_previous_size = i_dim_sizes.at(dim_id_left);
       l_previous_stride_a = stride_left;
       l_previous_stride_b = stride_right;
+
+      // die br size darf nicht zu groß werden, sonst kommt es zu einem segv.
+      if (o_batch_reduce_size > 1 && o_batch_reduce_size * i_dim_sizes.at(dim_id_left) > 512)
+      {
+        break;
+      }
 
       o_batch_reduce_size *= i_dim_sizes.at(dim_id_left);
       i_dim_ids_kb.push_back(dim_id_left); // füge die gefundene k-dim zu den batch reduce k dims hinzu

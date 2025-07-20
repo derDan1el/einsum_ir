@@ -125,6 +125,8 @@ class einsum_ir::backend::BinaryContraction {
 
     //! VNNI-A flag
     bool m_vnni_a = false;
+    //! VNNI-B flag
+    bool m_vnni_b = false;
 
     /**
      * Derives the dimension types of tensor t2 w.r.t. tensors t0 and t1.
@@ -328,6 +330,7 @@ class einsum_ir::backend::BinaryContraction {
                data_t                               i_dtype_comp,
                data_t                               i_dtype_out,
                bool                                 i_vnni_a,
+               bool                                 i_vnni_b,
                kernel_t                             i_ktype_first_touch,
                kernel_t                             i_ktype_main,
                kernel_t                             i_ktype_last_touch );

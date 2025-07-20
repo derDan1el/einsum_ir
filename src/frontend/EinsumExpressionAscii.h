@@ -194,33 +194,6 @@ public:
                                std::vector<int64_t> &o_loop_order);
 
   /**
-   * this function checks if the einsum string fulfills the following conditions
-   * as long as brgemm does not work as intended:
-   *ü
-   * 1. All k dimensions must appear on the rightmost positions of the einsum expression
-   * 4. All k dimensions must be placed next to each other in the einsum expression
-   * 3. All k dimension sizes must be even
-   * 4. If more thank one k dimension appears, their product must be below or equal to 512
-   *
-   * @param i_dim_ids_in_left dimension ids of the left tensor.
-   * @param i_dim_ids_in_right dimension ids of the right tensor.
-   * @param i_dim_ids_out dimension ids of the output tensor.
-   * @param i_tensor_dim_names_left dimension names of the left tensor.
-   * @param i_tensor_dim_names_right dimension names of the right tensor.
-   * @param i_tensor_dim_names_out dimension names of the output tensor.
-   * @param i_dim_sizes_map map from dimension id to dimension size.
-   * @return true if the computation is safe, false otherwise.
-   * @note This function is used to check if the computation can be performed without rounding errors in BF16.
-   **/
-  static void check_bf16_shape_constraints(std::vector<int64_t> const &i_dim_ids_in_left,
-                                           std::vector<int64_t> const &i_dim_ids_in_right,
-                                           std::vector<int64_t> const &i_dim_ids_out,
-                                           std::vector<std::string> const &i_tensor_dim_names_left,
-                                           std::vector<std::string> const &i_tensor_dim_names_right,
-                                           std::vector<std::string> const &i_tensor_dim_names_out,
-                                           std::map<int64_t, int64_t> const &i_dim_sizes_map);
-
-  /**
    *
    * This function relocates the VNNI k dimension of size 4 in the left tensor in front of the first occurence of
    * a k-dimension, or a c-dimension or if not present, at the beginning of the einsum expression.
@@ -235,13 +208,39 @@ public:
    *@param i_expression_string_std input expression string in standard format. [a,b,k],[d,e,k]->[d,e,a,b]
    *@param i_expression_string_schar input expression string in single-character format. abck,dek->deab
    *@param o_expression_string_std_vnni output expression string in standard format with relocated VNNI k dimension
+   *@param i_vnni_b_layout if true, the k dimension then the right tensor has B vnni layout
    *
    * @note the goal ist to enlarge the primitve size of the m dimension by relocating the k dimension without
    * permuting the tensor by activating the VNNI-A Flag. (ONLY USECASE :BF16 input tensor with VNNI k dimension)
    **/
   static void relocate_vnni_k_dimension(std::string const &i_expression_string_std,
                                         std::string const &i_expression_string_schar,
-                                        std::string &o_expression_string_std_vnni);
+                                        std::string &o_expression_string_std_vnni,
+                                        bool i_vnni_b_layout = false);
+
+  /**
+   * Sets BF16 VNNI flags by checking if the left tensor has VNNI-A layout.
+   * Checks if the fastest dimension in the left tensor is a k dimension with size 4.
+   *
+   * @param i_tensor_dim_names_left dimension names of the left tensor
+   * @param i_tensor_dim_names_right dimension names of the right tensor  
+   * @param i_tensor_dim_names_out dimension names of the output tensor
+   * @param i_map_dim_name_to_id mapping from dimension names to ids
+   * @param i_dim_sizes_vec vector of dimension sizes
+   * @param i_expression_string_std input expression string in standard format. [a,b,k],[d,e,k]->[d,e,a,b]
+   * @param i_expression_string_schar input expression string in single-character format. abck,dek->deab
+   * @param o_dim_ids_in_left_vnni reordered dimension ids for the left tensor
+   * @param o_dim_ids_in_right_vnni reordered dimension ids for the right tensor
+   **/
+  static void set_bf16_vnni_flags(std::vector<std::string> const &i_tensor_dim_names_left,
+                                  std::vector<std::string> const &i_tensor_dim_names_right,
+                                  std::vector<std::string> const &i_tensor_dim_names_out,
+                                  std::map<std::string, int64_t> const &i_map_dim_name_to_id,
+                                  std::vector<int64_t> const &i_dim_sizes_vec,
+                                  std::string const &i_expression_string_std,
+                                  std::string const &i_expression_string_schar,
+                                  std::vector<int64_t> &o_dim_ids_in_left_vnni,
+                                  std::vector<int64_t> &o_dim_ids_in_right_vnni);
 };
 
 #endif

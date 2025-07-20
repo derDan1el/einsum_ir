@@ -8,59 +8,7 @@
 #include <random>
 #include <iomanip>
 
-//  gemm_ref_bf16_vnni(a_ref, b_ref, c_ref, m, n, k,| m, k, m);
-void gemm_ref_bf16_vnni(float const *i_a,
-                        float const *i_b,
-                        float *io_c,
-                        libxsmm_blasint i_m,
-                        libxsmm_blasint i_n,
-                        libxsmm_blasint i_k,
-                        libxsmm_blasint i_lda,
-                        libxsmm_blasint i_ldb,
-                        libxsmm_blasint i_ldc)
-{
 
-  // Interpretiere die Daten genauso wie LIBXSMM VNNI es tut
-  for (libxsmm_blasint vnni_bn = 0; vnni_bn < i_n / 2; ++vnni_bn) // durch 2 weil die c blöcke abgearbeitet werden
-  {
-    for (libxsmm_blasint vnni_bm = 0; vnni_bm < i_m / 2; ++vnni_bm) // -||-
-    {
-      for (libxsmm_blasint bn = 0; bn < 2; ++bn) // 0-1, weil pro block 2 spalten
-      {
-        for (libxsmm_blasint bm = 0; bm < 2; ++bm) // 0-1, weil pro block 2 zeilen
-        {
-          for (libxsmm_blasint bk = 0; bk < 4; ++bk)
-          {
-
-            /**
-             *
-             * um den index der für die blockzeile zu finden geht man davon aus das es keine spalten (1) gibt
-             * es gibt bspw: 4 blöcke pro spalte also ist block 4 mit index 3 belegt. wenn man nun block 3 abarbeitet
-             * dann hat dieser index 2. pro block gibt es 4 elemente dh heißt wenn man den dritten block
-             * erreichen will in der zeile muss man zeilen block index * 4 nehmen.
-             * also                                           vnni_bm  * 4
-             *
-             * um den index der für die blockspalte zu bekommen muss man die anzahl der blöcke
-             * pro spalte kennen.. wenn es wieder 4 blöcke pro spalte gibt und man in spalte 2 will was index 1
-             * hat dann muss man : blöcke pro blockspalte * spaltenblockindex * anzahl der elemente pro block
-             * also                (i_m / 2)              * vnni_bm           * 4
-             *
-             *
-             *
-             *
-             */
-            // richtige spalte              + richtige zeile + interne spalte *2 weil 2 elemente springen um nächste spalte zu erreichen + m sagt welche zeile
-            io_c[(i_ldc / 2) * vnni_bn * 4 + vnni_bm * 4 + bn * 2 + bm] +=
-
-                i_a[(i_lda / 2) * vnni_bn * 8 + vnni_bm * 8 + bm * 4 + bk] *
-
-                i_b[(i_ldb / 2) * vnni_bn * 8 + vnni_bm * 8 + bn * 4 + bk];
-          }
-        }
-      }
-    }
-  }
-}
 
 void ref_gemm(float const *i_a,
               float const *i_b,

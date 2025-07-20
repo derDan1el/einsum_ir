@@ -20,14 +20,17 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
                   at::ScalarType i_dtype_at,
                   einsum_ir::data_t i_dtype_einsum_ir,
                   std::string i_einsum_string,
-                  std::vector<int64_t> &i_dim_ids_in_left_vnni)
+                  std::vector<int64_t> &i_dim_ids_in_left_vnni,
+                  std::vector<int64_t> &i_dim_ids_in_right_vnni)
 {
 
   std::chrono::steady_clock::time_point l_tp0, l_tp1;
   std::chrono::duration<double> l_dur;
   int64_t l_n_flops = 0;
-  int64_t l_repetitions = 300;
-  int64_t l_repetitions_warm_up = 40;
+  int64_t l_repetitions = 1000000;
+  int64_t l_repetitions_warm_up = 200;
+  int64_t l_repetitions_torch = 1;
+  int64_t l_repetitions_warm_up_torch = 1;
   std::vector<int64_t> l_dim_ids_permute_left;
   std::vector<int64_t> l_dim_ids_permute_right;
   double l_time_compile = 0;
@@ -66,7 +69,7 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
 
   at::Tensor l_ten_out_torch;
   l_tp0 = std::chrono::steady_clock::now();
-  for (int64_t l_rep = 0; l_rep < l_repetitions_warm_up; l_rep++)
+  for (int64_t l_rep = 0; l_rep < l_repetitions_warm_up_torch; l_rep++)
   {
     l_ten_out_torch = at::einsum(i_einsum_string,
                                  {l_ten_left, l_ten_right},
@@ -74,11 +77,11 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
   }
   l_tp1 = std::chrono::steady_clock::now();
   l_dur = std::chrono::duration_cast<std::chrono::duration<double>>(l_tp1 - l_tp0);
-  l_repetitions = l_repetitions_warm_up / l_dur.count() + 1;
+  //l_repetitions = l_repetitions_warm_up / l_dur.count() + 1;
 
   // run with repititions
   l_tp0 = std::chrono::steady_clock::now();
-  for (int64_t l_rep = 0; l_rep < l_repetitions; l_rep++)
+  for (int64_t l_rep = 0; l_rep < l_repetitions_torch; l_rep++)
   {
     l_ten_out_torch = at::einsum(i_einsum_string,
                                  {l_ten_left, l_ten_right},
@@ -86,7 +89,7 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
   }
   l_tp1 = std::chrono::steady_clock::now();
   l_dur = std::chrono::duration_cast<std::chrono::duration<double>>(l_tp1 - l_tp0);
-  l_time = l_dur.count() / l_repetitions;
+  l_time = l_dur.count() / l_repetitions_torch;
   l_gflops = 1.0E-9 * l_n_flops / l_time;
 
   std::cout << "  time (contract): " << l_time << std::endl;
@@ -96,11 +99,11 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
    * einsum_ir
    */
   std::cout << "einsum_ir:" << std::endl;
-  // daniel : checke ob dtype_einsum_ir == BF16 wenn ja solls in FP32 gerechnet werden
-  einsum_ir::data_t l_dtype_comp = (i_dtype_einsum_ir == einsum_ir::BF16) ? einsum_ir::FP32 : i_dtype_einsum_ir; // daniel siehe kommentar darüber
+
+  einsum_ir::data_t l_dtype_comp = (i_dtype_einsum_ir == einsum_ir::BF16) ? einsum_ir::FP32 : i_dtype_einsum_ir;
   einsum_ir::backend::MemoryManager l_memory;
   einsum_ir::backend::BinaryContractionTpp l_bin_cont;
-  l_bin_cont.init(i_dim_ids_in_left_vnni.size() == 0 ? i_dim_ids_in_left.size() : i_dim_ids_in_left_vnni.size(),
+  l_bin_cont.init(i_dim_ids_in_left.size(),
                   i_dim_ids_in_right.size(),
                   i_dim_ids_out.size(),
                   &i_dim_sizes_map,
@@ -110,7 +113,7 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
                   &i_dim_sizes_map,
                   i_loop_order,
                   i_dim_ids_in_left_vnni.size() == 0 ? i_dim_ids_in_left.data() : i_dim_ids_in_left_vnni.data(),
-                  i_dim_ids_in_right.data(),
+                  i_dim_ids_in_right_vnni.size() == 0 ? i_dim_ids_in_right.data() : i_dim_ids_in_right_vnni.data(),
                   i_dim_ids_out.data(),
                   l_dim_ids_permute_left.data(),
                   l_dim_ids_permute_right.data(),
@@ -119,12 +122,14 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
                   i_dtype_einsum_ir,
                   l_dtype_comp,
                   i_dtype_einsum_ir,
-                  i_dim_ids_in_left_vnni.size() == 0 ? 0 : 1,
-                  einsum_ir::ZERO,             // daniel: first touch
-                  einsum_ir::MADD,             // daniel: main kernel
-                  einsum_ir::UNDEFINED_KTYPE); // daniel: last touch
+                  i_dim_ids_in_left_vnni.size(),
+                  i_dim_ids_in_right_vnni.size(),
+                  einsum_ir::ZERO,                            // daniel: first touch
+                  einsum_ir::MADD,                            // daniel: main kernel
+                  einsum_ir::UNDEFINED_KTYPE);                // daniel: last touch
 
-  l_tp0 = std::chrono::steady_clock::now();
+  l_tp0 = std::chrono::steady_clock::now(); // warum stande das davor nach dem init, auch wenn es nur setzten ist?
+
   l_bin_cont.compile();
 
   l_memory.alloc_all_memory();
@@ -150,7 +155,8 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
   }
   l_tp1 = std::chrono::steady_clock::now();
   l_dur = std::chrono::duration_cast<std::chrono::duration<double>>(l_tp1 - l_tp0);
-  l_repetitions = l_repetitions_warm_up / l_dur.count() + 1;
+  //l_repetitions = l_repetitions_warm_up / l_dur.count() + 1;
+  std::cout<<"repetitions: "<<l_repetitions<<std::endl;
   l_tp0 = std::chrono::steady_clock::now();
   for (int64_t l_rep = 0; l_rep < l_repetitions; l_rep++)
   {
@@ -169,35 +175,31 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
 
   if (l_ten_out.dtype() == at::kBFloat16)
   {
-    auto max_torch = l_ten_out_torch.max().item<at::BFloat16>();
-    auto max_jit = l_ten_out.max().item<at::BFloat16>();
+    float max_torch = l_ten_out_torch.max().item<float>();
+    float max_jit = l_ten_out.max().item<float>();
 
     std::cout << "-----------------------------------\n"
-              << std::setw(25) << "max element torch :" << max_torch << "\n"
-              << std::setw(25) << "max element jit :" << max_jit << std::endl;
+              << "max element torch :" << std::setw(10) << max_torch << "\n"
+              << "max element jit :" << std::setw(12) << max_jit << "\n";
 
-    auto max_diff = (l_ten_out_torch - l_ten_out).abs().max().item<at::BFloat16>();
-    std::cout << "max difference :" << std::setw(10) << "" << max_diff << std::endl;
+    float max_diff = (l_ten_out_torch.to(at::kFloat) - l_ten_out.to(at::kFloat)).abs().max().item<float>();
+    std::cout << "max difference :" << std::setw(12) << max_diff << std::endl;
 
     float max_rel_error = 0.0f;
     float torch_val = 0.0f;
     float kernel_val = 0.0f;
     if (max_diff > 0.0f)
     {
-
       // Flatten die Tensoren für element-weise Iteration
       auto torch_flat = l_ten_out_torch.flatten();
       auto kernel_flat = l_ten_out.flatten();
 
       for (int64_t i = 0; i < torch_flat.numel(); i++)
       {
-        auto torch_element = torch_flat[i].item<at::BFloat16>();
-        auto kernel_element = kernel_flat[i].item<at::BFloat16>();
+        float difference = std::abs(torch_flat[i].item<float>() - kernel_flat[i].item<float>());
 
-        float difference = std::abs(static_cast<float>(torch_element) - static_cast<float>(kernel_element));
-
-        float bigger_val = std::max(std::abs(static_cast<float>(torch_element)),
-                                    std::abs(static_cast<float>(kernel_element)));
+        float bigger_val = std::max(std::abs(torch_flat[i].item<float>()),
+                                    std::abs(kernel_flat[i].item<float>()));
 
         // (Division durch 0 vermeiden)
         if (bigger_val > 1e-10f)
@@ -208,18 +210,18 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
           if (rel_error > max_rel_error)
           {
             max_rel_error = rel_error;
-            torch_val = static_cast<float>(torch_element);
-            kernel_val = static_cast<float>(kernel_element);
+            torch_val = torch_flat[i].item<float>();
+            kernel_val = kernel_flat[i].item<float>();
           }
         }
       }
     }
 
     std::cout << "-----------------------------------\n"
-              << "Element-wise relative errors\n"
-              << std::setw(25) << "Biggest relative error:" << max_rel_error << "\n"
-              << std::setw(25) << "Torch value at max error:" << torch_val << "\n"
-              << std::setw(25) << "Kernel value at max error:" << kernel_val << std::endl;
+              << "Element-wise relative errors" << std::endl;
+    std::cout << "Biggest relative error: " << max_rel_error << "\n"
+              << std::setw(25) << "Torch value at max error: " << torch_val << "\n"
+              << std::setw(25) << "Kernel value at max error: " << kernel_val << std::endl;
   }
   // relative tolerance for allclose
   if (!at::allclose(l_ten_out_torch, l_ten_out, 1e-03))
@@ -396,7 +398,6 @@ int main(int i_argc,
   /*
    * parse dtype
    */
-  // daniel: hier wird erstmal der standard dyte gesetzt auf FP32 / FLOAT
   at::ScalarType l_dtype_at = at::ScalarType::Float;
   einsum_ir::data_t l_dtype_einsum_ir = einsum_ir::FP32;
   if (i_argc > 3)
@@ -511,64 +512,20 @@ int main(int i_argc,
   }
 
   std::vector<int64_t> l_dim_ids_in_left_vnni;
+  std::vector<int64_t> l_dim_ids_in_right_vnni;
 
   if (l_dtype_einsum_ir == einsum_ir::BF16)
   {
-    //  einsum_ir::frontend::EinsumExpressionAscii::check_bf16_shape_constraints(l_dim_ids_in_left,
-    //                                                                           l_dim_ids_in_right,
-    //                                                                           l_dim_ids_out,
-    //                                                                           l_tensor_dim_names_left,
-    //                                                                           l_tensor_dim_names_right,
-    //                                                                           l_tensor_dim_names_out,
-    //                                                                           l_dim_sizes_map);
-
-    std::cout << "BF16 VNNI test:" << std::endl;
-    // schaue ob die fastest dimension beim A Tensor eine k dimension ist mit dimension_size = 4
-    std::string last_dim_name_left = l_tensor_dim_names_left.back();
-    bool in_right = std::find(l_tensor_dim_names_right.begin(),
-                              l_tensor_dim_names_right.end(),
-                              last_dim_name_left) != l_tensor_dim_names_right.end();
-
-    bool in_out = std::find(l_tensor_dim_names_out.begin(),
-                            l_tensor_dim_names_out.end(),
-                            last_dim_name_left) != l_tensor_dim_names_out.end();
-
-    int64_t last_dim_id_left = m_map_dim_name_to_id[last_dim_name_left];
-    int64_t last_dim_size_left = l_dim_sizes_vec[last_dim_id_left];
-
-    // vorletzte Dimensions == m-Dimension?
-    std::string possible_m_dim = l_tensor_dim_names_left[(l_tensor_dim_names_left.size() - 2)];
-    bool is_m_dim = std::find(l_tensor_dim_names_right.begin(),
-                              l_tensor_dim_names_right.end(),
-                              possible_m_dim) == l_tensor_dim_names_right.end();
-
-    if (last_dim_size_left == 4 && in_right && !in_out && is_m_dim)
-    {
-      std::cout << "left Tensor has VNNI-A Layout" << std::endl;
-
-      std::vector<std::string> l_tensors_vnni;
-      std::string l_expression_string_std_vnni;
-
-      einsum_ir::frontend::EinsumExpressionAscii::relocate_vnni_k_dimension(l_expression_string_std,
-                                                                            l_expression_string_schar,
-                                                                            l_expression_string_std_vnni);
-
-      einsum_ir::frontend::EinsumExpressionAscii::parse_tensors(l_expression_string_std_vnni,
-                                                                l_tensors_vnni);
-
-      std::vector<std::string> l_tensor_dim_names_left_vnni;
-
-      einsum_ir::frontend::EinsumExpressionAscii::split_string(l_tensors_vnni[0],
-                                                               std::string(","),
-                                                               l_tensor_dim_names_left_vnni);
-
-      for (std::size_t l_na = 0; l_na < l_tensor_dim_names_left_vnni.size(); l_na++)
-      {
-        std::string l_dim_name_vnni = l_tensor_dim_names_left_vnni[l_na];
-        int64_t l_dim_id_vnni = m_map_dim_name_to_id[l_dim_name_vnni];
-        l_dim_ids_in_left_vnni.push_back(l_dim_id_vnni);
-      }
-    }
+    einsum_ir::frontend::EinsumExpressionAscii::set_bf16_vnni_flags(l_tensor_dim_names_left,
+                                                                    l_tensor_dim_names_right,
+                                                                    l_tensor_dim_names_out,
+                                                                    m_map_dim_name_to_id,
+                                                                    l_dim_sizes_vec,
+                                                                    l_expression_string_std,
+                                                                    l_expression_string_schar,
+                                                                    l_dim_ids_in_left_vnni,
+                                                                    l_dim_ids_in_right_vnni);
+  std::cout<< "The new einsum string is: " << l_expression_string_schar << std::endl;
   }
   bench_binary(l_dim_sizes_map,
                l_dim_ids_in_left,
@@ -578,7 +535,8 @@ int main(int i_argc,
                l_dtype_at,
                l_dtype_einsum_ir,
                l_expression_string_schar,
-               l_dim_ids_in_left_vnni);
+               l_dim_ids_in_left_vnni,
+               l_dim_ids_in_right_vnni);
 
   std::cout << "finished running bench_binary!" << std::endl;
   return EXIT_SUCCESS;

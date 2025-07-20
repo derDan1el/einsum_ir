@@ -332,7 +332,8 @@ void einsum_ir::backend::BinaryContraction::init(int64_t i_num_dims_left,
        i_dtype_right,
        i_dtype_comp,
        i_dtype_out,
-       false, // TODO : daniel: was passiert hier muss ich es setzen oder nicht?
+       false, // TODO : vnni a?
+       false, // TODO : vnni b?
        i_ktype_first_touch,
        i_ktype_main,
        i_ktype_last_touch);
@@ -358,6 +359,7 @@ void einsum_ir::backend::BinaryContraction::init(int64_t i_num_dims_left,
                                                  data_t i_dtype_comp,
                                                  data_t i_dtype_out,
                                                  bool i_vnni_a,
+                                                 bool i_vnni_b,
                                                  kernel_t i_ktype_first_touch,
                                                  kernel_t i_ktype_main,
                                                  kernel_t i_ktype_last_touch)
@@ -390,6 +392,7 @@ void einsum_ir::backend::BinaryContraction::init(int64_t i_num_dims_left,
   m_dtype_out = i_dtype_out;
 
   m_vnni_a = i_vnni_a;
+  m_vnni_b = i_vnni_b;
 
   m_ktype_first_touch = i_ktype_first_touch;
   m_ktype_main = i_ktype_main;

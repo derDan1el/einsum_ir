@@ -628,7 +628,8 @@ TEST_CASE( "FP32 TPP-based binary contraction involving C, M, N and K dimensions
                    einsum_ir::FP32,
                    einsum_ir::FP32,
                    einsum_ir::FP32,
-                   false,
+                   false, //TODO  VNNI a flag
+                   false, //TODO  vnni b flag
                    einsum_ir::ZERO,
                    einsum_ir::MADD,
                    einsum_ir::UNDEFINED_KTYPE );

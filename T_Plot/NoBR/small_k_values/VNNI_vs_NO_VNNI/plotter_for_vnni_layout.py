@@ -26,23 +26,23 @@ standard_k_values = df_standard_bf16['K_Value'].values
 standard_jit_gflops = df_standard_bf16['JIT_GFLOPS'].values
 standard_torch_gflops = df_standard_bf16['Torch_GFLOPS'].values
 
-plt.figure(figsize=(14, 9))
+plt.figure(figsize=(10, 6))
 
 plt.plot(k_product_vnni, vnni_jit_gflops, 
-         label='JIT with VNNI-A Flag', color='#1a4d72', linewidth=2.5)
+         label='JIT with BF16 layout left', color='#1a4d72', linewidth=2)
 plt.plot(standard_k_values, standard_jit_gflops, 
-         label='JIT without VNNI layout', color='#4a90b8', linewidth=2.5)
+         label='JIT with column Major', color='#4a90b8', linewidth=2)
 plt.plot(k_product_vnni, vnni_torch_gflops, 
-         label='PyTorch at::einsum with VNNI-A layout', color='#8b1538', linewidth=2.5)
+         label='PyTorch with BF16 layout left', color='#8b1538', linewidth=2)
 plt.plot(standard_k_values, standard_torch_gflops, 
-         label='PyTorch at::einsum without VNNI-A layout', color='#d14d6b', linewidth=2.5)
+         label='PyTorch with column Major', color='#d14d6b', linewidth=2)
 
-plt.xlabel('K Dimension Size', fontsize=14, fontweight='bold')
-plt.ylabel('Performance (GFLOPS)', fontsize=14, fontweight='bold')
-plt.title('GEMM Performance: VNNI vs Standard Layout (BF16 only)', fontsize=16, fontweight='bold')
+plt.xlabel('K Value', fontsize=12)
+plt.ylabel('GFlops', fontsize=12)
+plt.title('BF16 Layout (Left Tensor) vs Column Major Comparison\n M=N=256', fontsize=14)
 
 plt.legend(fontsize=12, frameon=True, shadow=True)
-plt.grid(True, alpha=0.3)
+plt.grid(True, alpha=0.6, linestyle='-', linewidth=1)
 plt.ylim(bottom=0)
 
 # X-Achse in 128er-Schritten konfigurieren
@@ -54,9 +54,10 @@ x_ticks = np.arange(0, k_max + 128, 128)
 plt.xticks(x_ticks, fontsize=12)
 plt.yticks(fontsize=12)
 
+plt.tight_layout()
+
 
 plt.savefig('vnni_vs_standard_bf16_comparison.png', dpi=600, bbox_inches='tight')
-plt.savefig('vnni_vs_standard_bf16_comparison.pdf', dpi=600, bbox_inches='tight', format='pdf')
 
 print("=== PERFORMANCE STATISTIKEN (BF16 only) ===")
 print()
@@ -115,5 +116,3 @@ print(f"Anzahl VNNI-Datenpunkte: {len(vnni_jit_gflops)}")
 print(f"Anzahl Standard-Datenpunkte: {len(standard_jit_gflops)}")
 print(f"K-Wert Bereich (VNNI): {np.min(k_product_vnni)} - {np.max(k_product_vnni)}")
 print(f"K-Wert Bereich (Standard): {np.min(standard_k_values)} - {np.max(standard_k_values)}")
-
-plt.show()

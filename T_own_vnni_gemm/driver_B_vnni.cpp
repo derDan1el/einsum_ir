@@ -90,7 +90,7 @@ int main()
   std::cout << "LIBXSMM BF16 VNNI Test auf Grace CPU" << std::endl;
   std::cout << "=====================================" << std::endl;
 
-  libxsmm_bitfield flags = LIBXSMM_GEMM_FLAGS('N', 'N') | LIBXSMM_GEMM_FLAG_VNNI_B; // LIBXSMM_GEMM_FLAG_VNNI_C;//LIBXSMM_GEMM_FLAG_VNNI_B;// ;
+  libxsmm_bitfield flags = LIBXSMM_GEMM_FLAGS('N', 'Y') | LIBXSMM_GEMM_FLAG_VNNI_B | LIBXSMM_GEMM_FLAG_VNNI_A; // LIBXSMM_GEMM_FLAG_VNNI_C;//LIBXSMM_GEMM_FLAG_VNNI_B;// ;
   flags |= LIBXSMM_GEMM_FLAG_BETA_0;
 
   libxsmm_bitfield l_prefetch_flags_brgemm = 0;
@@ -158,45 +158,37 @@ int main()
     c_ref[i] = 0.0f;
   }
 
-  // A befüllen
-  //for (int i = 0; i < l_m * l_k; i++)
-  //{
-  //  a_ref[i] = (float)i;
-  //  a_bf16[i] = libxsmm_convert_f32_to_bf16_rne(a_ref[i]);
-  //}
-    // A befüllen
-  for (int i = 0; i < l_m * l_k; i++)
+  // A was VNNI Format hat und die Einheitsmatrix repräsentiert.
+  for (int m = 0; m < l_m; m++)
   {
-    a_ref[i] = 1.0f;
-    a_bf16[i] = one;
+    for (int k = 0; k < l_k; k++)
+    {
+      if (m == k)
+      {
+        a_ref[m * l_lda + k] = 1.0f;
+      }
+      else
+      {
+        a_ref[m * l_lda + k] = 0.0f;
+      }
+      a_bf16[m * l_lda + k] = zero; //erstmal mit 0en danach die richtigen mit 1 überschreiben
+    }
   }
-  
+  a_bf16[0] = one;
+  a_bf16[5] = one;
+  a_bf16[10] = one;
+  a_bf16[15] = one;
+  a_bf16[48] = one;
+  a_bf16[53] = one;
+  a_bf16[58] = one;
+  a_bf16[63] = one;
 
-  //B
-  for (int i = 0; i < l_n * l_k; i++)
+  // B befüllen mit aufsteigenden zahlen
+  for (int i = 0; i < 64; i++)
   {
+    b_bf16[i] = libxsmm_convert_f32_to_bf16_rne((float)i);
     b_ref[i] = (float)i;
-    b_bf16[i] = libxsmm_convert_f32_to_bf16_rne(b_ref[i]);
   }
-  
-
-  // B befüllen mit identität
-  //for (int i = 0; i < l_k; i++)
-  //{
-  //  for (int j = 0; j < l_m; j++)
-  //  {
-  //    if (i == j)
-  //    {
-  //      a_ref[i * l_m + j] = 1.0f;
-  //      a_bf16[i * l_m + j] = one;
-  //    }
-  //    else
-  //    {
-  //      b_ref[i * l_m + j] = 0.0f;
-  //      b_bf16[i * l_m + j] = zero;
-  //    }
-  //  }
-  //}
 
   std::cout << "Ausgabe A:" << std::endl;
 
@@ -218,7 +210,7 @@ int main()
   {
     for (int j = 0; j < l_k; j++)
     {
-      std::cout << std::setw(4) << libxsmm_convert_bf16_to_f32(b_bf16[j * l_ldb+ i]) << " ";
+      std::cout << std::setw(4) << libxsmm_convert_bf16_to_f32(b_bf16[j * l_ldb + i]) << " ";
     }
     std::cout << std::endl;
   }
@@ -231,7 +223,7 @@ int main()
   l_param.b.primary = b_bf16;
   l_param.c.primary = c_bf16;
 
-  std::cout << "a,b,c matritzen vor ausführung ausgeben:" << std::endl;
+  //std::cout << "a,b,c matritzen vor ausführung ausgeben:" << std::endl;
   // for (int i = 0; i < l_m * l_k; i++)
   //{
   //   std::cout << "a_bf16[" << i << "] = " << libxsmm_convert_bf16_to_f32(a_bf16[i]) << std::endl;
@@ -248,7 +240,20 @@ int main()
   l_kernel_forward.gemm(&l_param);
   std::cout << "Kernel ausgeführt!" << std::endl;
 
-  std::cout << "Ausgabe von C" << std::endl;
+  std::cout << "Ausgabe von C referenz" << std::endl;
+
+  for (int i = 0; i < l_n; i++)
+  {
+    for (int j = 0; j < l_m; j++)
+    {
+      std::cout << std::setw(4) << c_ref[j * l_ldc + i] << " ";
+    }
+    std::cout << std::endl;
+  }
+
+  std::cout << "--------------------------------------------" << std::endl;
+
+  std::cout << "Ausgabe von C kernel" << std::endl;
 
   for (int i = 0; i < l_n; i++)
   {

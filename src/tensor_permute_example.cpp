@@ -5,9 +5,20 @@
 #include <ATen/ATen.h>
 #include "backend/UnaryTpp.h"
 
+/**
+ *
+ * Dieser Code wurde erstellt um die UnaryTpp Permutation zu verstehen und um Support für BF16 zu testen/erstellen.
+ * Es wurde ein Beispiel gehardcoded. Ein eigenes Beispiel kann erstellt werden,
+ * indem man l_dim_sizes_map ,l_dim_ids_input und l_dim_ids_output ändert.
+ *
+ * Tensoren die weniger als 4 Dimensionen haben, werden in der Konsole ausgegeben.
+ */
 int main()
 {
-  std::cout << "\033[1;32mEin Minimalbeispiel für die Permutation eines Tensors\n\n\033[0m" << std::endl;
+
+std::cout << "\033[96;4mEin Minimalbeispiel für die Permutation eines Tensors.\n\n"
+          << "Hier wird das Ergebnis der Permutation durch die UnaryTpp Klasse\n"
+          << "mit der permute() Funktion von Pytorch verglichen.\n\n\033[0m" << std::endl;
 
   /**
    * Es wird ein map benötigt die die Dimensions IDs ihren Größen zuordnet.
@@ -15,12 +26,14 @@ int main()
   std::map<int64_t, int64_t> l_dim_sizes_map;
   l_dim_sizes_map[0] = 2;
   l_dim_sizes_map[1] = 3;
+  l_dim_sizes_map[2] = 4;
+  l_dim_sizes_map[3] = 5;
 
   /**
    * Es werden zwei Vektoren benötigt, die die Anordnung der Dimensionen durch ihre dim_ids beschreiben.
    */
-  std::vector<int64_t> l_dim_ids_input = {0, 1};
-  std::vector<int64_t> l_dim_ids_output = {1, 0};
+  std::vector<int64_t> l_dim_ids_input = {0, 1, 2, 3};
+  std::vector<int64_t> l_dim_ids_output = {3, 2, 1, 0};
 
   /**
    * l_sizes_/input/output ist für die PyTorch Tensoren notwendig, um sie zu erstellen.
@@ -42,14 +55,19 @@ int main()
    * Das der Output Tensor mit randomwerten initialisiert wird muss nicht sein.
    */
 
-
   at::Tensor l_tensor_input = at::randn(at::IntArrayRef(l_sizes_input.data(), l_sizes_input.size()), at::ScalarType::BFloat16);
   at::Tensor l_tensor_output = at::zeros(at::IntArrayRef(l_sizes_output.data(), l_sizes_output.size()), at::ScalarType::BFloat16);
 
-  std::cout << "Inputtensor :" << std::endl;
-  std::cout << l_tensor_input << std::endl << std::endl;
-  std::cout << "Outputtensor :" << std::endl;
-  std::cout << l_tensor_output << std::endl << std::endl;
+  if (l_sizes_input.size() <= 3)
+  {
+
+    std::cout << "═══════════════════════════════════ Inputtensor ═══════════════════════════════════" << std::endl;
+    std::cout << l_tensor_input << std::endl
+              << std::endl;
+    std::cout << "════════════════════════════ Outputtensor vor der Permutation ════════════════════════════" << std::endl;
+    std::cout << l_tensor_output << std::endl
+              << std::endl;
+  }
   /**
    * UnaryTpp Objekt erstellen.
    * Die init der UnaryTpp aufrufen.
@@ -74,7 +92,7 @@ int main()
   einsum_ir::err_t l_err = l_unary_permute.compile();
   if (l_err != einsum_ir::err_t::SUCCESS)
   {
-    std::cerr << "Compilation failed!" << std::endl;
+    std::cerr << "Fehler beim Kompilieren!" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -85,28 +103,29 @@ int main()
   l_unary_permute.eval(l_tensor_input.data_ptr(),
                        l_tensor_output.data_ptr());
 
-  std::cout << "Permutation executed successfully!" << std::endl;
+  at::Tensor l_expected_output = l_tensor_input.permute(l_dim_ids_output);
 
-  at::Tensor l_expected_output = l_tensor_input.permute({1, 0});
+  if (l_sizes_input.size() <= 3)
+  {
+    std::cout << "═══════════════════════════════════ UnaryTpp Ergebnis ═══════════════════════════════════" << std::endl;
+    std::cout << l_tensor_output << std::endl
+              << std::endl;
 
-  std::cout << "=== einsum_ir Output Tensor (4x2x3) ===" << std::endl;
-  std::cout << l_tensor_output << std::endl
-            << std::endl;
-
-  std::cout << "=== PyTorch Expected Output (4x2x3) ===" << std::endl;
-  std::cout << l_expected_output << std::endl
-            << std::endl;
+    std::cout << "═══════════════════════════════════ PyTorch Ergebnis ═══════════════════════════════════" << std::endl;
+    std::cout << l_expected_output << std::endl
+              << std::endl;
+  }
 
   bool l_equal = at::equal(l_expected_output, l_tensor_output);
-  std::cout << "Expected and actual output tensors are equal: ";
+  std::cout << "Ergebnisse gleich: ";
 
   if (!l_equal)
   {
-    std::cout << "\033[1;31mNO\033[0m" << std::endl;
+    std::cout << "\033[1;31mNEIN\033[0m" << std::endl;
   }
   else
   {
-    std::cout << "\033[1;32mYES\033[0m" << std::endl;
+    std::cout << "\033[1;32mJA\033[0m" << std::endl;
   }
 
   return EXIT_SUCCESS;

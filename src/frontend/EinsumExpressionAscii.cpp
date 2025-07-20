@@ -428,61 +428,10 @@ void einsum_ir::frontend::EinsumExpressionAscii::parse_loop_order(std::string co
   }
 }
 
-void einsum_ir::frontend::EinsumExpressionAscii::check_bf16_shape_constraints(std::vector<int64_t> const &i_dim_ids_in_left,
-                                                                              std::vector<int64_t> const &i_dim_ids_in_right,
-                                                                              std::vector<int64_t> const &i_dim_ids_out,
-                                                                              std::vector<std::string> const &i_tensor_dim_names_left,
-                                                                              std::vector<std::string> const &i_tensor_dim_names_right,
-                                                                              std::vector<std::string> const &i_tensor_dim_names_out,
-                                                                              std::map<int64_t, int64_t> const &i_dim_sizes_map)
-{
-  bool non_k_dim_found = false;
-  std::size_t fused_k_dim_size = 1;
-
-  for (int64_t l_di = static_cast<int64_t>(i_tensor_dim_names_right.size()) - 1; l_di >= 0; l_di--)
-  {
-    std::string l_dim_name = i_tensor_dim_names_right[l_di];
-    int64_t l_dim_id = i_dim_ids_in_right[l_di];
-
-    // check if the dimension is a k-dim
-    bool l_is_dim_in_left = std::find(i_dim_ids_in_left.begin(),
-                                      i_dim_ids_in_left.end(),
-                                      l_dim_id) != i_dim_ids_in_left.end();
-
-    bool l_is_dim_in_out = std::find(i_dim_ids_out.begin(),
-                                     i_dim_ids_out.end(),
-                                     l_dim_id) != i_dim_ids_out.end();
-
-    if (l_is_dim_in_left && !l_is_dim_in_out)
-    { // k-dim found
-      if (non_k_dim_found)
-      {
-        throw std::runtime_error("BF16 computation is not safe: K dimension found after non-K dimension in right tensor.\n" + l_dim_name);
-      }
-      else
-      {
-        std::size_t l_dim_size = i_dim_sizes_map.at(l_dim_id);
-        fused_k_dim_size *= l_dim_size;
-        if (l_dim_size % 2 != 0)
-        {
-          throw std::runtime_error("BF16 computation is not safe: K dimension sizes must be even.\n" + l_dim_name + " size: " + std::to_string(l_dim_size));
-        }
-        if (fused_k_dim_size > 512)
-        {
-          throw std::runtime_error("BF16 computation is not safe: Fused K dimension size exceeds 512.\nFused size: " + std::to_string(fused_k_dim_size));
-        }
-      }
-    }
-    else if (!l_is_dim_in_left && !l_is_dim_in_out)
-    { // non c-dim found
-      non_k_dim_found = true;
-    }
-  }
-}
-
 void einsum_ir::frontend::EinsumExpressionAscii::relocate_vnni_k_dimension(std::string const &i_expression_string_std,
                                                                            std::string const &i_expression_string_schar,
-                                                                           std::string &o_expression_string_std_vnni)
+                                                                           std::string &o_expression_string_std_vnni,
+                                                                           bool i_vnni_b_layout)
 {
   o_expression_string_std_vnni = i_expression_string_std;
   std::string copy_i_expression_string_schar = i_expression_string_schar;
@@ -494,7 +443,7 @@ void einsum_ir::frontend::EinsumExpressionAscii::relocate_vnni_k_dimension(std::
                             '-');
   // idx von comma und von arrow end:
   int64_t l_comma_idx = it_comma - i_expression_string_schar.begin();
-  int64_t l_i = -1;
+  int64_t l_i = 0;
   for (l_i = l_comma_idx - 2; l_i >= 0; l_i--) // if l_comma_idx - 2 < 0 then left tensor is only "k" abort
   {
     char dim_name = i_expression_string_schar[l_i];
@@ -514,6 +463,126 @@ void einsum_ir::frontend::EinsumExpressionAscii::relocate_vnni_k_dimension(std::
     copy_i_expression_string_schar.erase(l_comma_idx - 1, 1);
     copy_i_expression_string_schar.insert(0, 1, i_expression_string_schar[l_comma_idx - 1]);
   }
+
+  if (i_vnni_b_layout)
+  {
+    int64_t l_arrow_idx = it_arrow - i_expression_string_schar.begin();
+
+    for (l_i = l_arrow_idx - 3; l_i > l_comma_idx; l_i--) // l_arrow_idx - 3 means "xnv->" is on x
+    {
+      char dim_name = i_expression_string_schar[l_i];
+
+      // if dim_name is not in left OR || is in out then not a k dim
+      if (std::find(i_expression_string_schar.begin(),
+                    it_comma - 2,
+                    dim_name) == (it_comma - 2) ||
+          std::find(it_arrow + 2,
+                    i_expression_string_schar.end(),
+                    dim_name) != i_expression_string_schar.end())
+      {
+        break;
+      }
+    }
+    if (l_i != l_arrow_idx - 3) //
+    {
+      std::rotate(copy_i_expression_string_schar.begin() + l_i + 1,
+                  copy_i_expression_string_schar.begin() + l_arrow_idx - 2,
+                  copy_i_expression_string_schar.begin() + l_arrow_idx - 1);
+    }
+  }
+
   einsum_ir::frontend::EinsumExpressionAscii::schar_to_standard(copy_i_expression_string_schar,
                                                                 o_expression_string_std_vnni);
+}
+
+void einsum_ir::frontend::EinsumExpressionAscii::set_bf16_vnni_flags(std::vector<std::string> const &i_tensor_dim_names_left,
+                                                                     std::vector<std::string> const &i_tensor_dim_names_right,
+                                                                     std::vector<std::string> const &i_tensor_dim_names_out,
+                                                                     std::map<std::string, int64_t> const &i_map_dim_name_to_id,
+                                                                     std::vector<int64_t> const &i_dim_sizes_vec,
+                                                                     std::string const &i_expression_string_std,
+                                                                     std::string const &i_expression_string_schar,
+                                                                     std::vector<int64_t> &o_dim_ids_in_left_vnni,
+                                                                     std::vector<int64_t> &o_dim_ids_in_right_vnni)
+{
+  o_dim_ids_in_left_vnni.clear();
+  o_dim_ids_in_right_vnni.clear();
+  // schaue ob die fastest dimension beim A Tensor eine k dimension ist mit dimension_size = 4
+  std::string last_dim_name_left = i_tensor_dim_names_left.back();
+  bool in_right = std::find(i_tensor_dim_names_right.begin(),
+                            i_tensor_dim_names_right.end(),
+                            last_dim_name_left) != i_tensor_dim_names_right.end();
+
+  bool in_out = std::find(i_tensor_dim_names_out.begin(),
+                          i_tensor_dim_names_out.end(),
+                          last_dim_name_left) != i_tensor_dim_names_out.end();
+
+  int64_t last_dim_id_left = i_map_dim_name_to_id.at(last_dim_name_left);
+  int64_t last_dim_size_left = i_dim_sizes_vec[last_dim_id_left];
+
+  // vorletzte Dimensions == m-Dimension?
+  std::string possible_m_dim = i_tensor_dim_names_left[(i_tensor_dim_names_left.size() - 2)];
+  bool is_m_dim = std::find(i_tensor_dim_names_right.begin(),
+                            i_tensor_dim_names_right.end(),
+                            possible_m_dim) == i_tensor_dim_names_right.end();
+
+  if (last_dim_size_left == 4 && in_right && !in_out && is_m_dim)
+  {
+    std::string possible_n_dim = i_tensor_dim_names_right[(i_tensor_dim_names_right.size() - 2)];
+
+    bool is_n_dim = std::find(i_tensor_dim_names_left.begin(),
+                              i_tensor_dim_names_left.end(),
+                              possible_n_dim) == i_tensor_dim_names_left.end();
+
+    std::string l_expression_string_std_vnni;
+    bool b_vnni = i_tensor_dim_names_right.back() == last_dim_name_left && is_n_dim;
+    if (b_vnni)
+    {
+      relocate_vnni_k_dimension(i_expression_string_std,
+                                i_expression_string_schar,
+                                l_expression_string_std_vnni,
+                                b_vnni);
+    }
+    else
+    { // only A vnni
+      relocate_vnni_k_dimension(i_expression_string_std,
+                                i_expression_string_schar,
+                                l_expression_string_std_vnni,
+                                0);
+    }
+
+    std::vector<std::string> l_tensors_vnni;
+
+    parse_tensors(l_expression_string_std_vnni,
+                  l_tensors_vnni);
+
+    std::vector<std::string> l_tensor_dim_names_left_vnni;
+
+    split_string(l_tensors_vnni[0],
+                 std::string(","),
+                 l_tensor_dim_names_left_vnni);
+
+    for (std::size_t l_na = 0; l_na < l_tensor_dim_names_left_vnni.size(); l_na++)
+    {
+      std::string l_dim_name_vnni = l_tensor_dim_names_left_vnni[l_na];
+      int64_t l_dim_id_vnni = i_map_dim_name_to_id.at(l_dim_name_vnni);
+      o_dim_ids_in_left_vnni.push_back(l_dim_id_vnni);
+    }
+
+    if (b_vnni)
+    {
+      std::vector<std::string> l_tensor_dim_names_right_vnni;
+
+      split_string(l_tensors_vnni[1],
+                   std::string(","),
+                   l_tensor_dim_names_right_vnni);
+
+      for (std::size_t l_na = 0; l_na < l_tensor_dim_names_right_vnni.size(); l_na++)
+      {
+        std::string l_dim_name_vnni = l_tensor_dim_names_right_vnni[l_na];
+        int64_t l_dim_id_vnni = i_map_dim_name_to_id.at(l_dim_name_vnni);
+        o_dim_ids_in_right_vnni.push_back(l_dim_id_vnni);
+      }
+    }
+  }
 }
