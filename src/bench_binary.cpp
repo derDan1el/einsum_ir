@@ -27,10 +27,8 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
   std::chrono::steady_clock::time_point l_tp0, l_tp1;
   std::chrono::duration<double> l_dur;
   int64_t l_n_flops = 0;
-  int64_t l_repetitions = 1000000;
-  int64_t l_repetitions_warm_up = 200;
-  int64_t l_repetitions_torch = 1;
-  int64_t l_repetitions_warm_up_torch = 1;
+  int64_t l_repetitions = 50000;
+  int64_t l_repetitions_warm_up = 10;
   std::vector<int64_t> l_dim_ids_permute_left;
   std::vector<int64_t> l_dim_ids_permute_right;
   double l_time_compile = 0;
@@ -69,7 +67,7 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
 
   at::Tensor l_ten_out_torch;
   l_tp0 = std::chrono::steady_clock::now();
-  for (int64_t l_rep = 0; l_rep < l_repetitions_warm_up_torch; l_rep++)
+  for (int64_t l_rep = 0; l_rep < l_repetitions_warm_up; l_rep++)
   {
     l_ten_out_torch = at::einsum(i_einsum_string,
                                  {l_ten_left, l_ten_right},
@@ -81,7 +79,7 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
 
   // run with repititions
   l_tp0 = std::chrono::steady_clock::now();
-  for (int64_t l_rep = 0; l_rep < l_repetitions_torch; l_rep++)
+  for (int64_t l_rep = 0; l_rep < l_repetitions; l_rep++)
   {
     l_ten_out_torch = at::einsum(i_einsum_string,
                                  {l_ten_left, l_ten_right},
@@ -89,7 +87,7 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
   }
   l_tp1 = std::chrono::steady_clock::now();
   l_dur = std::chrono::duration_cast<std::chrono::duration<double>>(l_tp1 - l_tp0);
-  l_time = l_dur.count() / l_repetitions_torch;
+  l_time = l_dur.count() / l_repetitions;
   l_gflops = 1.0E-9 * l_n_flops / l_time;
 
   std::cout << "  time (contract): " << l_time << std::endl;

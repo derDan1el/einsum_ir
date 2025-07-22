@@ -1,0 +1,7299 @@
+=== GEMM l-Value Benchmark Log Started: Mon Jul 21 02:07:49 PM CEST 2025 ===
+Testing einsum: lmk,lnk->nm with M=128, N=128, K=4, varying l from 1 to 128
+
+=== Testing l=1 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,1,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 1
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000106652
+  gflops: 1.22897
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=4 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000329138
+  time (contract): 3.91e-06
+  gflops: 33.5222
+-----------------------------------
+max element torch :   3.09375
+max element jit :     3.09375
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=2 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,2,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 2
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000119963
+  gflops: 2.18521
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=8 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000299155
+  time (contract): 4.27708e-06
+  gflops: 61.2904
+-----------------------------------
+max element torch :     4.875
+max element jit :       4.875
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=3 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,3,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 3
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000125147
+  gflops: 3.14203
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=12 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000243382
+  time (contract): 4.65239e-06
+  gflops: 84.5191
+-----------------------------------
+max element torch :    6.3125
+max element jit :      6.3125
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=4 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,4,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 4
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000125147
+  gflops: 4.18938
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=16 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000253941
+  time (contract): 4.97455e-06
+  gflops: 105.394
+-----------------------------------
+max element torch :   7.46875
+max element jit :     7.46875
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=5 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,5,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 5
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000126907
+  gflops: 5.1641
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=20 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000320755
+  time (contract): 5.31805e-06
+  gflops: 123.233
+-----------------------------------
+max element torch :     8.875
+max element jit :       8.875
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=6 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,6,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 6
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000126235
+  gflops: 6.2299
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=24 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000292564
+  time (contract): 5.73566e-06
+  gflops: 137.113
+-----------------------------------
+max element torch :   11.3125
+max element jit :     11.3125
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=7 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,7,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 7
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000131003
+  gflops: 7.00369
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=28 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000296276
+  time (contract): 6.13339e-06
+  gflops: 149.592
+-----------------------------------
+max element torch :   12.8125
+max element jit :     12.8125
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=8 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,8,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 8
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000131899
+  gflops: 7.94984
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=32 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000273877
+  time (contract): 6.51429e-06
+  gflops: 160.965
+-----------------------------------
+max element torch :      13.5
+max element jit :        13.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=9 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,9,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 9
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000128571
+  gflops: 9.17507
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=36 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000349106
+  time (contract): 6.97585e-06
+  gflops: 169.105
+-----------------------------------
+max element torch :   14.5625
+max element jit :     14.5625
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=10 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,10,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 10
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000131707
+  gflops: 9.95179
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=40 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000313683
+  time (contract): 7.36036e-06
+  gflops: 178.078
+-----------------------------------
+max element torch :    16.375
+max element jit :      16.375
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=11 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,11,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 11
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.00013849
+  gflops: 10.4108
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=44 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000274069
+  time (contract): 7.83626e-06
+  gflops: 183.99
+-----------------------------------
+max element torch :    15.875
+max element jit :      15.875
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=12 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,12,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 12
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000150362
+  gflops: 10.4605
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=48 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000317459
+  time (contract): 8.21035e-06
+  gflops: 191.571
+-----------------------------------
+max element torch :    17.625
+max element jit :      17.625
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=13 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,13,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 13
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000155738
+  gflops: 10.941
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=52 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.00030658
+  time (contract): 8.63193e-06
+  gflops: 197.399
+-----------------------------------
+max element torch :        20
+max element jit :          20
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=14 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,14,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 14
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.00015017
+  gflops: 12.2195
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=56 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000295124
+  time (contract): 9.09978e-06
+  gflops: 201.654
+-----------------------------------
+max element torch :      21.5
+max element jit :        21.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=15 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,15,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 15
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000143994
+  gflops: 13.6539
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=60 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000298196
+  time (contract): 9.42296e-06
+  gflops: 208.648
+-----------------------------------
+max element torch :      21.5
+max element jit :        21.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=16 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,16,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 16
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000141403
+  gflops: 14.831
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=64 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.00023871
+  time (contract): 9.94606e-06
+  gflops: 210.853
+-----------------------------------
+max element torch :        23
+max element jit :          23
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=17 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,17,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 17
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000155386
+  gflops: 14.3399
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=68 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.0003045
+  time (contract): 1.03897e-05
+  gflops: 214.465
+-----------------------------------
+max element torch :    24.125
+max element jit :      24.125
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=18 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,18,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 18
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000153881
+  gflops: 15.332
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=72 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000286292
+  time (contract): 1.07712e-05
+  gflops: 219.037
+-----------------------------------
+max element torch :    24.625
+max element jit :      24.625
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=19 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,19,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 19
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000145882
+  gflops: 17.0711
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=76 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000301459
+  time (contract): 1.11559e-05
+  gflops: 223.233
+-----------------------------------
+max element torch :    26.625
+max element jit :      26.625
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=20 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,20,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 20
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000164185
+  gflops: 15.9664
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=80 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000372848
+  time (contract): 1.15636e-05
+  gflops: 226.697
+-----------------------------------
+max element torch :     27.25
+max element jit :       27.25
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=21 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,21,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 21
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000162745
+  gflops: 16.913
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=84 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000302387
+  time (contract): 1.21339e-05
+  gflops: 226.844
+-----------------------------------
+max element torch :    28.625
+max element jit :      28.625
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=22 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,22,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 22
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000158394
+  gflops: 18.2051
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=88 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000290388
+  time (contract): 1.2562e-05
+  gflops: 229.548
+-----------------------------------
+max element torch :    31.125
+max element jit :      31.125
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=23 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,23,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 23
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000166361
+  gflops: 18.1212
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=92 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000301875
+  time (contract): 1.28915e-05
+  gflops: 233.848
+-----------------------------------
+max element torch :     30.75
+max element jit :       30.75
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=24 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,24,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 24
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000170681
+  gflops: 18.4305
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=96 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000404304
+  time (contract): 1.34435e-05
+  gflops: 233.996
+-----------------------------------
+max element torch :        33
+max element jit :          33
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=25 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,25,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 25
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000210103
+  gflops: 15.5962
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=100 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000377681
+  time (contract): 1.39067e-05
+  gflops: 235.627
+-----------------------------------
+max element torch :      33.5
+max element jit :        33.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=26 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,26,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 26
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000173912
+  gflops: 19.5954
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=104 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000390416
+  time (contract): 1.43167e-05
+  gflops: 238.035
+-----------------------------------
+max element torch :     33.75
+max element jit :       33.75
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=27 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,27,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 27
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000161849
+  gflops: 21.8657
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=108 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000323475
+  time (contract): 1.47315e-05
+  gflops: 240.229
+-----------------------------------
+max element torch :      37.5
+max element jit :        37.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=28 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,28,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 28
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000168793
+  gflops: 21.7427
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=112 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000354706
+  time (contract): 1.52223e-05
+  gflops: 241.094
+-----------------------------------
+max element torch :        36
+max element jit :          36
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=29 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,29,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 29
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000178712
+  gflops: 21.2693
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=116 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000329586
+  time (contract): 1.55413e-05
+  gflops: 244.58
+-----------------------------------
+max element torch :     37.75
+max element jit :       37.75
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=30 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,30,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 30
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000215704
+  gflops: 18.2294
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=120 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.00034181
+  time (contract): 1.59452e-05
+  gflops: 246.605
+-----------------------------------
+max element torch :     38.25
+max element jit :       38.25
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=31 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,31,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 31
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000181368
+  gflops: 22.4032
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=124 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000329778
+  time (contract): 1.65068e-05
+  gflops: 246.155
+-----------------------------------
+max element torch :     41.25
+max element jit :       41.25
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=32 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,32,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 32
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.0001814
+  gflops: 23.1219
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=128 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000387121
+  time (contract): 1.6982e-05
+  gflops: 246.986
+-----------------------------------
+max element torch :     41.75
+max element jit :       41.75
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=33 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,33,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 33
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000182617
+  gflops: 23.6855
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=132 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000325459
+  time (contract): 1.72756e-05
+  gflops: 250.375
+-----------------------------------
+max element torch :        45
+max element jit :          45
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=34 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,34,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 34
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000260022
+  gflops: 17.1387
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=136 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000422863
+  time (contract): 1.75959e-05
+  gflops: 253.266
+-----------------------------------
+max element torch :        45
+max element jit :          45
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=35 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,35,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 35
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.00020812
+  gflops: 22.0427
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=140 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000276596
+  time (contract): 1.81534e-05
+  gflops: 252.709
+-----------------------------------
+max element torch :     44.75
+max element jit :       44.75
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=36 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,36,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 36
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000174617
+  gflops: 27.0225
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=144 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000252373
+  time (contract): 1.86174e-05
+  gflops: 253.451
+-----------------------------------
+max element torch :      45.5
+max element jit :        45.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=37 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,37,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 37
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000200888
+  gflops: 24.1411
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=148 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000271509
+  time (contract): 1.89234e-05
+  gflops: 256.279
+-----------------------------------
+max element torch :        48
+max element jit :          48
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=38 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,38,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 38
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000191384
+  gflops: 26.0248
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=152 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000277205
+  time (contract): 1.95074e-05
+  gflops: 255.326
+-----------------------------------
+max element torch :        49
+max element jit :          49
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=39 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,39,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 39
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000185976
+  gflops: 27.4864
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=156 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000223287
+  time (contract): 1.98044e-05
+  gflops: 258.114
+-----------------------------------
+max element torch :     50.75
+max element jit :       50.75
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=40 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,40,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 40
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000186328
+  gflops: 28.1379
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=160 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000266517
+  time (contract): 2.02506e-05
+  gflops: 258.9
+-----------------------------------
+max element torch :     50.25
+max element jit :       50.25
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=41 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,41,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 41
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000191608
+  gflops: 28.0466
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=164 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000273333
+  time (contract): 2.07527e-05
+  gflops: 258.952
+-----------------------------------
+max element torch :     53.25
+max element jit :       53.25
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=42 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,42,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 42
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000197368
+  gflops: 27.8922
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=168 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000263573
+  time (contract): 2.1074e-05
+  gflops: 261.224
+-----------------------------------
+max element torch :     52.25
+max element jit :       52.25
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=43 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,43,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 43
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000194392
+  gflops: 28.9935
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=172 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000255446
+  time (contract): 2.15018e-05
+  gflops: 262.123
+-----------------------------------
+max element torch :     54.25
+max element jit :       54.25
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=44 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,44,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 44
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000188696
+  gflops: 30.5633
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=176 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000218871
+  time (contract): 2.19477e-05
+  gflops: 262.769
+-----------------------------------
+max element torch :     54.25
+max element jit :       54.25
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=45 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,45,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 45
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000216247
+  gflops: 27.2755
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=180 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000256054
+  time (contract): 2.24736e-05
+  gflops: 262.452
+-----------------------------------
+max element torch :     56.75
+max element jit :       56.75
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=46 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,46,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 46
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000203128
+  gflops: 29.6823
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=184 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000265973
+  time (contract): 2.2786e-05
+  gflops: 264.606
+-----------------------------------
+max element torch :     59.25
+max element jit :       59.25
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=47 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,47,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 47
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000223895
+  gflops: 27.5146
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=188 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000267541
+  time (contract): 2.33248e-05
+  gflops: 264.113
+-----------------------------------
+max element torch :        59
+max element jit :          59
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=48 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,48,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 48
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000215671
+  gflops: 29.1715
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=192 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000300916
+  time (contract): 2.37393e-05
+  gflops: 265.023
+-----------------------------------
+max element torch :     60.75
+max element jit :       60.75
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=49 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,49,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 49
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000202296
+  gflops: 31.7482
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=196 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000240822
+  time (contract): 2.42593e-05
+  gflops: 264.745
+-----------------------------------
+max element torch :     58.75
+max element jit :       58.75
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=50 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,50,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 50
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000215256
+  gflops: 30.4456
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=200 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000406703
+  time (contract): 2.44987e-05
+  gflops: 267.508
+-----------------------------------
+max element torch :      60.5
+max element jit :        60.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=51 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,51,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 51
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000222231
+  gflops: 30.0798
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=204 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000292948
+  time (contract): 2.49552e-05
+  gflops: 267.867
+-----------------------------------
+max element torch :     61.75
+max element jit :       61.75
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=52 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,52,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 52
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000231223
+  gflops: 29.4769
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=208 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000336434
+  time (contract): 2.54052e-05
+  gflops: 268.282
+-----------------------------------
+max element torch :      66.5
+max element jit :        66.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=53 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,53,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 53
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000226871
+  gflops: 30.6201
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=212 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000291572
+  time (contract): 2.5785e-05
+  gflops: 269.413
+-----------------------------------
+max element torch :     63.25
+max element jit :       63.25
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=54 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,54,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 54
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.00021868
+  gflops: 32.3664
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=216 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000304148
+  time (contract): 2.63363e-05
+  gflops: 268.75
+-----------------------------------
+max element torch :        67
+max element jit :          67
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=55 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,55,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 55
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000229911
+  gflops: 31.3554
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=220 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000316307
+  time (contract): 2.65913e-05
+  gflops: 271.102
+-----------------------------------
+max element torch :        69
+max element jit :          69
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=56 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,56,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 56
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000232822
+  gflops: 31.5264
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=224 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000296276
+  time (contract): 2.71926e-05
+  gflops: 269.928
+-----------------------------------
+max element torch :        68
+max element jit :          68
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=57 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,57,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 57
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000226487
+  gflops: 32.9869
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=228 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000251606
+  time (contract): 2.74705e-05
+  gflops: 271.969
+-----------------------------------
+max element torch :      68.5
+max element jit :        68.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=58 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,58,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 58
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000218583
+  gflops: 34.7794
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=232 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000249302
+  time (contract): 2.78884e-05
+  gflops: 272.593
+-----------------------------------
+max element torch :      73.5
+max element jit :        73.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=59 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,59,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 59
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000259221
+  gflops: 29.8326
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=236 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000304308
+  time (contract): 2.83325e-05
+  gflops: 272.946
+-----------------------------------
+max element torch :        71
+max element jit :          71
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=60 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,60,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 60
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.00024431
+  gflops: 32.1899
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=240 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000290069
+  time (contract): 2.87571e-05
+  gflops: 273.474
+-----------------------------------
+max element torch :        72
+max element jit :          72
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=61 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,61,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 61
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.00023839
+  gflops: 33.5391
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=244 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000289012
+  time (contract): 2.91614e-05
+  gflops: 274.177
+-----------------------------------
+max element torch :        73
+max element jit :          73
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=62 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,62,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 62
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000239862
+  gflops: 33.8797
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=248 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000264629
+  time (contract): 2.96008e-05
+  gflops: 274.536
+-----------------------------------
+max element torch :        74
+max element jit :          74
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=63 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,63,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 63
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.00023711
+  gflops: 34.8258
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=252 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000301812
+  time (contract): 3.0019e-05
+  gflops: 275.077
+-----------------------------------
+max element torch :      75.5
+max element jit :        75.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=64 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,64,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 64
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000244438
+  gflops: 34.3179
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=256 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000316339
+  time (contract): 3.04714e-05
+  gflops: 275.295
+-----------------------------------
+max element torch :      77.5
+max element jit :        77.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=65 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,65,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 65
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000301555
+  gflops: 28.2525
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=260 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000365361
+  time (contract): 3.11498e-05
+  gflops: 273.507
+-----------------------------------
+max element torch :        79
+max element jit :          79
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=66 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,66,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 66
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000232567
+  gflops: 37.1968
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=264 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000323347
+  time (contract): 3.20261e-05
+  gflops: 270.116
+-----------------------------------
+max element torch :      81.5
+max element jit :        81.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=67 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,67,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 67
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000241366
+  gflops: 36.3838
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=268 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000296404
+  time (contract): 3.24795e-05
+  gflops: 270.381
+-----------------------------------
+max element torch :        81
+max element jit :          81
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=68 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,68,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 68
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000220887
+  gflops: 40.3505
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=272 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.00028002
+  time (contract): 3.28923e-05
+  gflops: 270.972
+-----------------------------------
+max element torch :        81
+max element jit :          81
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=69 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,69,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 69
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000248406
+  gflops: 36.408
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=276 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000300532
+  time (contract): 3.39128e-05
+  gflops: 266.683
+-----------------------------------
+max element torch :        85
+max element jit :          85
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=70 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,70,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 70
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000242006
+  gflops: 37.9124
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=280 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000256565
+  time (contract): 3.43021e-05
+  gflops: 267.478
+-----------------------------------
+max element torch :        84
+max element jit :          84
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=71 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,71,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 71
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000243254
+  gflops: 38.2568
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=284 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000304723
+  time (contract): 3.4219e-05
+  gflops: 271.957
+-----------------------------------
+max element torch :      84.5
+max element jit :        84.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=72 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,72,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 72
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000252821
+  gflops: 37.3275
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=288 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000271541
+  time (contract): 3.49332e-05
+  gflops: 270.149
+-----------------------------------
+max element torch :        88
+max element jit :          88
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=73 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,73,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 73
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000261045
+  gflops: 36.6537
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=292 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000317107
+  time (contract): 3.52173e-05
+  gflops: 271.692
+-----------------------------------
+max element torch :      87.5
+max element jit :        87.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=74 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,74,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 74
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000240919
+  gflops: 40.2597
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=296 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000303027
+  time (contract): 3.57077e-05
+  gflops: 271.631
+-----------------------------------
+max element torch :      87.5
+max element jit :        87.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=75 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,75,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 75
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000264949
+  gflops: 37.103
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=300 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000393072
+  time (contract): 3.62322e-05
+  gflops: 271.317
+-----------------------------------
+max element torch :        88
+max element jit :          88
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=76 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,76,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 76
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000344978
+  gflops: 28.8757
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=304 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.00039016
+  time (contract): 3.65485e-05
+  gflops: 272.555
+-----------------------------------
+max element torch :      87.5
+max element jit :        87.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=77 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,77,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 77
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000270805
+  gflops: 37.2687
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=308 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000253014
+  time (contract): 3.69233e-05
+  gflops: 273.338
+-----------------------------------
+max element torch :      90.5
+max element jit :        90.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=78 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,78,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 78
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000258357
+  gflops: 39.5717
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=312 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000257334
+  time (contract): 3.75052e-05
+  gflops: 272.592
+-----------------------------------
+max element torch :      91.5
+max element jit :        91.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=79 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,79,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 79
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.00025743
+  gflops: 40.2233
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=316 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000298227
+  time (contract): 3.79157e-05
+  gflops: 273.098
+-----------------------------------
+max element torch :        96
+max element jit :          96
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=80 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,80,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 80
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000271093
+  gflops: 38.6796
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=320 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000336083
+  time (contract): 3.85515e-05
+  gflops: 271.994
+-----------------------------------
+max element torch :        94
+max element jit :          94
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=81 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,81,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 81
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000264598
+  gflops: 40.1244
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=324 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000294739
+  time (contract): 3.88799e-05
+  gflops: 273.067
+-----------------------------------
+max element torch :      97.5
+max element jit :        97.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=82 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,82,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 82
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000263925
+  gflops: 40.7233
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=328 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.00028962
+  time (contract): 3.95162e-05
+  gflops: 271.987
+-----------------------------------
+max element torch :        98
+max element jit :          98
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=83 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,83,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 83
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000260469
+  gflops: 41.7669
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=332 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.00025471
+  time (contract): 3.97545e-05
+  gflops: 273.654
+-----------------------------------
+max element torch :        99
+max element jit :          99
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=84 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,84,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 84
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000272117
+  gflops: 40.4607
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=336 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000302132
+  time (contract): 4.02791e-05
+  gflops: 273.344
+-----------------------------------
+max element torch :      98.5
+max element jit :        98.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=85 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,85,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 85
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.0002757
+  gflops: 40.4103
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=340 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000300564
+  time (contract): 4.08789e-05
+  gflops: 272.54
+-----------------------------------
+max element torch :        97
+max element jit :          97
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=86 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,86,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 86
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000279701
+  gflops: 40.3009
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=344 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000294867
+  time (contract): 4.11055e-05
+  gflops: 274.226
+-----------------------------------
+max element torch :     101.5
+max element jit :       101.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=87 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,87,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 87
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000303987
+  gflops: 37.5123
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=348 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000309044
+  time (contract): 4.18112e-05
+  gflops: 272.732
+-----------------------------------
+max element torch :       103
+max element jit :         103
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=88 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,88,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 88
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000280916
+  gflops: 41.0597
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=352 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000296212
+  time (contract): 4.22779e-05
+  gflops: 272.822
+-----------------------------------
+max element torch :     102.5
+max element jit :       102.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=89 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,89,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 89
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000288756
+  gflops: 40.3988
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=356 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000295412
+  time (contract): 4.27686e-05
+  gflops: 272.756
+-----------------------------------
+max element torch :       102
+max element jit :         102
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=90 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,90,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 90
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000286772
+  gflops: 41.1354
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=360 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000278133
+  time (contract): 4.30924e-05
+  gflops: 273.749
+-----------------------------------
+max element torch :       109
+max element jit :         109
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=91 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,91,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 91
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000274421
+  gflops: 43.4644
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=364 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000274197
+  time (contract): 4.34887e-05
+  gflops: 274.268
+-----------------------------------
+max element torch :     107.5
+max element jit :       107.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=92 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,92,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 92
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.00029362
+  gflops: 41.0688
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=368 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000212663
+  time (contract): 4.43214e-05
+  gflops: 272.072
+-----------------------------------
+max element torch :       109
+max element jit :         109
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=93 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,93,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 93
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000280884
+  gflops: 43.3976
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=372 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000234871
+  time (contract): 4.50294e-05
+  gflops: 270.705
+-----------------------------------
+max element torch :     107.5
+max element jit :       107.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=94 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,94,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 94
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.00028994
+  gflops: 42.4942
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=376 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000239831
+  time (contract): 4.6127e-05
+  gflops: 267.105
+-----------------------------------
+max element torch :     109.5
+max element jit :       109.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=95 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,95,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 95
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000288052
+  gflops: 43.2278
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=380 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000230615
+  time (contract): 4.5863e-05
+  gflops: 271.501
+-----------------------------------
+max element torch :       109
+max element jit :         109
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=96 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,96,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 96
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000284532
+  gflops: 44.2232
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=384 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000231031
+  time (contract): 4.65392e-05
+  gflops: 270.372
+-----------------------------------
+max element torch :       112
+max element jit :         112
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=97 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,97,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 97
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000319827
+  gflops: 39.7527
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=388 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000201048
+  time (contract): 4.63818e-05
+  gflops: 274.116
+-----------------------------------
+max element torch :     113.5
+max element jit :       113.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=98 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,98,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 98
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000286708
+  gflops: 44.8019
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=392 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000232951
+  time (contract): 4.83897e-05
+  gflops: 265.45
+-----------------------------------
+max element torch :       117
+max element jit :         117
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=99 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,99,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 99
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000287189
+  gflops: 45.1832
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=396 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.00023215
+  time (contract): 4.75442e-05
+  gflops: 272.928
+-----------------------------------
+max element torch :       117
+max element jit :         117
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=100 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,100,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 100
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000290997
+  gflops: 45.0424
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=400 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000226743
+  time (contract): 4.79395e-05
+  gflops: 273.411
+-----------------------------------
+max element torch :     115.5
+max element jit :       115.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=101 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,101,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 101
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.00029026
+  gflops: 45.6083
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=404 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000236406
+  time (contract): 4.8726e-05
+  gflops: 271.688
+-----------------------------------
+max element torch :       116
+max element jit :         116
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=102 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,102,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 102
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000293556
+  gflops: 45.5427
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=408 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000195033
+  time (contract): 4.93284e-05
+  gflops: 271.027
+-----------------------------------
+max element torch :     118.5
+max element jit :       118.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=103 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,103,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 103
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000293589
+  gflops: 45.9841
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=412 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000230134
+  time (contract): 4.91311e-05
+  gflops: 274.783
+-----------------------------------
+max element torch :       119
+max element jit :         119
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=104 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,104,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 104
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000304307
+  gflops: 44.7952
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=416 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000226263
+  time (contract): 4.99399e-05
+  gflops: 272.958
+-----------------------------------
+max element torch :     123.5
+max element jit :       123.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=105 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,105,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 105
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.00030274
+  gflops: 45.46
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=420 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000204248
+  time (contract): 5.00952e-05
+  gflops: 274.728
+-----------------------------------
+max element torch :       122
+max element jit :         122
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=106 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,106,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 106
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000307444
+  gflops: 45.1908
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=424 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000318003
+  time (contract): 5.26035e-05
+  gflops: 264.12
+-----------------------------------
+max element torch :     121.5
+max element jit :       121.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=107 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,107,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 107
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000319507
+  gflops: 43.8948
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=428 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000384496
+  time (contract): 5.10467e-05
+  gflops: 274.743
+-----------------------------------
+max element torch :       122
+max element jit :         122
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=108 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,108,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 108
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000307763
+  gflops: 45.9957
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=432 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000229943
+  time (contract): 5.1779e-05
+  gflops: 273.388
+-----------------------------------
+max element torch :     124.5
+max element jit :       124.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=109 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,109,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 109
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000302292
+  gflops: 47.2617
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=436 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000223287
+  time (contract): 5.18807e-05
+  gflops: 275.379
+-----------------------------------
+max element torch :       127
+max element jit :         127
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=110 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,110,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 110
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000306547
+  gflops: 47.0333
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=440 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000246422
+  time (contract): 5.30427e-05
+  gflops: 271.817
+-----------------------------------
+max element torch :     124.5
+max element jit :       124.5
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=111 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,111,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 111
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000320435
+  gflops: 45.4039
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=444 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000225175
+  time (contract): 5.30909e-05
+  gflops: 274.039
+-----------------------------------
+max element torch :       128
+max element jit :         128
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=112 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,112,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 112
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000308915
+  gflops: 47.5214
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=448 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000204247
+  time (contract): 5.39289e-05
+  gflops: 272.211
+-----------------------------------
+max element torch :       129
+max element jit :         129
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=113 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,113,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 113
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000327635
+  gflops: 45.2062
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=452 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000242166
+  time (contract): 5.39508e-05
+  gflops: 274.53
+-----------------------------------
+max element torch :       131
+max element jit :         131
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=114 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,114,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 114
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.00033381
+  gflops: 44.7626
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=456 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000208727
+  time (contract): 5.47078e-05
+  gflops: 273.128
+-----------------------------------
+max element torch :       130
+max element jit :         130
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=115 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,115,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 115
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000305204
+  gflops: 49.3876
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=460 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000236854
+  time (contract): 5.48709e-05
+  gflops: 274.704
+-----------------------------------
+max element torch :       133
+max element jit :         133
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=116 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,116,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 116
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000330419
+  gflops: 46.0154
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=464 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.00020396
+  time (contract): 5.5384e-05
+  gflops: 274.526
+-----------------------------------
+max element torch :       134
+max element jit :         134
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=117 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,117,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 117
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.00030786
+  gflops: 49.813
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=468 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000236374
+  time (contract): 5.57326e-05
+  gflops: 275.161
+-----------------------------------
+max element torch :       133
+max element jit :         133
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=118 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,118,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 118
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000322963
+  gflops: 47.8894
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=472 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000241942
+  time (contract): 5.72713e-05
+  gflops: 270.057
+-----------------------------------
+max element torch :       133
+max element jit :         133
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=119 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,119,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 119
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000322035
+  gflops: 48.4344
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=476 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.00019788
+  time (contract): 5.65504e-05
+  gflops: 275.817
+-----------------------------------
+max element torch :       142
+max element jit :         142
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=120 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,120,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 120
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.00032629
+  gflops: 48.2045
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=480 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000255029
+  time (contract): 5.76807e-05
+  gflops: 272.684
+-----------------------------------
+max element torch :       135
+max element jit :         135
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=121 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,121,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 121
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000338642
+  gflops: 46.8333
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=484 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000241462
+  time (contract): 5.76112e-05
+  gflops: 275.288
+-----------------------------------
+max element torch :       138
+max element jit :         138
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=122 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,122,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 122
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000341075
+  gflops: 46.8835
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=488 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000243158
+  time (contract): 5.97661e-05
+  gflops: 267.556
+-----------------------------------
+max element torch :       142
+max element jit :         142
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=123 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,123,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 123
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000362706
+  gflops: 44.4488
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=492 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000225911
+  time (contract): 5.85151e-05
+  gflops: 275.516
+-----------------------------------
+max element torch :       139
+max element jit :         139
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=124 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,124,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 124
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000356529
+  gflops: 45.5866
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=496 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000216695
+  time (contract): 5.90735e-05
+  gflops: 275.131
+-----------------------------------
+max element torch :       142
+max element jit :         142
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=125 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,125,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 125
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000353905
+  gflops: 46.2949
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=500 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000246806
+  time (contract): 5.94786e-05
+  gflops: 275.46
+-----------------------------------
+max element torch :       141
+max element jit :         141
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=126 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,126,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 126
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000374481
+  gflops: 44.1012
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=504 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000271125
+  time (contract): 6.08808e-05
+  gflops: 271.269
+-----------------------------------
+max element torch :       144
+max element jit :         144
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=127 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,127,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 127
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000355026
+  gflops: 46.8871
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=508 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000255414
+  time (contract): 6.03989e-05
+  gflops: 275.604
+-----------------------------------
+max element torch :       147
+max element jit :         147
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
+=== Testing l=128 (M=128, N=128, K=4) ===
+Running: OMP_NUM_THREADS=1 /home/daniel/einsum_ir/build/bench_binary "lmk,lnk->nm" "4,128,128,128" BF16
+----------------------------------------
+running bench_binary!
+parsed tensors:
+  l,m,k
+  l,n,k
+  n,m
+parsed dimension ids:
+  k: 0
+  l: 1
+  m: 2
+  n: 3
+parsed dimension sizes:
+  k: 4
+  l: 128
+  m: 128
+  n: 128
+dtype: BF16
+The new einsum string is: lmk,lnk->nm
+at::einsum:
+  time (contract): 0.000362097
+  gflops: 46.3335
+einsum_ir:
+ gemm shape: 
+m=128 
+n=128 
+k=512 
+lda=128 
+ldb=128 
+ldc=128 
+br_stride_a_hint=0 
+br_stride_b_hint=0 
+batch_reduce_size=1
+repetitions: 1000000
+  time (compile): 0.000242006
+  time (contract): 6.10356e-05
+  gflops: 274.876
+-----------------------------------
+max element torch :       146
+max element jit :         146
+max difference :           0
+-----------------------------------
+Element-wise relative errors
+Biggest relative error: 0
+Torch value at max error: 0
+Kernel value at max error: 0
+
+results are close
+
+acceptable relative error:                    0.001
+finished running bench_binary!
+
+Exit code: 0
+========================================
+
+
