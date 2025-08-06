@@ -226,7 +226,6 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
   libxsmm_datatype l_xmm_dtype_left = dtype_to_libxsmm(m_dtype_left);
   libxsmm_datatype l_xmm_dtype_right = dtype_to_libxsmm(m_dtype_right);
   libxsmm_datatype l_xmm_dtype_comp = m_dtype_right == BF16 ? libxsmm_datatype::LIBXSMM_DATATYPE_F32 : dtype_to_libxsmm(m_dtype_right);
-  //libxsmm_datatype l_xmm_dtype_comp = dtype_to_libxsmm(m_dtype_comp);
   libxsmm_datatype l_xmm_dtype_out = dtype_to_libxsmm(m_dtype_out);
 
   if (l_xmm_dtype_left == libxsmm_datatype::LIBXSMM_DATATYPE_UNSUPPORTED || l_xmm_dtype_right == libxsmm_datatype::LIBXSMM_DATATYPE_UNSUPPORTED || l_xmm_dtype_comp == libxsmm_datatype::LIBXSMM_DATATYPE_UNSUPPORTED || l_xmm_dtype_out == libxsmm_datatype::LIBXSMM_DATATYPE_UNSUPPORTED)
@@ -240,7 +239,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
   libxsmm_blasint l_k = 1;
   libxsmm_blasint l_r = 1;
 
-  libxsmm_blasint l_lda = 1; // daniel: lda = leading dimension für tensor a (left tensor)
+  libxsmm_blasint l_lda = 1;
   libxsmm_blasint l_ldb = 1;
   libxsmm_blasint l_ldc = 1;
 
@@ -316,20 +315,19 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
     l_flag_out_aux_unary = LIBXSMM_MELTW_FLAG_UNARY_BCAST_SCALAR;
     l_flag_out_aux_binary = LIBXSMM_MELTW_FLAG_BINARY_BCAST_SCALAR_IN_1;
   }
-  // daniel : da hier der aux tensor ein unary op bekommt und die eingabetypen auch FP32 sowie comp und out auch FP32 sind bleibt das
-  libxsmm_meltw_unary_shape l_shape_single_touch_aux_unary = libxsmm_create_meltw_unary_shape(l_m * l_r,        // rows (M·R)
-                                                                                              l_n,              // cols (N)
-                                                                                              l_ld_out_aux,     // leading dimension input/output A
-                                                                                              l_ldc,            // leading dimension output C
-                                                                                              l_xmm_dtype_out,  // input data type
-                                                                                              l_xmm_dtype_out,  // output data type
-                                                                                              l_xmm_dtype_out); // compute data type
+  libxsmm_meltw_unary_shape l_shape_single_touch_aux_unary = libxsmm_create_meltw_unary_shape(l_m * l_r,   
+                                                                                              l_n,         
+                                                                                              l_ld_out_aux,
+                                                                                              l_ldc,       
+                                                                                              l_xmm_dtype_out, 
+                                                                                              l_xmm_dtype_out, 
+                                                                                              l_xmm_dtype_out);
 
-  libxsmm_meltw_binary_shape l_shape_single_touch_aux_binary = libxsmm_create_meltw_binary_shape(l_m * l_r, // rows (M·R)
-                                                                                                 l_n,       // cols (N)
-                                                                                                 l_ldc,     // leading dimension C
+  libxsmm_meltw_binary_shape l_shape_single_touch_aux_binary = libxsmm_create_meltw_binary_shape(l_m * l_r, 
+                                                                                                 l_n,    
+                                                                                                 l_ldc,    
                                                                                                  l_ld_out_aux,
-                                                                                                 l_ldc, // leading dimension  C
+                                                                                                 l_ldc, 
                                                                                                  l_xmm_dtype_out,
                                                                                                  l_xmm_dtype_out,
                                                                                                  l_xmm_dtype_out,
@@ -338,8 +336,8 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
   // first touch kernel
   if (m_ktype_first_touch == ZERO)
   {
-    m_xmm_kernel_first_touch_unary = libxsmm_dispatch_meltw_unary(LIBXSMM_MELTW_TYPE_UNARY_XOR, // daniel : XOred wird jedes element mit sich selbst -> matrix wird genullt
-                                                                  l_shape_single_touch,         // daniel : hier wird etwas übergeben was es niht gibt bei BF16
+    m_xmm_kernel_first_touch_unary = libxsmm_dispatch_meltw_unary(LIBXSMM_MELTW_TYPE_UNARY_XOR,
+                                                                  l_shape_single_touch,
                                                                   LIBXSMM_MELTW_FLAG_UNARY_NONE);
   }
   else if (m_ktype_first_touch == COPY)
@@ -397,7 +395,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
   // create main kernel
   libxsmm_gemm_shape l_shape_brgemm;
 
-  libxsmm_bitfield l_flags_brgemm;
+  libxsmm_bitfield l_flags_brgemm = LIBXSMM_GEMM_FLAG_ALIGN_A | LIBXSMM_GEMM_FLAG_ALIGN_C;
   if (m_vnni_b)
   {
     l_flags_brgemm = LIBXSMM_GEMM_FLAGS('N', 'Y') | LIBXSMM_GEMM_FLAG_VNNI_B;
@@ -412,7 +410,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
     l_flags_brgemm |= LIBXSMM_GEMM_FLAG_VNNI_A;
   }
 
-  libxsmm_bitfield l_prefetch_flags_brgemm = 0;
+  libxsmm_bitfield l_prefetch_flags_brgemm = LIBXSMM_PREFETCH_AUTO;
 
   l_shape_brgemm = libxsmm_create_gemm_shape(l_m,
                                              l_n,
@@ -457,7 +455,6 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
                                                         l_r);
   }
 
-  // daniel start ─────────────────────────────────────────────────────────
   std::cout << " gemm shape: \nm=" << l_shape_brgemm.m
             << " \nn=" << l_shape_brgemm.n
             << " \nk=" << l_shape_brgemm.k

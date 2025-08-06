@@ -27,8 +27,9 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
   std::chrono::steady_clock::time_point l_tp0, l_tp1;
   std::chrono::duration<double> l_dur;
   int64_t l_n_flops = 0;
-  int64_t l_repetitions = 50000;
-  int64_t l_repetitions_warm_up = 10;
+  int64_t l_repetitions = 500;
+  int64_t l_repetitions_torch = 10;
+  int64_t l_repetitions_warm_up = 40;
   std::vector<int64_t> l_dim_ids_permute_left;
   std::vector<int64_t> l_dim_ids_permute_right;
   double l_time_compile = 0;
@@ -75,11 +76,11 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
   }
   l_tp1 = std::chrono::steady_clock::now();
   l_dur = std::chrono::duration_cast<std::chrono::duration<double>>(l_tp1 - l_tp0);
-  //l_repetitions = l_repetitions_warm_up / l_dur.count() + 1;
+  // l_repetitions = l_repetitions_warm_up / l_dur.count() + 1;
 
   // run with repititions
   l_tp0 = std::chrono::steady_clock::now();
-  for (int64_t l_rep = 0; l_rep < l_repetitions; l_rep++)
+  for (int64_t l_rep = 0; l_rep < l_repetitions_torch; l_rep++)
   {
     l_ten_out_torch = at::einsum(i_einsum_string,
                                  {l_ten_left, l_ten_right},
@@ -87,7 +88,7 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
   }
   l_tp1 = std::chrono::steady_clock::now();
   l_dur = std::chrono::duration_cast<std::chrono::duration<double>>(l_tp1 - l_tp0);
-  l_time = l_dur.count() / l_repetitions;
+  l_time = l_dur.count() / l_repetitions_torch;
   l_gflops = 1.0E-9 * l_n_flops / l_time;
 
   std::cout << "  time (contract): " << l_time << std::endl;
@@ -122,11 +123,11 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
                   i_dtype_einsum_ir,
                   i_dim_ids_in_left_vnni.size(),
                   i_dim_ids_in_right_vnni.size(),
-                  einsum_ir::ZERO,                            // daniel: first touch
-                  einsum_ir::MADD,                            // daniel: main kernel
-                  einsum_ir::UNDEFINED_KTYPE);                // daniel: last touch
+                  einsum_ir::ZERO,
+                  einsum_ir::MADD,
+                  einsum_ir::UNDEFINED_KTYPE);
 
-  l_tp0 = std::chrono::steady_clock::now(); // warum stande das davor nach dem init, auch wenn es nur setzten ist?
+  l_tp0 = std::chrono::steady_clock::now();
 
   l_bin_cont.compile();
 
@@ -153,8 +154,8 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
   }
   l_tp1 = std::chrono::steady_clock::now();
   l_dur = std::chrono::duration_cast<std::chrono::duration<double>>(l_tp1 - l_tp0);
-  //l_repetitions = l_repetitions_warm_up / l_dur.count() + 1;
-  std::cout<<"repetitions: "<<l_repetitions<<std::endl;
+  // l_repetitions = l_repetitions_warm_up / l_dur.count() + 1;
+  std::cout << "repetitions: " << l_repetitions << std::endl;
   l_tp0 = std::chrono::steady_clock::now();
   for (int64_t l_rep = 0; l_rep < l_repetitions; l_rep++)
   {
@@ -329,7 +330,7 @@ int main(int i_argc,
   else
   {
     l_expression_string_schar = l_expression_string_arg;
-    // daniel: macht aus "abc,acdb->abd" das: "[a,b,c],[a,c,d,b]->[a,b,d]"
+
     einsum_ir::frontend::EinsumExpressionAscii::schar_to_standard(l_expression_string_schar,
                                                                   l_expression_string_std);
   }
@@ -338,7 +339,7 @@ int main(int i_argc,
    **/
   std::vector<std::string> l_tensors;
 
-  // daniel: fügt l_tensor vektor folgende elemente hinzu: [0]="a,b,c" , [1] = "a,c,d,b" , [2]= "a,b,d"
+
   einsum_ir::frontend::EinsumExpressionAscii::parse_tensors(l_expression_string_std,
                                                             l_tensors);
   int64_t l_num_tensors = l_tensors.size();
@@ -359,10 +360,10 @@ int main(int i_argc,
    * create mapping from dimension name to id
    */
   std::map<std::string, int64_t> m_map_dim_name_to_id;
-  // daniel: fügt m_map_dim_name_to_id folgendes hinzu ["a"] = 0 , ["b"] = 1, ["c"] = 2 , ["d"] = 3
-  einsum_ir::frontend::EinsumExpressionAscii::parse_dim_ids(l_expression_string_std, // danielx
+
+  einsum_ir::frontend::EinsumExpressionAscii::parse_dim_ids(l_expression_string_std,
                                                             m_map_dim_name_to_id);
-  // die dimensionsnamen werden lexikographisch sortiert
+
   std::cout << "parsed dimension ids:" << std::endl;
   for (std::map<std::string, int64_t>::iterator l_di = m_map_dim_name_to_id.begin(); l_di != m_map_dim_name_to_id.end(); l_di++)
   {
@@ -378,7 +379,7 @@ int main(int i_argc,
   std::string l_dim_sizes_string(i_argv[2]);
 
   std::vector<int64_t> l_dim_sizes_vec;
-  // daniel: l_dim_sizes_vec: [0]= 32, [1]= 8, [2]= 4 , [3]= 2
+
   einsum_ir::frontend::EinsumExpressionAscii::parse_dim_sizes(l_dim_sizes_string,
                                                               l_dim_sizes_vec);
 
@@ -459,7 +460,7 @@ int main(int i_argc,
   /*
    * convert dim_sizes vector to map
    */
-  std::map<int64_t, int64_t> l_dim_sizes_map; // daniel:l_dim_sizes_map [0] =32,[1] =8,[2] =4,[3] =2,
+  std::map<int64_t, int64_t> l_dim_sizes_map;
   for (std::map<std::string, int64_t>::iterator l_di = m_map_dim_name_to_id.begin(); l_di != m_map_dim_name_to_id.end(); l_di++)
   {
     int64_t l_dim_id = l_di->second;
@@ -470,13 +471,13 @@ int main(int i_argc,
   /*
    * Convert tensors to vector of ids
    */
-  std::vector<int64_t> l_dim_ids_in_left;  // daniel: [0] =0,[1] =1,[2] =2
-  std::vector<int64_t> l_dim_ids_in_right; // daniel: [0] =0,[1] =2, [2] =3, [3] =1
-  std::vector<int64_t> l_dim_ids_out;      // daniel: [0] =0,[1] =1,[2] =3
+  std::vector<int64_t> l_dim_ids_in_left;
+  std::vector<int64_t> l_dim_ids_in_right;
+  std::vector<int64_t> l_dim_ids_out;
 
-  std::vector<std::string> l_tensor_dim_names_left;  // daniel: [0] ="a",[1] ="b",[2] ="c"
-  std::vector<std::string> l_tensor_dim_names_right; // daniel: [0] ="a",[1] ="c",[2] ="d" ,[3] ="b"
-  std::vector<std::string> l_tensor_dim_names_out;   // daniel: [0] ="a",[1] ="b",[2] ="d"
+  std::vector<std::string> l_tensor_dim_names_left;
+  std::vector<std::string> l_tensor_dim_names_right;
+  std::vector<std::string> l_tensor_dim_names_out;
 
   einsum_ir::frontend::EinsumExpressionAscii::split_string(l_tensors[0],
                                                            std::string(","),
@@ -523,7 +524,7 @@ int main(int i_argc,
                                                                     l_expression_string_schar,
                                                                     l_dim_ids_in_left_vnni,
                                                                     l_dim_ids_in_right_vnni);
-  std::cout<< "The new einsum string is: " << l_expression_string_schar << std::endl;
+    std::cout << "The new einsum string is: " << l_expression_string_schar << std::endl;
   }
   bench_binary(l_dim_sizes_map,
                l_dim_ids_in_left,
