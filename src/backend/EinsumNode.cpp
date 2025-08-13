@@ -297,7 +297,7 @@ einsum_ir::err_t einsum_ir::backend::EinsumNode::compile_recursive() {
                   m_memory,
                   m_children[0]->m_dtype,
                   m_children[1]->m_dtype,
-                  m_dtype,
+                  m_dtype == BF16 ? FP32 : m_dtype, //BF16 doesnt work for packed gemms
                   m_dtype,
                   false, //TODO:VNNI False temporarily
                   false,

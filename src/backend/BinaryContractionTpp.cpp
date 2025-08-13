@@ -7,7 +7,7 @@
 libxsmm_datatype einsum_ir::backend::BinaryContractionTpp::dtype_to_libxsmm(data_t i_dtype)
 {
   if (i_dtype == BF16)
-  { // daniel :
+  {
     return libxsmm_datatype::LIBXSMM_DATATYPE_BF16;
   }
   else if (i_dtype == FP32)
@@ -32,12 +32,12 @@ einsum_ir::backend::BinaryContractionTpp::~BinaryContractionTpp()
 
 einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
 {
-  BinaryContraction::compile_base(); // daniel: kompilier wird nichts ,man findet dim typen heraus und setzt member variablen
+  BinaryContraction::compile_base();
   err_t l_err = err_t::UNDEFINED_ERROR;
 
   // determine blocking type
   BinaryPrimitives l_bin_prim;
-  l_bin_prim.init(m_dtype_out, // hier stand comp eig
+  l_bin_prim.init(m_dtype_out,
                   backend_t::TPP);
 
   int64_t const *l_dim_ids_left_active = m_dim_ids_permute_left != nullptr ? m_dim_ids_permute_left : m_dim_ids_left;
@@ -395,7 +395,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
   // create main kernel
   libxsmm_gemm_shape l_shape_brgemm;
 
-  libxsmm_bitfield l_flags_brgemm = LIBXSMM_GEMM_FLAG_ALIGN_A | LIBXSMM_GEMM_FLAG_ALIGN_C;
+  libxsmm_bitfield l_flags_brgemm;
   if (m_vnni_b)
   {
     l_flags_brgemm = LIBXSMM_GEMM_FLAGS('N', 'Y') | LIBXSMM_GEMM_FLAG_VNNI_B;
@@ -448,14 +448,14 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
                                                      l_brconfig);
   }
   else
-  {
+  {//libxsmm_create_packed_gemm bietet keinen support für BF16! ->bench_tree klappt nicht für BF16
     m_xmm_kernel_main.gemm = libxsmm_create_packed_gemm(l_shape_brgemm,
                                                         l_flags_brgemm,
                                                         l_prefetch_flags_brgemm,
                                                         l_r);
   }
 
-  std::cout << " gemm shape: \nm=" << l_shape_brgemm.m
+  std::cout << " gemm shape:\n"
             << " \nn=" << l_shape_brgemm.n
             << " \nk=" << l_shape_brgemm.k
             << " \nlda=" << l_shape_brgemm.lda
@@ -465,8 +465,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
             << " \nbr_stride_b_hint=" << l_brconfig.br_stride_b_hint
             << " \nbatch_reduce_size=" << l_batch_reduce_size
             << std::endl;
-
-  // check for existing kernels
+  
   if (m_xmm_kernel_first_touch_unary == nullptr)
   {
     if (m_ktype_first_touch != kernel_t::UNDEFINED_KTYPE && m_ktype_first_touch != kernel_t::ADD)

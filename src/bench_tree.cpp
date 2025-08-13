@@ -14,7 +14,7 @@ int main( int     i_argc,
     std::cerr << "Arguments:" << std::endl;
     std::cerr << "  * einsum_tree:      A compiled einsum tree." << std::endl;
     std::cerr << "  * dimension_sizes:  Dimension sizes have to be in ascending order of the dimension ids." << std::endl;
-    std::cerr << "  * dtype:            FP32, FP64, default: FP32." << std::endl;
+    std::cerr << "  * dtype:            FP32, FP64, BF16, default: FP32." << std::endl;
     std::cerr << std::endl;
     std::cerr << "Example:" << std::endl;
     std::cerr << "  ./bench_tree \"[[3,0]->[0,3]],[[3,2,4],[1,4,2]->[1,2,3]]->[0,1,2]\" \"2,3,4,5,6\" FP32" << std::endl;
@@ -75,6 +75,11 @@ int main( int     i_argc,
       l_dtype_at = at::ScalarType::Double;
       l_dtype_einsum_ir = einsum_ir::FP64;
     }
+    else if( l_dtype_arg == "BF16" ){
+      l_dtype_at = at::ScalarType::BFloat16;
+      l_dtype_einsum_ir = einsum_ir::BF16;
+    }
+
   }
 
   /*
