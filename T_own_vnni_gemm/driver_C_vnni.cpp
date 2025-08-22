@@ -87,12 +87,11 @@ void ref_gemm(float const *i_a,
 
 int main()
 {
-  std::cout << "LIBXSMM BF16 VNNI Test auf Grace CPU" << std::endl;
   std::cout << "=====================================" << std::endl;
 
-  libxsmm_bitfield flags = LIBXSMM_GEMM_FLAGS('N', 'N') | LIBXSMM_GEMM_FLAG_VNNI_C; // LIBXSMM_GEMM_FLAG_VNNI_C;//LIBXSMM_GEMM_FLAG_VNNI_B;// ;
-  
-  flags |= LIBXSMM_GEMM_FLAG_BETA_0;   // C+= A*B +C
+  libxsmm_bitfield flags = LIBXSMM_GEMM_FLAGS('Y', 'Y') | LIBXSMM_GEMM_FLAG_VNNI_C; // LIBXSMM_GEMM_FLAG_VNNI_C;//LIBXSMM_GEMM_FLAG_VNNI_B;// ;
+
+  flags |= LIBXSMM_GEMM_FLAG_BETA_0; // C+= A*B +C
   libxsmm_bitfield l_prefetch_flags_brgemm = 0;
 
   libxsmm_gemm_batch_reduce_config br_config;
@@ -161,16 +160,27 @@ int main()
   // A befüllen
   for (int i = 0; i < l_m * l_k; i++)
   {
-    a_ref[i] = (float)(i%10);
+    a_ref[i] = (float)(i);
     a_bf16[i] = libxsmm_convert_f32_to_bf16_rne(a_ref[i]);
   }
 
   // B befüllen
   int counter = 0;
-  for (int i = 0; i < l_k * l_n; i++)
+  for (int i = 0; i < l_k; i++)
   {
-    b_ref[i] = (float)(i%10);
-    b_bf16[i] = libxsmm_convert_f32_to_bf16_rne(b_ref[i]);
+    for (int j = 0; j < l_n; j++)
+    {
+      if (i == j)
+      {
+        b_ref[i *l_k + j] = (float)1;
+        b_bf16[i *l_k + j ] = libxsmm_convert_f32_to_bf16_rne(1.0f);
+      }
+      else
+      {
+        b_ref[i *l_k + j] = 0;
+        b_bf16[i *l_k + j] = libxsmm_convert_f32_to_bf16_rne(0.0f);
+      }
+    }
   }
 
   std::cout << "Ausgabe A:" << std::endl;
@@ -203,7 +213,6 @@ int main()
   ref_gemm(a_ref, b_ref, c_ref, l_m, l_n, l_k, l_lda, l_ldb, l_ldc);
 
   std::cout << "--------------------------------------------" << std::endl;
-  std::cout << "Berechnung mit LIBXSMM Kernel mit C VNNI Flag:" << std::endl;
 
   l_param.a.primary = a_bf16;
   l_param.b.primary = b_bf16;
@@ -236,11 +245,11 @@ int main()
 
   std::cout << "--------------------------------------------" << std::endl;
 
-  std::cout<< "Ausgabe von C linear:" << std::endl;
+  std::cout << "Ausgabe von C linear:" << std::endl;
 
-  for(int i = 0; i < l_m * l_n; i++)
+  for (int i = 0; i < l_m * l_n; i++)
   {
-    std::cout << libxsmm_convert_bf16_to_f32(c_bf16[i]) << ", "; 
+    std::cout << libxsmm_convert_bf16_to_f32(c_bf16[i]) << ", ";
   }
 
   std::cout << "finished!" << std::endl;
@@ -257,7 +266,7 @@ int main()
 
 /*
 Kompilieren für Grace CPU:
-g++ driver.cpp \
+g++ driver_C_vnni.cpp \
     -std=c++17 -O0 \
     -I/home/daniel/libxsmm/include \
     -L/home/daniel/libxsmm/lib -lxsmm \

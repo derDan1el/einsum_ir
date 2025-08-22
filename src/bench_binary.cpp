@@ -27,9 +27,9 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
   std::chrono::steady_clock::time_point l_tp0, l_tp1;
   std::chrono::duration<double> l_dur;
   int64_t l_n_flops = 0;
-  int64_t l_repetitions = 500;
-  int64_t l_repetitions_torch = 10;
-  int64_t l_repetitions_warm_up = 40;
+  int64_t l_repetitions = 3;
+  int64_t l_repetitions_torch = 1;
+  int64_t l_repetitions_warm_up = 2;
   std::vector<int64_t> l_dim_ids_permute_left;
   std::vector<int64_t> l_dim_ids_permute_right;
   double l_time_compile = 0;
@@ -86,6 +86,7 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
                                  {l_ten_left, l_ten_right},
                                  {{0, 1}});
   }
+
   l_tp1 = std::chrono::steady_clock::now();
   l_dur = std::chrono::duration_cast<std::chrono::duration<double>>(l_tp1 - l_tp0);
   l_time = l_dur.count() / l_repetitions_torch;
@@ -189,23 +190,20 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
     float kernel_val = 0.0f;
     if (max_diff > 0.0f)
     {
-      // Flatten die Tensoren für element-weise Iteration
       auto torch_flat = l_ten_out_torch.flatten();
       auto kernel_flat = l_ten_out.flatten();
 
       for (int64_t i = 0; i < torch_flat.numel(); i++)
       {
+
         float difference = std::abs(torch_flat[i].item<float>() - kernel_flat[i].item<float>());
 
         float bigger_val = std::max(std::abs(torch_flat[i].item<float>()),
                                     std::abs(kernel_flat[i].item<float>()));
 
-        // (Division durch 0 vermeiden)
         if (bigger_val > 1e-10f)
         {
           float rel_error = difference / bigger_val;
-
-          // Prüfe ob das der bisher größte relative Fehler ist
           if (rel_error > max_rel_error)
           {
             max_rel_error = rel_error;
@@ -222,7 +220,7 @@ void bench_binary(std::map<int64_t, int64_t> &i_dim_sizes_map,
               << std::setw(25) << "Torch value at max error: " << torch_val << "\n"
               << std::setw(25) << "Kernel value at max error: " << kernel_val << std::endl;
   }
-  // relative tolerance for allclose
+
   if (!at::allclose(l_ten_out_torch, l_ten_out, 1e-03))
   {
     std::cerr
@@ -338,7 +336,6 @@ int main(int i_argc,
    * parse input tensors and output tensors
    **/
   std::vector<std::string> l_tensors;
-
 
   einsum_ir::frontend::EinsumExpressionAscii::parse_tensors(l_expression_string_std,
                                                             l_tensors);
@@ -515,16 +512,17 @@ int main(int i_argc,
 
   if (l_dtype_einsum_ir == einsum_ir::BF16)
   {
-    einsum_ir::frontend::EinsumExpressionAscii::set_bf16_vnni_flags(l_tensor_dim_names_left,
-                                                                    l_tensor_dim_names_right,
-                                                                    l_tensor_dim_names_out,
-                                                                    m_map_dim_name_to_id,
-                                                                    l_dim_sizes_vec,
-                                                                    l_expression_string_std,
-                                                                    l_expression_string_schar,
-                                                                    l_dim_ids_in_left_vnni,
-                                                                    l_dim_ids_in_right_vnni);
-    std::cout << "The new einsum string is: " << l_expression_string_schar << std::endl;
+    einsum_ir::frontend::EinsumExpressionAscii::set_bf16_flags(l_tensor_dim_names_left,
+                                                               l_tensor_dim_names_right,
+                                                               l_tensor_dim_names_out,
+                                                               m_map_dim_name_to_id,
+                                                               l_dim_sizes_vec,
+                                                               l_expression_string_std,
+                                                               l_expression_string_schar,
+                                                               l_dim_ids_in_left_vnni,
+                                                               l_dim_ids_in_right_vnni);
+    std::cout << "BF16 Layout detected in: " << (l_dim_ids_in_left_vnni.size() > 0 ? "left" : "")
+              << (l_dim_ids_in_right_vnni.size() > 0 ? " and right" : "") << std::endl;
   }
   bench_binary(l_dim_sizes_map,
                l_dim_ids_in_left,

@@ -195,7 +195,7 @@ public:
 
   /**
    *
-   * This function relocates the VNNI k dimension of size 4 in the left tensor in front of the first occurence of
+   * This function relocates the  k dimension of size 4 in the left tensor in front of the first occurence of
    * a k-dimension, or a c-dimension or if not present, at the beginning of the einsum expression.
    *
    * examples:
@@ -207,19 +207,19 @@ public:
    *
    *@param i_expression_string_std input expression string in standard format. [a,b,k],[d,e,k]->[d,e,a,b]
    *@param i_expression_string_schar input expression string in single-character format. abck,dek->deab
-   *@param o_expression_string_std_vnni output expression string in standard format with relocated VNNI k dimension
-   *@param i_vnni_b_layout if true, the k dimension then the right tensor has B vnni layout
+   *@param o_expression_string_std_layout output expression string in standard format with relocated k dimension
+   *@param i_b_layout if true, the k dimension then the right tensor has B layout
    *
    * @note the goal ist to enlarge the primitve size of the m dimension by relocating the k dimension without
-   * permuting the tensor by activating the VNNI-A Flag. (ONLY USECASE :BF16 input tensor with VNNI k dimension)
+   * permuting the tensor by activating the layout-A Flag. (ONLY USECASE :BF16 input tensor with  k dimension)
    **/
-  static void relocate_vnni_k_dimension(std::string const &i_expression_string_std,
+  static void relocate_k_dimension(std::string const &i_expression_string_std,
                                         std::string const &i_expression_string_schar,
-                                        std::string &o_expression_string_std_vnni,
-                                        bool i_vnni_b_layout = false);
+                                        std::string &o_expression_string_std_layout,
+                                        bool i_b_layout = false);
 
   /**
-   * Sets BF16 VNNI flags by checking if the left tensor has VNNI-A layout.
+   * Sets BF16 layout flags by checking if the left tensor has A/B layout.
    * Checks if the fastest dimension in the left tensor is a k dimension with size 4.
    *
    * @param i_tensor_dim_names_left dimension names of the left tensor
@@ -229,18 +229,18 @@ public:
    * @param i_dim_sizes_vec vector of dimension sizes
    * @param i_expression_string_std input expression string in standard format. [a,b,k],[d,e,k]->[d,e,a,b]
    * @param i_expression_string_schar input expression string in single-character format. abck,dek->deab
-   * @param o_dim_ids_in_left_vnni reordered dimension ids for the left tensor
-   * @param o_dim_ids_in_right_vnni reordered dimension ids for the right tensor
+   * @param o_dim_ids_in_left_layout reordered dimension ids for the left tensor
+   * @param o_dim_ids_in_right_layout reordered dimension ids for the right tensor
    **/
-  static void set_bf16_vnni_flags(std::vector<std::string> const &i_tensor_dim_names_left,
+  static void set_bf16_flags(std::vector<std::string> const &i_tensor_dim_names_left,
                                   std::vector<std::string> const &i_tensor_dim_names_right,
                                   std::vector<std::string> const &i_tensor_dim_names_out,
                                   std::map<std::string, int64_t> const &i_map_dim_name_to_id,
                                   std::vector<int64_t> const &i_dim_sizes_vec,
                                   std::string const &i_expression_string_std,
                                   std::string const &i_expression_string_schar,
-                                  std::vector<int64_t> &o_dim_ids_in_left_vnni,
-                                  std::vector<int64_t> &o_dim_ids_in_right_vnni);
+                                  std::vector<int64_t> &o_dim_ids_in_left_layout,
+                                  std::vector<int64_t> &o_dim_ids_in_right_layout);
 };
 
 #endif

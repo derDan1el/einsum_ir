@@ -223,19 +223,6 @@ int main()
   l_param.b.primary = b_bf16;
   l_param.c.primary = c_bf16;
 
-  //std::cout << "a,b,c matritzen vor ausführung ausgeben:" << std::endl;
-  // for (int i = 0; i < l_m * l_k; i++)
-  //{
-  //   std::cout << "a_bf16[" << i << "] = " << libxsmm_convert_bf16_to_f32(a_bf16[i]) << std::endl;
-  // }
-  // for (int i = 0; i < l_n * l_k; i++)
-  //{
-  //   std::cout << "b_bf16[" << i << "] = " << libxsmm_convert_bf16_to_f32(b_bf16[i]) << std::endl;
-  // }
-  // for (int i = 0; i < l_m * l_n; i++)
-  //{
-  //   std::cout << "c_bf16[" << i << "] = " << libxsmm_convert_bf16_to_f32(c_bf16[i]) << std::endl;
-  // }
   std::cout << "--------------------------------------------" << std::endl;
   l_kernel_forward.gemm(&l_param);
   std::cout << "Kernel ausgeführt!" << std::endl;
@@ -279,24 +266,6 @@ int main()
     std::cout << libxsmm_convert_bf16_to_f32(c_bf16[i]) << " ";
   }
   std::cout << std::endl;
-
-  // auto start = std::chrono::high_resolution_clock::now();
-
-  // for (int rep = 0; rep < 10; rep++)
-  //{
-  //   l_kernel_forward.gemm(&l_param);
-  // }
-
-  // auto end = std::chrono::high_resolution_clock::now();
-  // auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
-  // double time_s = duration.count() * 1e-9;
-  //
-  // double gflops = (2.0 * l_m * l_n * l_k * 10) / (time_s * 1e9);
-
-  // std::cout << "Performance:" << std::endl;
-  // std::cout << "  Zeit: " << time_s << " s" << std::endl;
-  // std::cout << "  GFLOPS: " << gflops << std::endl;
-  // std::cout << "  Wiederholungen: " << 10 << std::endl;
 
   std::cout << "finished!" << std::endl;
 

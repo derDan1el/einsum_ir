@@ -269,7 +269,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
   l_ldc = l_dim_ids_nb.size() > 0 ? l_strides_out.at(l_dim_ids_nb.back()) : l_m * l_r;
   if (m_vnni_b)
   {
-    l_ldb = l_n * l_r; //Todo packing?
+    l_ldb = l_n * l_r; // Todo packing?
   }
   else
   {
@@ -315,19 +315,19 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
     l_flag_out_aux_unary = LIBXSMM_MELTW_FLAG_UNARY_BCAST_SCALAR;
     l_flag_out_aux_binary = LIBXSMM_MELTW_FLAG_BINARY_BCAST_SCALAR_IN_1;
   }
-  libxsmm_meltw_unary_shape l_shape_single_touch_aux_unary = libxsmm_create_meltw_unary_shape(l_m * l_r,   
-                                                                                              l_n,         
+  libxsmm_meltw_unary_shape l_shape_single_touch_aux_unary = libxsmm_create_meltw_unary_shape(l_m * l_r,
+                                                                                              l_n,
                                                                                               l_ld_out_aux,
-                                                                                              l_ldc,       
-                                                                                              l_xmm_dtype_out, 
-                                                                                              l_xmm_dtype_out, 
+                                                                                              l_ldc,
+                                                                                              l_xmm_dtype_out,
+                                                                                              l_xmm_dtype_out,
                                                                                               l_xmm_dtype_out);
 
-  libxsmm_meltw_binary_shape l_shape_single_touch_aux_binary = libxsmm_create_meltw_binary_shape(l_m * l_r, 
-                                                                                                 l_n,    
-                                                                                                 l_ldc,    
+  libxsmm_meltw_binary_shape l_shape_single_touch_aux_binary = libxsmm_create_meltw_binary_shape(l_m * l_r,
+                                                                                                 l_n,
+                                                                                                 l_ldc,
                                                                                                  l_ld_out_aux,
-                                                                                                 l_ldc, 
+                                                                                                 l_ldc,
                                                                                                  l_xmm_dtype_out,
                                                                                                  l_xmm_dtype_out,
                                                                                                  l_xmm_dtype_out,
@@ -448,7 +448,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
                                                      l_brconfig);
   }
   else
-  {//libxsmm_create_packed_gemm bietet keinen support für BF16! ->bench_tree klappt nicht für BF16
+  { // libxsmm_create_packed_gemm bietet keinen support für BF16! ->bench_tree klappt nicht für BF16 
     m_xmm_kernel_main.gemm = libxsmm_create_packed_gemm(l_shape_brgemm,
                                                         l_flags_brgemm,
                                                         l_prefetch_flags_brgemm,
@@ -456,6 +456,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
   }
 
   std::cout << " gemm shape:\n"
+            << " \nm=" << l_shape_brgemm.m
             << " \nn=" << l_shape_brgemm.n
             << " \nk=" << l_shape_brgemm.k
             << " \nlda=" << l_shape_brgemm.lda
@@ -465,7 +466,7 @@ einsum_ir::err_t einsum_ir::backend::BinaryContractionTpp::compile()
             << " \nbr_stride_b_hint=" << l_brconfig.br_stride_b_hint
             << " \nbatch_reduce_size=" << l_batch_reduce_size
             << std::endl;
-  
+
   if (m_xmm_kernel_first_touch_unary == nullptr)
   {
     if (m_ktype_first_touch != kernel_t::UNDEFINED_KTYPE && m_ktype_first_touch != kernel_t::ADD)
@@ -641,8 +642,8 @@ void einsum_ir::backend::BinaryContractionTpp::detect_batch_reduce_k_dimensions(
 
     if (dim_id_left == dim_id_right &&                                                               // gleiche dim-id
         std::find(i_m_dim_ids_k.begin(), i_m_dim_ids_k.end(), dim_id_left) != i_m_dim_ids_k.end() && // ist k-dim
-        i_strides_left.at(dim_id_left) == l_previous_size * l_previous_stride_a &&                   // gefundene dim steht in beiden tensoren direkt vor vorheriger gefundener br-dim (->fusebar)
-        i_strides_right.at(dim_id_right) == l_previous_size * l_previous_stride_b)
+        stride_left == l_previous_size * l_previous_stride_a &&                   // gefundene dim steht in beiden tensoren direkt vor vorheriger gefundener br-dim (->fusebar)
+        stride_right == l_previous_size * l_previous_stride_b)
     {
       l_previous_size = i_dim_sizes.at(dim_id_left);
       l_previous_stride_a = stride_left;

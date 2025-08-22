@@ -70,14 +70,14 @@ bars6 = ax.bar(jit_bf16_pos, jit_bf16_gflops, width,
                edgecolor='black', linewidth=0.5)
 
 # Customize the plot
-ax.set_xlabel('Einsum Expressions', fontsize=14, fontweight='bold')
-ax.set_ylabel('Performance (GFLOPS)', fontsize=14, fontweight='bold')
-ax.set_title(f'Absolute GFLOPS Performance Comparison: PyTorch vs JIT\n({n_expressions} Expressions, All Data Types)', 
-             fontsize=16, fontweight='bold', pad=20)
+ax.set_xlabel('ID', fontsize=18)
+ax.set_ylabel('GFLOPS', fontsize=18)
 
 # Set x-axis labels mit E1-E23
 ax.set_xticks(x)
-ax.set_xticklabels([f'E{i+1}' for i in range(n_expressions)], fontsize=11)
+ax.set_xticklabels([f'E{i+1}' for i in range(n_expressions)], fontsize=17)
+
+ax.tick_params(axis='y', labelsize=17)
 
 # Grid-Einstellungen
 all_gflops = (torch_fp64_gflops + torch_fp32_gflops + torch_bf16_gflops + 
@@ -97,14 +97,14 @@ ax.set_ylim(0, y_max)
 # Verbesserte Legende - 2 Zeilen für bessere Übersicht
 import matplotlib.patches as mpatches
 patches = [
-    mpatches.Patch(color='#ffcccc', label='PyTorch FP64'),      # Sehr helles Rot
     mpatches.Patch(color='#ff9999', label='PyTorch FP32'),      # Helles Rot
+    mpatches.Patch(color='#0066cc', label='JIT BF16'),          # Dunkles Blau
+    mpatches.Patch(color='#66b3ff', label='JIT FP32'),          # Helles Blau
+    mpatches.Patch(color='#ffcccc', label='PyTorch FP64'),      # Sehr helles Rot
     mpatches.Patch(color='#cc3333', label='PyTorch BF16'),      # Dunkles Rot
     mpatches.Patch(color='#ccddff', label='JIT FP64'),          # Sehr helles Blau
-    mpatches.Patch(color='#66b3ff', label='JIT FP32'),          # Helles Blau
-    mpatches.Patch(color='#0066cc', label='JIT BF16'),          # Dunkles Blau
 ]
-ax.legend(handles=patches, loc='upper left', fontsize=11, ncol=3)
+ax.legend(handles=patches, loc='upper left', fontsize=15, ncol=3)
 
 plt.tight_layout()
 
@@ -113,49 +113,3 @@ plt.savefig('absolute_gflops_comparison_E1_E23.png',
             dpi=300, bbox_inches='tight', facecolor='white')
 plt.savefig('absolute_gflops_comparison_E1_E23.pdf', 
             dpi=300, bbox_inches='tight', facecolor='white', format='pdf')
-
-# Print statistics
-print(f"\n=== ABSOLUTE GFLOPS STATISTIKEN ===")
-print()
-
-print("PyTorch Performance:")
-print(f"  FP64 - Max: {max(torch_fp64_gflops):.1f} GFLOPS, Durchschnitt: {np.mean(torch_fp64_gflops):.1f} GFLOPS")
-print(f"  FP32 - Max: {max(torch_fp32_gflops):.1f} GFLOPS, Durchschnitt: {np.mean(torch_fp32_gflops):.1f} GFLOPS")
-print(f"  BF16 - Max: {max(torch_bf16_gflops):.1f} GFLOPS, Durchschnitt: {np.mean(torch_bf16_gflops):.1f} GFLOPS")
-
-print("\nJIT Performance:")
-print(f"  FP64 - Max: {max(jit_fp64_gflops):.1f} GFLOPS, Durchschnitt: {np.mean(jit_fp64_gflops):.1f} GFLOPS")
-print(f"  FP32 - Max: {max(jit_fp32_gflops):.1f} GFLOPS, Durchschnitt: {np.mean(jit_fp32_gflops):.1f} GFLOPS")
-print(f"  BF16 - Max: {max(jit_bf16_gflops):.1f} GFLOPS, Durchschnitt: {np.mean(jit_bf16_gflops):.1f} GFLOPS")
-
-print(f"\n=== OVERALL BEST PERFORMANCE ===")
-print(f"Höchste absolute Performance: {max(all_gflops):.1f} GFLOPS")
-
-# Find which expression and implementation achieved the highest performance
-max_idx = all_gflops.index(max(all_gflops))
-if max_idx < n_expressions:
-    best_type = "PyTorch FP64"
-    best_expr_idx = max_idx
-elif max_idx < 2*n_expressions:
-    best_type = "PyTorch FP32"
-    best_expr_idx = max_idx - n_expressions
-elif max_idx < 3*n_expressions:
-    best_type = "PyTorch BF16"
-    best_expr_idx = max_idx - 2*n_expressions
-elif max_idx < 4*n_expressions:
-    best_type = "JIT FP64"
-    best_expr_idx = max_idx - 3*n_expressions
-elif max_idx < 5*n_expressions:
-    best_type = "JIT FP32"
-    best_expr_idx = max_idx - 4*n_expressions
-else:
-    best_type = "JIT BF16"
-    best_expr_idx = max_idx - 5*n_expressions
-
-print(f"Erreicht von: {best_type} bei Expression E{best_expr_idx+1}")
-
-print(f"\nPlots gespeichert:")
-print("- absolute_gflops_comparison_E1_E23.png")
-print("- absolute_gflops_comparison_E1_E23.pdf")
-
-plt.show()

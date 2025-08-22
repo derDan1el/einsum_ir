@@ -31,7 +31,7 @@ dim_width = 5.0 / fig_width_cm     # ~6cm
 
 # Create table mit absoluten Breiten
 table = ax.table(cellText=table_data,
-                colLabels=['ID', 'Einsum Expression', 'Dimensions'],
+                colLabels=['ID', 'Contraction', 'Dimension Sizes'],
                 cellLoc='left',
                 loc='center',
                 colWidths=[id_width, einsum_width, dim_width])
@@ -43,8 +43,8 @@ table.scale(1, 1.4)  # Kompakte Zeilen
 
 # Style header
 for i in range(3):
-    table[(0, i)].set_facecolor('#4CAF50')
-    table[(0, i)].set_text_props(weight='bold', color='white', fontsize=9)
+    table[(0, i)].set_facecolor('white')
+    table[(0, i)].set_text_props(weight='bold', color='black', fontsize=9)
 
 # Alternate row colors
 for i in range(1, len(table_data) + 1):

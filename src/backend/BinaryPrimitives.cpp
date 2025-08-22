@@ -31,10 +31,10 @@ einsum_ir::err_t einsum_ir::backend::BinaryPrimitives::init(data_t i_data_type,
   {
     if (i_data_type == data_t::FP32)
     {
-      init(4, 16,    // daniel: cb min, cb max
-           32, 128,  // daniel: mb min, mb max
-           12, 64,   // daniel: nb min, nb max
-           32, 512); // daniel: kb min, kb max
+      init(4, 16,
+           32, 128,
+           12, 64,
+           32, 512);
     }
     else if (i_data_type == data_t::FP64)
     {
@@ -45,10 +45,10 @@ einsum_ir::err_t einsum_ir::backend::BinaryPrimitives::init(data_t i_data_type,
     }
     else if (i_data_type == data_t::BF16)
     {
-      init(4, 16,     // daniel: cb min, cb max
-           32, 128,   // daniel: mb min, mb max
-           12, 64,    // daniel: nb min, nb max
-           32, 1024); // daniel: kb min, kb max
+      init(4, 16,
+           32, 128,
+           12, 64,
+           32, 1024);
     }
     else
     {

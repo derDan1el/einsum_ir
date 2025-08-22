@@ -408,19 +408,19 @@ void einsum_ir::frontend::EinsumExpressionAscii::parse_loop_order(std::string co
 {
 
   o_loop_order.clear();
-  // daniel :l_loops = "a,b,c,d"
+
   std::string l_loops = i_loop_string;
 
   l_loops.erase(std::remove(l_loops.begin(),
                             l_loops.end(),
                             ' '),
                 l_loops.end());
-  // daniel :l_loop_dims_tmp: [0] ="a", [1] ="b", [2] ="c", [3] ="d"
+
   std::vector<std::string> l_loop_dims_tmp;
   split_string(l_loops,
                std::string(","),
                l_loop_dims_tmp);
-  // daniel :o_loop_order: [0] =0,[1] =1,[2] =2,[3] =3,
+
   o_loop_order.reserve(l_loop_dims_tmp.size());
   for (std::size_t l_di = 0; l_di < l_loop_dims_tmp.size(); l_di++)
   {
@@ -428,12 +428,12 @@ void einsum_ir::frontend::EinsumExpressionAscii::parse_loop_order(std::string co
   }
 }
 
-void einsum_ir::frontend::EinsumExpressionAscii::relocate_vnni_k_dimension(std::string const &i_expression_string_std,
+void einsum_ir::frontend::EinsumExpressionAscii::relocate_k_dimension(std::string const &i_expression_string_std,
                                                                            std::string const &i_expression_string_schar,
-                                                                           std::string &o_expression_string_std_vnni,
-                                                                           bool i_vnni_b_layout)
+                                                                           std::string &o_expression_string_std_layout,
+                                                                           bool i_b_layout)
 {
-  o_expression_string_std_vnni = i_expression_string_std;
+  o_expression_string_std_layout = i_expression_string_std;
   std::string copy_i_expression_string_schar = i_expression_string_schar;
   auto it_comma = std::find(i_expression_string_schar.begin(),
                             i_expression_string_schar.end(),
@@ -458,13 +458,13 @@ void einsum_ir::frontend::EinsumExpressionAscii::relocate_vnni_k_dimension(std::
       break;
     }
   }
-  if (l_i < 0) // no k/c dimension found in left tensor : put the vnni k dimension at the beginning
+  if (l_i < 0) // no k/c dimension found in left tensor : put the k dimension at the beginning
   {
     copy_i_expression_string_schar.erase(l_comma_idx - 1, 1);
     copy_i_expression_string_schar.insert(0, 1, i_expression_string_schar[l_comma_idx - 1]);
   }
 
-  if (i_vnni_b_layout)
+  if (i_b_layout)
   {
     int64_t l_arrow_idx = it_arrow - i_expression_string_schar.begin();
 
@@ -492,21 +492,21 @@ void einsum_ir::frontend::EinsumExpressionAscii::relocate_vnni_k_dimension(std::
   }
 
   einsum_ir::frontend::EinsumExpressionAscii::schar_to_standard(copy_i_expression_string_schar,
-                                                                o_expression_string_std_vnni);
+                                                                o_expression_string_std_layout);
 }
 
-void einsum_ir::frontend::EinsumExpressionAscii::set_bf16_vnni_flags(std::vector<std::string> const &i_tensor_dim_names_left,
+void einsum_ir::frontend::EinsumExpressionAscii::set_bf16_flags(std::vector<std::string> const &i_tensor_dim_names_left,
                                                                      std::vector<std::string> const &i_tensor_dim_names_right,
                                                                      std::vector<std::string> const &i_tensor_dim_names_out,
                                                                      std::map<std::string, int64_t> const &i_map_dim_name_to_id,
                                                                      std::vector<int64_t> const &i_dim_sizes_vec,
                                                                      std::string const &i_expression_string_std,
                                                                      std::string const &i_expression_string_schar,
-                                                                     std::vector<int64_t> &o_dim_ids_in_left_vnni,
-                                                                     std::vector<int64_t> &o_dim_ids_in_right_vnni)
+                                                                     std::vector<int64_t> &o_dim_ids_in_left_layout,
+                                                                     std::vector<int64_t> &o_dim_ids_in_right_layout)
 {
-  o_dim_ids_in_left_vnni.clear();
-  o_dim_ids_in_right_vnni.clear();
+  o_dim_ids_in_left_layout.clear();
+  o_dim_ids_in_right_layout.clear();
   // schaue ob die fastest dimension beim A Tensor eine k dimension ist mit dimension_size = 4
   std::string last_dim_name_left = i_tensor_dim_names_left.back();
   bool in_right = std::find(i_tensor_dim_names_right.begin(),
@@ -534,54 +534,54 @@ void einsum_ir::frontend::EinsumExpressionAscii::set_bf16_vnni_flags(std::vector
                               i_tensor_dim_names_left.end(),
                               possible_n_dim) == i_tensor_dim_names_left.end();
 
-    std::string l_expression_string_std_vnni;
-    bool b_vnni = i_tensor_dim_names_right.back() == last_dim_name_left && is_n_dim;
-    if (b_vnni)
+    std::string l_expression_string_std_layout;
+    bool b_layout = i_tensor_dim_names_right.back() == last_dim_name_left && is_n_dim;
+    if (b_layout)
     {
-      relocate_vnni_k_dimension(i_expression_string_std,
+      relocate_k_dimension(i_expression_string_std,
                                 i_expression_string_schar,
-                                l_expression_string_std_vnni,
-                                b_vnni);
+                                l_expression_string_std_layout,
+                                b_layout);
     }
     else
-    { // only A vnni
-      relocate_vnni_k_dimension(i_expression_string_std,
+    { // only A layout
+      relocate_k_dimension(i_expression_string_std,
                                 i_expression_string_schar,
-                                l_expression_string_std_vnni,
+                                l_expression_string_std_layout,
                                 0);
     }
 
-    std::vector<std::string> l_tensors_vnni;
+    std::vector<std::string> l_tensors_layout;
 
-    parse_tensors(l_expression_string_std_vnni,
-                  l_tensors_vnni);
+    parse_tensors(l_expression_string_std_layout,
+                  l_tensors_layout);
 
-    std::vector<std::string> l_tensor_dim_names_left_vnni;
+    std::vector<std::string> l_tensor_dim_names_left_layout;
 
-    split_string(l_tensors_vnni[0],
+    split_string(l_tensors_layout[0],
                  std::string(","),
-                 l_tensor_dim_names_left_vnni);
+                 l_tensor_dim_names_left_layout);
 
-    for (std::size_t l_na = 0; l_na < l_tensor_dim_names_left_vnni.size(); l_na++)
+    for (std::size_t l_na = 0; l_na < l_tensor_dim_names_left_layout.size(); l_na++)
     {
-      std::string l_dim_name_vnni = l_tensor_dim_names_left_vnni[l_na];
-      int64_t l_dim_id_vnni = i_map_dim_name_to_id.at(l_dim_name_vnni);
-      o_dim_ids_in_left_vnni.push_back(l_dim_id_vnni);
+      std::string l_dim_name_layout = l_tensor_dim_names_left_layout[l_na];
+      int64_t l_dim_id_layout = i_map_dim_name_to_id.at(l_dim_name_layout);
+      o_dim_ids_in_left_layout.push_back(l_dim_id_layout);
     }
 
-    if (b_vnni)
+    if (b_layout)
     {
-      std::vector<std::string> l_tensor_dim_names_right_vnni;
+      std::vector<std::string> l_tensor_dim_names_right_layout;
 
-      split_string(l_tensors_vnni[1],
+      split_string(l_tensors_layout[1],
                    std::string(","),
-                   l_tensor_dim_names_right_vnni);
+                   l_tensor_dim_names_right_layout);
 
-      for (std::size_t l_na = 0; l_na < l_tensor_dim_names_right_vnni.size(); l_na++)
+      for (std::size_t l_na = 0; l_na < l_tensor_dim_names_right_layout.size(); l_na++)
       {
-        std::string l_dim_name_vnni = l_tensor_dim_names_right_vnni[l_na];
-        int64_t l_dim_id_vnni = i_map_dim_name_to_id.at(l_dim_name_vnni);
-        o_dim_ids_in_right_vnni.push_back(l_dim_id_vnni);
+        std::string l_dim_name_layout = l_tensor_dim_names_right_layout[l_na];
+        int64_t l_dim_id_layout = i_map_dim_name_to_id.at(l_dim_name_layout);
+        o_dim_ids_in_right_layout.push_back(l_dim_id_layout);
       }
     }
   }

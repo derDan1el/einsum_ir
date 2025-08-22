@@ -87,13 +87,11 @@ void ref_gemm(float const *i_a,
 
 int main()
 {
-  std::cout << "LIBXSMM BF16 VNNI Test auf Grace CPU" << std::endl;
   std::cout << "=====================================" << std::endl;
 
-  libxsmm_bitfield flags = LIBXSMM_GEMM_FLAGS('N', 'N') | LIBXSMM_GEMM_FLAG_VNNI_C; // LIBXSMM_GEMM_FLAG_VNNI_C;//LIBXSMM_GEMM_FLAG_VNNI_B;// ;
-  
-  flags |= LIBXSMM_GEMM_FLAG_BETA_0;
+  libxsmm_bitfield flags = LIBXSMM_GEMM_FLAGS('Y', 'Y') | LIBXSMM_GEMM_FLAG_VNNI_C; // LIBXSMM_GEMM_FLAG_VNNI_C;//LIBXSMM_GEMM_FLAG_VNNI_B;// ;
 
+  flags |= LIBXSMM_GEMM_FLAG_BETA_0; // C+= A*B +C
   libxsmm_bitfield l_prefetch_flags_brgemm = 0;
 
   libxsmm_gemm_batch_reduce_config br_config;
@@ -127,7 +125,7 @@ int main()
                                                        l_ldc,                 // ldc
                                                        LIBXSMM_DATATYPE_BF16, // A
                                                        LIBXSMM_DATATYPE_BF16, // B
-                                                       LIBXSMM_DATATYPE_F32, // C
+                                                       LIBXSMM_DATATYPE_BF16, // C
                                                        LIBXSMM_DATATYPE_F32); // comp_type
 
   libxsmm_xmmfunction l_kernel_forward;
@@ -143,33 +141,46 @@ int main()
 
   libxsmm_bfloat16 *a_bf16 = new libxsmm_bfloat16[l_m * l_k];
   libxsmm_bfloat16 *b_bf16 = new libxsmm_bfloat16[l_n * l_k];
-  float *c_fp32 = new float[l_m * l_n];
+  libxsmm_bfloat16 *c_bf16 = new libxsmm_bfloat16[l_m * l_n];
 
   float *a_ref = new float[l_m * l_k];
   float *b_ref = new float[l_n * l_k];
   float *c_ref = new float[l_m * l_n];
 
+  libxsmm_bfloat16 zero = libxsmm_convert_f32_to_bf16_rne(0.0f);
+  libxsmm_bfloat16 one = libxsmm_convert_f32_to_bf16_rne(1.0f);
 
   // C
   for (int i = 0; i < l_m * l_n; i++)
   {
-    c_fp32[i] = 0.0f;
+    c_bf16[i] = zero;
     c_ref[i] = 0.0f;
   }
 
   // A befüllen
   for (int i = 0; i < l_m * l_k; i++)
   {
-    a_ref[i] = (float)i;
+    a_ref[i] = (float)(i);
     a_bf16[i] = libxsmm_convert_f32_to_bf16_rne(a_ref[i]);
   }
 
   // B befüllen
   int counter = 0;
-  for (int i = 0; i < l_k * l_n; i++)
+  for (int i = 0; i < l_k; i++)
   {
-    b_ref[i] = (float)i;
-    b_bf16[i] = libxsmm_convert_f32_to_bf16_rne(b_ref[i]);
+    for (int j = 0; j < l_n; j++)
+    {
+      if (i == j)
+      {
+        b_ref[i *l_k + j] = (float)1;
+        b_bf16[i *l_k + j ] = libxsmm_convert_f32_to_bf16_rne(1.0f);
+      }
+      else
+      {
+        b_ref[i *l_k + j] = 0;
+        b_bf16[i *l_k + j] = libxsmm_convert_f32_to_bf16_rne(0.0f);
+      }
+    }
   }
 
   std::cout << "Ausgabe A:" << std::endl;
@@ -202,11 +213,10 @@ int main()
   ref_gemm(a_ref, b_ref, c_ref, l_m, l_n, l_k, l_lda, l_ldb, l_ldc);
 
   std::cout << "--------------------------------------------" << std::endl;
-  std::cout << "Berechnung mit LIBXSMM Kernel mit C VNNI Flag:" << std::endl;
 
   l_param.a.primary = a_bf16;
   l_param.b.primary = b_bf16;
-  l_param.c.primary = c_fp32;
+  l_param.c.primary = c_bf16;
 
   std::cout << "--------------------------------------------" << std::endl;
   l_kernel_forward.gemm(&l_param);
@@ -228,18 +238,18 @@ int main()
   {
     for (int i = 0; i < l_n; i++)
     {
-      std::cout << std::setw(4) << c_fp32[i * l_ldc + j] << " ";
+      std::cout << std::setw(4) << libxsmm_convert_bf16_to_f32(c_bf16[i * l_ldc + j]) << " ";
     }
     std::cout << std::endl;
   }
 
   std::cout << "--------------------------------------------" << std::endl;
 
-  std::cout<< "Ausgabe von C linear:" << std::endl;
+  std::cout << "Ausgabe von C linear:" << std::endl;
 
-  for(int i = 0; i < l_m * l_n; i++)
+  for (int i = 0; i < l_m * l_n; i++)
   {
-    std::cout << c_fp32[i] << ", "; 
+    std::cout << libxsmm_convert_bf16_to_f32(c_bf16[i]) << ", ";
   }
 
   std::cout << "finished!" << std::endl;
@@ -249,14 +259,14 @@ int main()
   delete[] c_ref;
   delete[] a_bf16;
   delete[] b_bf16;
-  delete[] c_fp32;
+  delete[] c_bf16;
 
   return 0;
 }
 
 /*
 Kompilieren für Grace CPU:
-g++ driver.cpp \
+g++ driver_C_vnni.cpp \
     -std=c++17 -O0 \
     -I/home/daniel/libxsmm/include \
     -L/home/daniel/libxsmm/lib -lxsmm \

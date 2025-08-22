@@ -71,14 +71,12 @@ bars6 = ax.bar(jit_bf16_pos, jit_bf16_gflops, width,
                edgecolor='black', linewidth=0.5)
 
 # Customize the plot
-ax.set_xlabel('Einsum Expressions', fontsize=14, fontweight='bold')
-ax.set_ylabel('Performance (GFLOPS)', fontsize=14, fontweight='bold')
-ax.set_title(f'Multi-Core GFLOPS Performance: PyTorch vs JIT (72 Threads)\n({n_expressions} Expressions, NVIDIA Grace CPU with 72 Arm Neoverse-V2 cores)', 
-             fontsize=16, fontweight='bold', pad=20)
+ax.set_xlabel('ID', fontsize=18)
+ax.set_ylabel('GFLOPS', fontsize=18)
 
 # Set x-axis labels mit E1-E23
 ax.set_xticks(x)
-ax.set_xticklabels([f'E{i+1}' for i in range(n_expressions)], fontsize=11)
+ax.set_xticklabels([f'E{i+1}' for i in range(n_expressions)], fontsize=17)
 
 # Grid-Einstellungen - verbesserte Y-Achsen-Skalierung
 all_gflops = (torch_fp64_gflops + torch_fp32_gflops + torch_bf16_gflops + 
@@ -116,7 +114,7 @@ ax.grid(True, which='minor', axis='y', color='gray', linestyle=':', linewidth=0.
 ax.set_ylim(0, y_max)
 
 # Y-Achsen-Tick-Labels anpassen für bessere Lesbarkeit
-ax.tick_params(axis='y', labelsize=11)
+ax.tick_params(axis='y', labelsize=17)
 if max_gflops > 1000:
     # Für große Werte: Formatierung mit Tausender-Trennzeichen
     ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, p: f'{int(x):,}'.replace(',', '.')))
@@ -126,14 +124,14 @@ print(f"Y-Achsen-Konfiguration: Max={max_gflops:.0f} GFLOPS, Schritte={step_size
 # Verbesserte Legende - 2 Zeilen für bessere Übersicht
 import matplotlib.patches as mpatches
 patches = [
-    mpatches.Patch(color='#ffcccc', label='PyTorch FP64'),      # Sehr helles Rot
-    mpatches.Patch(color='#ff9999', label='PyTorch FP32'),      # Helles Rot
     mpatches.Patch(color='#cc3333', label='PyTorch BF16'),      # Dunkles Rot
-    mpatches.Patch(color='#ccddff', label='JIT FP64'),          # Sehr helles Blau
-    mpatches.Patch(color='#66b3ff', label='JIT FP32'),          # Helles Blau
     mpatches.Patch(color='#0066cc', label='JIT BF16'),          # Dunkles Blau
+    mpatches.Patch(color='#ff9999', label='PyTorch FP32'),      # Helles Rot
+    mpatches.Patch(color='#66b3ff', label='JIT FP32'),          # Helles Blau
+    mpatches.Patch(color='#ffcccc', label='PyTorch FP64'),      # Sehr helles Rot
+    mpatches.Patch(color='#ccddff', label='JIT FP64'),          # Sehr helles Blau
 ]
-ax.legend(handles=patches, loc='upper left', fontsize=11, ncol=3)
+ax.legend(handles=patches, loc='upper left', fontsize=15, ncol=3)
 
 plt.tight_layout()
 

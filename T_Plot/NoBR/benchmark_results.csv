@@ -1,3 +1,5 @@
+(keine optimierungen)
+
 Einsum,Dimensions,Dtype,Torch_GFLOPS,JIT_GFLOPS,Matmul_GFLOPS
 "km,nk->nm","256,256,256","BF16",102.947,222.328,72.5817
 "km,nk->nm","256,256,256","FP32",56.7198,78.7405,72.5657

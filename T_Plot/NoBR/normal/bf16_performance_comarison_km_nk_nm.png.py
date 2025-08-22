@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import csv
 
-# HIER FÜGST DU DEINE DATEN EIN (als String)
+
 data_string = """
 "km,nk->nm","128,128,128","BF16",52.62,207.62,50.4662
 "km,nk->nm","128,128,128","FP32",35.9617,82.1522,50.824

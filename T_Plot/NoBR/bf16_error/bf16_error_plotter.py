@@ -3,33 +3,30 @@ import pandas as pd
 import numpy as np
 
 # CSV-Datei einlesen
-df = pd.read_csv('bf16_error_analysis.csv')
+df = pd.read_csv('bf16_error_analysis_random_values.csv')
 
 # Figure und Achsen erstellen
 fig, ax1 = plt.subplots(figsize=(14, 8))
 
-# Erste Y-Achse (links) für absolute Fehler
-color1 = '#e74c3c'  # Rot
-ax1.set_xlabel('k-dimension size ', fontweight='bold', fontsize=12)
-ax1.set_ylabel('max. absolute error', color=color1, fontweight='bold', fontsize=12)
-line1 = ax1.plot(df['k_dimension'], df['max_absolute_error'], 
-                 color=color1, linewidth=2.5, marker='o', markersize=4, 
-                 label='max. absolute error', alpha=0.8)
-ax1.tick_params(axis='y', labelcolor=color1)
+# Erste Y-Achse (links) für relative Fehler
+color1 = '#3498db'  # Blau
+ax1.set_xlabel('k-dimension size', fontsize=17, color='black')
+ax1.set_ylabel('max. relative error', color=color1, fontsize=15)
+line1 = ax1.plot(df['k_dimension'], df['max_relative_error'], 
+                 color=color1, linewidth=2.5, marker='s', markersize=4,
+                 label='relative error', alpha=0.8)
+ax1.tick_params(axis='y', labelcolor='black', labelsize=17)
+ax1.tick_params(axis='x', labelcolor='black', labelsize=17)
 ax1.grid(True, alpha=0.3)
 
-# Zweite Y-Achse (rechts) für relative Fehler
+# Zweite Y-Achse (rechts) für absolute Fehler
 ax2 = ax1.twinx()
-color2 = '#3498db'  # Blau
-ax2.set_ylabel('max. relative error', color=color2, fontweight='bold', fontsize=12)
-line2 = ax2.plot(df['k_dimension'], df['max_relative_error'], 
-                 color=color2, linewidth=2.5, marker='s', markersize=4,
-                 label='relative rrror', alpha=0.8)
-ax2.tick_params(axis='y', labelcolor=color2)
-
-# Titel
-plt.title('Numerical Divergence of PyTorch at::einsum and LIBXSMM Kernel Output of km,nk->nm', 
-          fontweight='bold', fontsize=14, pad=20)
+color2 = '#e74c3c'  # Rot
+ax2.set_ylabel('max. absolute error', color=color2, fontweight='bold', fontsize=15)
+line2 = ax2.plot(df['k_dimension'], df['max_absolute_error'], 
+                 color=color2, linewidth=2.5, marker='o', markersize=4, 
+                 label='max. absolute error', alpha=0.8)
+ax2.tick_params(axis='y', labelcolor='black', labelsize=15)
 
 # Legende kombinieren
 lines1, labels1 = ax1.get_legend_handles_labels()
@@ -39,36 +36,28 @@ ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper left', fontsize=11)
 # X-Achse formatieren
 ax1.set_xlim(df['k_dimension'].min(), df['k_dimension'].max())
 
+# Alle 2er-Potenzen im Datenbereich finden (für graue Rasterlinien)
+unique_k_values = sorted(df['k_dimension'].unique())
+min_k = min(unique_k_values)
+max_k = max(unique_k_values)
+
+all_powers_of_2 = []
+power = 1
+while power <= max_k:
+    if power >= min_k:
+        all_powers_of_2.append(power)
+    power *= 2
+
+# Graue vertikale Rasterlinien für ALLE 2er-Potenzen
+for power in all_powers_of_2:
+    ax1.axvline(x=power, color='black', linestyle='--', alpha=0.5, linewidth=1)
+
 # Y-Achsen-Bereiche optimieren
-ax1.set_ylim(0, df['max_absolute_error'].max() * 1.1)
-ax2.set_ylim(0, df['max_relative_error'].max() * 1.1)
+ax1.set_ylim(0, df['max_relative_error'].max() * 1.1)
+ax2.set_ylim(0, df['max_absolute_error'].max() * 1.1)
 
 # Layout optimieren
 plt.tight_layout()
 
 # Speichern
-plt.savefig('bf16_error_dual_axis_plot.png', dpi=400, bbox_inches='tight')
-
-# Zeigen
-plt.show()
-
-# Zusätzliche Statistiken ausgeben
-print("=== BF16 Error Analysis Statistics ===")
-print(f"K-Dimension Range: {df['k_dimension'].min()} - {df['k_dimension'].max()}")
-print(f"Max Absolute Error: {df['max_absolute_error'].max()}")
-print(f"Max Relative Error: {df['max_relative_error'].max():.6f}")
-print(f"K at Max Absolute Error: {df.loc[df['max_absolute_error'].idxmax(), 'k_dimension']}")
-print(f"K at Max Relative Error: {df.loc[df['max_relative_error'].idxmax(), 'k_dimension']}")
-
-# Trend-Analyse
-correlation_abs = np.corrcoef(df['k_dimension'], df['max_absolute_error'])[0,1]
-correlation_rel = np.corrcoef(df['k_dimension'], df['max_relative_error'])[0,1]
-print(f"\nCorrelation K vs Absolute Error: {correlation_abs:.4f}")
-print(f"Correlation K vs Relative Error: {correlation_rel:.4f}")
-
-# Bereiche wo Fehler = 0
-zero_error_k = df[df['max_absolute_error'] == 0]['k_dimension'].tolist()
-if zero_error_k:
-    print(f"K-Dimensions with zero error: {zero_error_k}")
-else:
-    print("No K-dimensions with zero error found")
+plt.savefig('bf16_error_dual_axis_plot.pdf', dpi=1000, bbox_inches='tight')
