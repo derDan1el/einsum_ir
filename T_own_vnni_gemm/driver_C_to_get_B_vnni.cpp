@@ -89,7 +89,7 @@ int main()
 {
   std::cout << "=====================================" << std::endl;
 
-  libxsmm_bitfield flags = LIBXSMM_GEMM_FLAGS('Y', 'Y') | LIBXSMM_GEMM_FLAG_VNNI_C; // LIBXSMM_GEMM_FLAG_VNNI_C;//LIBXSMM_GEMM_FLAG_VNNI_B;// ;
+  libxsmm_bitfield flags = LIBXSMM_GEMM_FLAGS('Y', 'Y') | LIBXSMM_GEMM_FLAG_VNNI_B;// ;
 
   flags |= LIBXSMM_GEMM_FLAG_BETA_0; // C+= A*B +C
   libxsmm_bitfield l_prefetch_flags_brgemm = 0;
@@ -208,11 +208,8 @@ int main()
     std::cout << std::endl;
   }
 
-  std::cout << "ref_gemm Aufruf" << std::endl;
-
   ref_gemm(a_ref, b_ref, c_ref, l_m, l_n, l_k, l_lda, l_ldb, l_ldc);
 
-  std::cout << "--------------------------------------------" << std::endl;
 
   l_param.a.primary = a_bf16;
   l_param.b.primary = b_bf16;
@@ -254,6 +251,8 @@ int main()
 
   std::cout << "finished!" << std::endl;
 
+
+
   delete[] a_ref;
   delete[] b_ref;
   delete[] c_ref;
@@ -266,7 +265,7 @@ int main()
 
 /*
 Kompilieren für Grace CPU:
-g++ driver_C_vnni.cpp \
+g++ driver_C_to_get_B_vnni.cpp \
     -std=c++17 -O0 \
     -I/home/daniel/libxsmm/include \
     -L/home/daniel/libxsmm/lib -lxsmm \

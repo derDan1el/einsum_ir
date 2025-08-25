@@ -123,7 +123,7 @@ echo "Results will be written to: $OUTPUT_CSV"
 echo "Full logs will be written to: $FULL_LOG"
 echo ""
 
-# Run all benchmarks with BF16 only
+
 run_benchmark "abdfe,cf->abcde" "48,36,24,36,48,36" "BF16"
 run_benchmark "acdfe,bf->abcde" "48,24,36,36,48,36" "BF16"
 run_benchmark "abed,ce->abcd" "96,84,24,96,96" "BF16"

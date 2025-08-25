@@ -138,23 +138,3 @@ for l in $(seq 1 1 128); do
     run_benchmark_for_l "$l"
     ((total_l_values++))
 done
-
-echo ""
-echo "Benchmark completed!"
-echo "Results saved to: $OUTPUT_CSV"
-echo "Full logs saved to: $FULL_LOG"
-echo ""
-
-echo "Summary:"
-echo "  Einsum expression: $EINSUM"
-echo "  Fixed dimensions: M=$M, N=$N, K=$K"
-echo "  L values tested: $total_l_values (from 1 to 128 in steps of 1)"
-echo "  Data type: BF16 only"
-echo "  Total benchmark runs: $total_l_values"
-echo ""
-
-echo "You can view the results with:"
-echo "  cat $OUTPUT_CSV                    # CSV results"
-echo "  less $FULL_LOG                     # Full detailed logs"
-echo "  grep 'gflops:' $FULL_LOG           # Just GFLOPS values"
-echo "  grep 'ERROR' $OUTPUT_CSV           # Check for failed runs"

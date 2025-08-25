@@ -33,8 +33,6 @@ void ref_gemm(float const *i_a,
 
 int main()
 {
-  std::cout << "LIBXSMM BF16 VNNI Test auf Grace CPU" << std::endl;
-  std::cout << "=====================================" << std::endl;
 
   libxsmm_bitfield flags = LIBXSMM_GEMM_FLAGS('N', 'N') | LIBXSMM_GEMM_FLAG_VNNI_A; //| LIBXSMM_GEMM_FLAG_VNNI_C;//LIBXSMM_GEMM_FLAG_VNNI_C;//LIBXSMM_GEMM_FLAG_VNNI_B;// ;
 
