@@ -88,10 +88,9 @@ void ref_gemm(float const *i_a,
 int main()
 {
   std::cout << "=====================================" << std::endl;
-  // alle drei flags gemeinsam funktionieren nicht.
 
   libxsmm_bitfield flags = LIBXSMM_GEMM_FLAGS('N', 'Y') | LIBXSMM_GEMM_FLAG_VNNI_A | LIBXSMM_GEMM_FLAG_VNNI_B | LIBXSMM_GEMM_FLAG_VNNI_C;
-  flags |= LIBXSMM_GEMM_FLAG_BETA_0; // C+= A*B + 0 * C
+  flags |= LIBXSMM_GEMM_FLAG_BETA_0;
   libxsmm_bitfield l_prefetch_flags_brgemm = 0;
 
   libxsmm_gemm_batch_reduce_config br_config;
